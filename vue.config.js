@@ -2,7 +2,7 @@
 const autoprefixer = require('autoprefixer')
 const pxtorem = require('postcss-pxtorem')
 // less文件的路径
-// ++3
+// ++4
 const path = require('path')
 const myTheme = path.resolve(__dirname, './src/assets/less/vantChange.less')
 const defaultSettings = require('./src/config/index.js')
