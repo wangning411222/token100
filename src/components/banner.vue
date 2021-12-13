@@ -1,20 +1,19 @@
 <template>
   <div class="banner-box">
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+    <van-swipe :autoplay="3000">
       <van-swipe-item v-for="(image, index) in images" :key="index">
-        <img v-lazy="image" />
+        <van-image :src="image" />
       </van-swipe-item>
     </van-swipe>
   </div>
 </template>
 <script>
-import img from '../assets/image/banner.png'
 export default {
   name: 'Search',
   data() {
     return {
-      img: img,
-      images: [img, img, img, img, img]
+      images: [require('@/assets/image/banner.png'), require('@/assets/image/banner.png'), require('@/assets/image/banner.png'), require('@/assets/image/banner.png'), require('@/assets/image/banner.png')]
+
     }
   }
 }
@@ -22,10 +21,10 @@ export default {
 <style lang="scss" scoped>
 .banner-box {
   height: 190px;
-  .my-swipe {
+  .van-swipe {
     height: 100%;
     .van-swipe-item {
-      img {
+      .van-image {
         height: 100%;
       }
     }

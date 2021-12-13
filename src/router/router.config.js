@@ -65,7 +65,11 @@ export const constantRouterMap = [
         path: 'index',
         name: 'Mine',
         component: () => import('@/views/mine/mine'),
-        meta: { title: '我的', keepAlive: false }
+        meta: {
+          title: '我的',
+          keepAlive: false,
+          hidePreview: true// 全局预览弹窗true隐藏false显示
+        }
       }
     ]
   },
@@ -81,6 +85,12 @@ export const constantRouterMap = [
         meta: { title: '钱包', keepAlive: false }
       }
     ]
+  },
+  {
+    path: '/walletDetail',
+    name: 'walletDetail',
+    component: () => import('@/views/wallet/walletDetail'),
+    meta: { title: '详情', keepAlive: false }
   },
   // 资讯
   {

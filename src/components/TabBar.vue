@@ -1,6 +1,7 @@
 <template>
   <div>
-    <van-tabbar fixed route v-model="active" @change="handleChange">
+
+    <van-tabbar fixed route v-model="active" @change="handleChange" active-color="#E5BA3F">
       <van-tabbar-item v-for="(item, index) in data" :to="item.to" :icon="item.icon" :key="index">
         <span> {{ item.title }}</span>
         <template #icon="props">
@@ -51,7 +52,5 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
-}
+
 </style>

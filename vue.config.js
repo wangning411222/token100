@@ -81,6 +81,12 @@ module.exports = {
           $cdn: "${defaultSettings.$cdn}";
           `
       },
+
+      less: {
+        modifyVars: {
+          hack: `true; @import "${myTheme}";`
+        }
+      },
       postcss: {
         plugins: [
           autoprefixer(),
@@ -91,11 +97,6 @@ module.exports = {
             propList: ['*']
           })
         ]
-      },
-      less: {
-        modifyVars: {
-          hack: `true; @import "${myTheme}";`
-        }
       }
     }
 

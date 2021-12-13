@@ -6,25 +6,25 @@
     <div class="tab-box">
       <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" sticky>
         <van-tab title="所有"> </van-tab>
-        <van-tab title="APP钱包">内容 2</van-tab>
-        <van-tab title="PC钱包">内容 3</van-tab>
-        <van-tab title="硬件钱包">内容 4</van-tab>
-        <van-tab title="BTC">内容 4</van-tab>
+        <van-tab title="APP钱包"></van-tab>
+        <van-tab title="PC钱包"></van-tab>
+        <van-tab title="硬件钱包"></van-tab>
+        <van-tab title="BTC"></van-tab>
       </van-tabs>
     </div>
     <div class="list-box">
       <tabHead @safety="safety" @start="start"></tabHead>
       <van-list>
-        <van-cell v-for="(item, index) in list" :key="item">
+        <van-cell v-for="(item, index) in list" :key="index" @click="toDetail">
           <div class="item-left">
             <van-tag color="#E4BC31">{{ index + 1 }}</van-tag>
             <div class="info-box">
-              <van-image :src="item.imgurl" />
+              <van-image class="info-logo" :src="item.imgurl" />
               <div class="info">
                 <div class="info-txt">BTC</div>
                 <div class="info-img">
-                  <van-image :src="item.phoneImg" />
-                  <van-image :src="item.chipImg" />
+                  <van-image class="p" :src="item.phoneImg" />
+                  <van-image class="c" :src="item.chipImg" />
                 </div>
               </div>
             </div>
@@ -54,6 +54,18 @@ export default {
           imgurl: require('../../assets/image/比特币@2x.png'),
           phoneImg: require('../../assets/image/手机@2x.png'),
           chipImg: require('../../assets/image/芯片@2x.png'),
+          value: 2
+        },
+        {
+          imgurl: require('../../assets/image/比特币@2x.png'),
+          phoneImg: require('../../assets/image/手机@2x.png'),
+          chipImg: require('../../assets/image/芯片@2x.png'),
+          value: 1
+        },
+        {
+          imgurl: require('../../assets/image/比特币@2x.png'),
+          phoneImg: require('../../assets/image/手机@2x.png'),
+          chipImg: require('../../assets/image/芯片@2x.png'),
           value: 2.5
         },
         {
@@ -77,6 +89,12 @@ export default {
   },
   mounted() {},
   methods: {
+    // 钱包详情
+    toDetail() {
+      this.$router.push({
+        name: 'walletDetail'
+      })
+    },
     // 点击安全性排序
     safety(value) {
       // true正序 false反序
@@ -85,31 +103,24 @@ export default {
     // 点击星级排序
     start(value) {
       console.log(value, '星级')
-    },
-    // Action 通过 store.dispatch 方法触发
-    doDispatch() {
-      this.$store.dispatch('setUserName', '真乖，赶紧关注公众号，组织都在等你~')
-    },
-    goGithub(index) {
-      window.location.href = 'https://github.com/sunniejs/vue-h5-template'
     }
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .about-container {
   background: #fff;
   height: 100vh;
   box-sizing: border-box;
   .tab-box {
-    padding: 31px 19px 0 28px;
+    padding:0px 19px 0 28px;
   }
   .list-box {
     border-top: 1px solid #d8d8d8;
     padding: 0 19px 0 28px;
     .van-cell {
       padding: 24px 0;
-      border-bottom:1px solid #eee;
+      border-bottom: 1px solid #eee;
       .van-cell__value {
         display: flex;
         flex-direction: row;
@@ -125,7 +136,7 @@ export default {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-            .van-image {
+            .info-logo {
               margin-left: 18px;
               width: 83px;
               height: 83px;
@@ -146,10 +157,14 @@ export default {
                 flex-direction: row;
                 justify-content: flex-start;
                 align-items: center;
-                .van-image {
-                  margin: 0;
-                  width: 35px;
-                  height: 35px;
+                .p{
+                  margin-right:5px;
+                  width: 24px;
+                  height: 33px;
+                }
+                .c{
+                  width:35px;
+                  height:35px;
                 }
               }
             }
@@ -159,11 +174,11 @@ export default {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          .right-txt{
-            margin-top:20px;
-            font-size:28px;
-            color:#92959C;
-            text-align:right;
+          .right-txt {
+            margin-top: 20px;
+            font-size: 28px;
+            color: #92959c;
+            text-align: right;
           }
         }
       }

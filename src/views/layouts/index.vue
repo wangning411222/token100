@@ -7,6 +7,7 @@
       <router-view v-else></router-view>
     </div>
     <div class="layout-footer">
+      <globalPreview v-if="!$route.meta.hidePreview"></globalPreview>
       <TabBar :data="tabbars" @change="handleChange" />
     </div>
   </div>
@@ -14,6 +15,7 @@
 
 <script>
 import TabBar from '@/components/TabBar'
+import globalPreview from '@/components/globalPreview'
 export default {
   name: 'AppLayout',
   data() {
@@ -24,7 +26,7 @@ export default {
           to: {
             name: 'Market'
           },
-          active: require('../../assets/icon/hangqing-tabbar-active.png'),
+          active: require('../../assets/icon/数据@2x.png'),
           inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png'
         },
         {
@@ -32,38 +34,39 @@ export default {
           to: {
             name: 'Platform'
           },
-          active: 'https://img01.yzcdn.cn/vant/user-active.png',
-          inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png'
+          active: require('../../assets/icon/模块1@2x.png'),
+          inactive: require('../../assets/icon/模块@2x.png')
         },
         {
           title: '资讯',
           to: {
             name: 'Information'
           },
-          active: 'https://img01.yzcdn.cn/vant/user-active.png',
-          inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png'
+          active: require('../../assets/icon/规则1@2x.png'),
+          inactive: require('../../assets/icon/规则@2x.png')
         },
         {
           title: '钱包',
           to: {
             name: 'Wallet'
           },
-          active: 'https://img01.yzcdn.cn/vant/user-active.png',
-          inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png'
+          active: require('../../assets/icon/卡券1@2x.png'),
+          inactive: require('../../assets/icon/卡券@2x.png')
         },
         {
           title: '我的',
           to: {
             name: 'Mine'
           },
-          active: require('../../assets/icon/wode-tabbar-active.png'),
-          inactive: require('../../assets/icon/wode-tabbar-inactive.png')
+          active: require('../../assets/icon/我的1@2x.png'),
+          inactive: require('../../assets/icon/我的@2x.png')
         }
       ]
     }
   },
   components: {
-    TabBar
+    TabBar,
+    globalPreview
   },
   methods: {
     handleChange(v) {
