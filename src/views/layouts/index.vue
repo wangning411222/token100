@@ -27,7 +27,7 @@ export default {
             name: 'Market'
           },
           active: require('../../assets/icon/数据@2x.png'),
-          inactive: 'https://img01.yzcdn.cn/vant/user-inactive.png'
+          inactive: require('../../assets/icon/数据@2x1.png')
         },
         {
           title: '平台',
@@ -75,3 +75,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.layout-footer{
+  z-index: 10000;
+  position: relative;
+}
+
+</style>

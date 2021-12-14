@@ -72,8 +72,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .global-preview {
-    background:#fff;
-    z-index:1000;
+  background: #fff;
+  z-index: 1000;
   width: calc(100% - 44px);
   height: 37px;
   padding: 14px 22px;

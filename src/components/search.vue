@@ -1,11 +1,12 @@
 <template>
-  <div class="search-box">
-    <div class="search-img"></div>
-    <div class="search-shape" @click="linkToSearch">
-      <van-image :src="require('../assets/image/形状@2x.png')"></van-image>
-      <div>搜索币种/钱包/平台</div>
+
+    <div class="search-box">
+      <div class="search-img"></div>
+      <div class="search-shape" @click="linkToSearch">
+        <van-image :src="require('../assets/image/形状@2x.png')"></van-image>
+        <div>搜索币种/钱包/平台</div>
+      </div>
     </div>
-  </div>
 </template>
 <script>
 export default {
@@ -21,10 +22,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .search-box {
-  margin: 26px 23px 44px 19px;
+  padding: 26px 23px 44px 19px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  background:#fff;
   .search-img {
     width: 220px;
     height: 80px;

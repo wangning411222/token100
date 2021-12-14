@@ -2,18 +2,20 @@
 <template>
   <div class="about-container">
     <banner></banner>
-    <search></search>
-    <div class="tab-box">
-      <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" sticky>
-        <van-tab title="所有"> </van-tab>
-        <van-tab title="APP钱包"></van-tab>
-        <van-tab title="PC钱包"></van-tab>
-        <van-tab title="硬件钱包"></van-tab>
-        <van-tab title="BTC"></van-tab>
-      </van-tabs>
-    </div>
-    <div class="list-box">
+    <van-sticky class="index-big">
+      <search></search>
+      <div class="tab-box">
+        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" sticky>
+          <van-tab title="所有"> </van-tab>
+          <van-tab title="APP钱包"></van-tab>
+          <van-tab title="PC钱包"></van-tab>
+          <van-tab title="硬件钱包"></van-tab>
+          <van-tab title="BTC"></van-tab>
+        </van-tabs>
+      </div>
       <tabHead @safety="safety" @start="start"></tabHead>
+    </van-sticky>
+    <div class="list-box">
       <van-list>
         <van-cell v-for="(item, index) in list" :key="index" @click="toDetail">
           <div class="item-left">
@@ -79,6 +81,30 @@ export default {
           phoneImg: require('../../assets/image/手机@2x.png'),
           chipImg: require('../../assets/image/芯片@2x.png'),
           value: 2.5
+        },
+        {
+          imgurl: require('../../assets/image/比特币@2x.png'),
+          phoneImg: require('../../assets/image/手机@2x.png'),
+          chipImg: require('../../assets/image/芯片@2x.png'),
+          value: 2.5
+        },
+        {
+          imgurl: require('../../assets/image/比特币@2x.png'),
+          phoneImg: require('../../assets/image/手机@2x.png'),
+          chipImg: require('../../assets/image/芯片@2x.png'),
+          value: 2.5
+        },
+        {
+          imgurl: require('../../assets/image/比特币@2x.png'),
+          phoneImg: require('../../assets/image/手机@2x.png'),
+          chipImg: require('../../assets/image/芯片@2x.png'),
+          value: 2.5
+        },
+        {
+          imgurl: require('../../assets/image/比特币@2x.png'),
+          phoneImg: require('../../assets/image/手机@2x.png'),
+          chipImg: require('../../assets/image/芯片@2x.png'),
+          value: 2.5
         }
       ]
     }
@@ -110,13 +136,17 @@ export default {
 <style lang="scss" scoped>
 .about-container {
   background: #fff;
-  height: 100vh;
   box-sizing: border-box;
+  .index-big {
+    z-index: 10000;
+    background: #fff;
+  }
   .tab-box {
-    padding:0px 19px 0 28px;
+    padding: 0px 19px 0 28px;
+    background: #fff;
   }
   .list-box {
-    border-top: 1px solid #d8d8d8;
+
     padding: 0 19px 0 28px;
     .van-cell {
       padding: 24px 0;
@@ -157,14 +187,14 @@ export default {
                 flex-direction: row;
                 justify-content: flex-start;
                 align-items: center;
-                .p{
-                  margin-right:5px;
+                .p {
+                  margin-right: 5px;
                   width: 24px;
                   height: 33px;
                 }
-                .c{
-                  width:35px;
-                  height:35px;
+                .c {
+                  width: 35px;
+                  height: 35px;
                 }
               }
             }

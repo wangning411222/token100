@@ -26,6 +26,13 @@ export const constantRouterMap = [
     component: () => import('@/views/login/changePhone'),
     meta: { title: '修改手机号', keepAlive: false }
   },
+  // 富文本页面
+  {
+    path: '/detail',
+    name: 'richHtml',
+    component: () => import('@/views/richHtml/richHtml'),
+    meta: { title: '详情', keepAlive: false }
+  },
   {
     path: '/search',
     name: 'search',

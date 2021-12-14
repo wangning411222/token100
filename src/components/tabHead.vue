@@ -1,28 +1,26 @@
 <template>
-  <van-sticky>
-    <div class="tab-head">
-      <div class="head-left">
-        <div class="t-1">#</div>
-        <div class="t-2">币种</div>
-      </div>
-      <div class="head-right">
-        <div class="t-3" @click="safetyClick">
-          <div>安全性</div>
-          <div class="img-box">
-            <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
-            <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
-          </div>
+  <div class="tab-head">
+    <div class="head-left">
+      <div class="t-1">#</div>
+      <div class="t-2">币种</div>
+    </div>
+    <div class="head-right">
+      <div class="t-3" @click="safetyClick">
+        <div>安全性</div>
+        <div class="img-box">
+          <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
+          <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
         </div>
-        <div class="t-4" @click="startClick">
-          <div>星级</div>
-          <div class="img-box">
-            <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
-            <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
-          </div>
+      </div>
+      <div class="t-4" @click="startClick">
+        <div>星级</div>
+        <div class="img-box">
+          <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
+          <van-image :src="require('../assets/icon/上下箭头@2x(1).png')"> </van-image>
         </div>
       </div>
     </div>
-  </van-sticky>
+  </div>
 </template>
 <script>
 export default {
@@ -48,13 +46,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tab-head {
+  background:#fff;
+  z-index:10000;
+  border-top: 1px solid #d8d8d8;
   font-size: 22px;
   color: #999;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-right: 13px;
-  margin-top: 33px;
+  padding: 33px 19px 0 28px;
   justify-content: space-between;
   .head-left,
   .head-right {
