@@ -60,11 +60,10 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .about-container {
   /* 你的命名空间 */
   background: #fff;
-  height: 100vh;
   box-sizing: border-box;
   .warpper {
     padding: 50px 12px 12px 12px;

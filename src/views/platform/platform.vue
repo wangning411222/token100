@@ -1,112 +1,83 @@
-<!-- home -->
 <template>
   <div class="about-container">
-    <!-- <div class="warpper">
-      <div class="list">
-        <div class="logo"></div>
-        <div class="demo-home__title">VUE H5开发模板</div>
-        <div class="item">
-          项目地址:
-          <a href="https://github.com/sunniejs/vue-h5-template">https://github.com/sunniejs/vue-h5-template</a>
+    <banner></banner>
+    <van-sticky>
+      <search></search>
+      <div class="head">
+        <div class="head-left">
+          <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
+            <van-tab title="ER全球交易所排行 "> </van-tab>
+            <van-tab title="持有资产排行"> </van-tab>
+            <van-tab title="合约平台"> </van-tab>
+            <van-tab title="OTC"> </van-tab>
+            <van-tab title="活跃平台"> </van-tab>
+            <van-tab title="关注"> </van-tab>
+          </van-tabs>
         </div>
-        <div class="item">项目作者: sunnie</div>
-        <div class="item"></div>
-        <div class="wechat">
-          <img :src="this.wechat" alt="" />
-        </div>
-        <div class="item">关注公众号：回复“加群”即可加 前端仙女群</div>
-        <div class="item">
-          {{ userName }}
-          <van-button v-if="userName == ''" type="warning" size="small" @click="doDispatch">快点我~</van-button>
+        <div class="head-right">
+          <van-dropdown-menu>
+            <van-dropdown-item title="CNY" v-model="value1" >
+              <van-cell>
+               <div>
+                 <div></div>
+                 <div></div>
+                 <div></div>
+               </div>
+              </van-cell>
+            </van-dropdown-item>
+          </van-dropdown-menu>
         </div>
       </div>
-    </div> -->
-    平台
+    </van-sticky>
   </div>
 </template>
 
 <script>
-// 请求接口
-import { getUserInfo } from '@/api/user.js'
+import banner from '@/components/banner'
+import search from '@/components/search'
 import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      wechat: `${this.$cdn}/wx/640.gif`
+      active: 1,
+      value1: 0,
+      value2: 'a',
+      option1: [
+        { text: '全部商品', value: 0 },
+        { text: '新款商品', value: 1 },
+        { text: '活动商品', value: 2 }
+      ],
+      option2: [
+        { text: '默认排序', value: 'a' },
+        { text: '好评排序', value: 'b' },
+        { text: '销量排序', value: 'c' }
+      ]
     }
   },
+  components: { banner, search },
   computed: {
     ...mapGetters(['userName'])
   },
-  mounted() {
-    this.initData()
-  },
-  methods: {
-    // 请求数据案例
-    initData() {
-      // 请求接口数据，仅作为展示，需要配置src->config下环境文件
-      const params = { user: 'sunnie' }
-      getUserInfo(params)
-        .then(() => { })
-        .catch(() => { })
-    },
-    // Action 通过 store.dispatch 方法触发
-    doDispatch() {
-      this.$store.dispatch('setUserName', '真乖，赶紧关注公众号，组织都在等你~')
-    },
-    goGithub(index) {
-      window.location.href = 'https://github.com/sunniejs/vue-h5-template'
-    }
-  }
+  mounted() {},
+  methods: {}
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .about-container {
-  /* 你的命名空间 */
-  background: #fff;
-  height: 100vh;
-  box-sizing: border-box;
-  .warpper {
-    padding: 50px 12px 12px 12px;
-    .list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #666;
-      font-size: 14px;
-      .demo-home__title {
-        margin: 0 0 6px;
-        font-size: 32px;
-        .demo-home__title img,
-        .demo-home__title span {
-          display: inline-block;
-          vertical-align: middle;
-        }
+  .head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .head-right{
+      height:100%;
+   
+      /deep/ .van-dropdown-menu__bar{
+        box-shadow: none;
+        margin-right:20px;
       }
-      .item {
-        font-size: 14px;
-        line-height: 34px;
-        a {
-          text-decoration: underline;
-        }
-        .van-button {
-          /* vant-ui 元素*/
-          background: #ff5500;
-        }
-      }
-
-      .logo {
-        width: 120px;
-        height: 120px;
-        background: url($cdn+'/weapp/logo.png') center / contain no-repeat;
-      }
-      .wechat {
-        width: 200px;
-        height: 200px;
-        img {
-          width: 100%;
-          height: auto;
-        }
+      /deep/ .van-dropdown-menu__title{
+        color:#909090;
       }
     }
   }

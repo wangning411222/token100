@@ -179,10 +179,10 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .page {
+  height:100vh;
   background: #f5f5f5;
-  min-height: 100vh;
   .van-nav-bar {
     background: #ecedee;
     .van-icon {

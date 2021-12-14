@@ -83,7 +83,6 @@ export default {
       }
     }
   }
-  min-height: 100vh;
 
   .page-content {
     margin: 64px 32px 0 29px;

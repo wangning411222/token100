@@ -77,7 +77,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .layout-footer{
-  z-index: 10000;
+  z-index:2000;
   position: relative;
 }
 

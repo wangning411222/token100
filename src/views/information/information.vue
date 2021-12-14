@@ -1,142 +1,138 @@
-
 <template>
   <div class="about-container">
     <banner></banner>
-    <search></search>
-    <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
-      <div class="tab-box">
-        <van-tab title="快讯">
-          <div class="flash-box">
-            <div class="date-box">
-              <h3>今天 &nbsp;{{ month }}月{{ day }}日 &nbsp; {{ week }}</h3>
-            </div>
-            <div class="step-box">
-              <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
-                <van-step>
-                  <div class="step-item">
-                    <div class="step-time">
-                      <span>10:00</span>
-                      <span>TOKEN数据</span>
-                    </div>
-                    <h3>平台币24H涨幅</h3>
-                    <p>
-                      据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
-                    </p>
-                    <div class="btn-box">
-                      <div class="btn" @click="bullishUp">
-                        <van-icon name="down" style="transform: rotate(180deg)"></van-icon>
-                        <div>利好</div>
-                        <div>{{ bullishNum1 }}</div>
-                      </div>
-                      <div class="btn" @click="bullishDown">
-                        <van-icon name="down"></van-icon>
-                        <div>利空</div>
-                        <div>{{ bullishNum2 }}</div>
-                      </div>
-                    </div>
+    <van-sticky>
+      <search></search>
+      <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
+        <van-tab title="快讯"> </van-tab>
+        <van-tab title="平台公告"> </van-tab>
+        <van-tab title="新闻"> </van-tab>
+        <van-tab title="活动"> </van-tab>
+        <van-tab title="小白教程"> </van-tab>
+        <van-tab title="日历"> </van-tab>
+      </van-tabs>
+    </van-sticky>
+    <div class="tab-box">
+      <div class="flash-box" v-if="active === 0">
+        <div class="date-box">
+          <h3>今天 &nbsp;{{ month }}月{{ day }}日 &nbsp; {{ week }}</h3>
+        </div>
+        <div class="step-box">
+          <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
+            <van-step>
+              <div class="step-item">
+                <div class="step-time">
+                  <span>10:00</span>
+                  <span>TOKEN数据</span>
+                </div>
+                <h3>平台币24H涨幅</h3>
+                <p>
+                  据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
+                </p>
+                <div class="btn-box">
+                  <div class="btn" @click="bullishUp">
+                    <van-icon name="down" style="transform: rotate(180deg)"></van-icon>
+                    <div>利好</div>
+                    <div>{{ bullishNum1 }}</div>
                   </div>
-                </van-step>
-                <van-step>
-                  <div class="step-item">
-                    <div class="step-time">
-                      <span>10:00</span>
-                      <span>TOKEN数据</span>
-                    </div>
-                    <h3>平台币24H涨幅</h3>
-                    <p>
-                      据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
-                    </p>
-                    <div class="btn-box">
-                      <div class="btn">
-                        <van-icon name="down"></van-icon>
-                        <div>利好</div>
-                        <div>0</div>
-                      </div>
-                      <div class="btn">
-                        <van-icon style="transform: rotate(180deg)" name="down"></van-icon>
-                        <div>利空</div>
-                        <div>0</div>
-                      </div>
-                    </div>
+                  <div class="btn" @click="bullishDown">
+                    <van-icon name="down"></van-icon>
+                    <div>利空</div>
+                    <div>{{ bullishNum2 }}</div>
                   </div>
-                </van-step>
-                <van-step>
-                  <h3>快件已发货</h3>
-                  <p>2016-07-10 09:30</p>
-                </van-step>
-              </van-steps>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="平台公告">
-          <div class="notice-box">
-            <van-list>
-              <div class="box" v-for="(item, index) in noticeList" :key="index" @click="toRich">
-                <div class="notice-left">
-                  <van-image width="27px" height="25px" :src="item.url"></van-image>
-                </div>
-                <div class="notice-right">
-                  <div class="notice-name">{{ item.title }}</div>
-                  <div class="notice-time">{{ item.time }}</div>
-                  <div class="notice-info">{{ item.info }}</div>
                 </div>
               </div>
-            </van-list>
-          </div>
-        </van-tab>
-        <van-tab title="新闻">
-          <div class="news-box">
-            <van-list>
-              <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
-                <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
-              </div>
-            </van-list>
-          </div>
-        </van-tab>
-        <van-tab title="活动">
-          <div class="news-box">
-            <van-list>
-              <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
-                <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
-              </div>
-            </van-list>
-          </div>
-        </van-tab>
-        <van-tab title="小白教程">
-          <div class="news-box">
-            <van-list>
-              <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
-                <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
-              </div>
-            </van-list></div
-        ></van-tab>
-        <van-tab title="日历">
-          <div class="calendar-box">
-            <van-list>
-              <div class="calendar-item" v-for="(item, index) in calendarList" :key="index">
-                <div class="time">十二月24日 &nbsp; 星期五</div>
-                <div class="title">
-                  <van-image width="18px" height="18px" :src="item.url"></van-image>
-                  <div class="name1">Stacks</div>
-                  <div class="name2">STX</div>
+            </van-step>
+            <van-step>
+              <div class="step-item">
+                <div class="step-time">
+                  <span>10:00</span>
+                  <span>TOKEN数据</span>
                 </div>
-                <div class="star-box">
-                  <van-rate v-model="item.star" allow-half void-icon="star" color="#FAD97E" void-color="#E8E8E8" />
-                </div>
-                <div class="info-box">
-                  <span :class="item.status === 1 ? 'yello' : 'green'">
-                    {{ item.status === 1 ? '产品发布' : '会议/AMA' }}
-                  </span>
-                  <span>
-                    ALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过Stack
-                  </span>
+                <h3>平台币24H涨幅</h3>
+                <p>
+                  据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
+                </p>
+                <div class="btn-box">
+                  <div class="btn">
+                    <van-icon name="down"></van-icon>
+                    <div>利好</div>
+                    <div>0</div>
+                  </div>
+                  <div class="btn">
+                    <van-icon style="transform: rotate(180deg)" name="down"></van-icon>
+                    <div>利空</div>
+                    <div>0</div>
+                  </div>
                 </div>
               </div>
-            </van-list>
-          </div>
-        </van-tab>
+            </van-step>
+            <van-step>
+              <h3>快件已发货</h3>
+              <p>2016-07-10 09:30</p>
+            </van-step>
+          </van-steps>
+        </div>
       </div>
-    </van-tabs>
+      <div class="notice-box" v-if="active === 1">
+        <van-list>
+          <div class="box" v-for="(item, index) in noticeList" :key="index" @click="toRich">
+            <div class="notice-left">
+              <van-image width="27px" height="25px" :src="item.url"></van-image>
+            </div>
+            <div class="notice-right">
+              <div class="notice-name">{{ item.title }}</div>
+              <div class="notice-time">{{ item.time }}</div>
+              <div class="notice-info">{{ item.info }}</div>
+            </div>
+          </div>
+        </van-list>
+      </div>
+      <div class="news-box" v-if="active === 2">
+        <van-list>
+          <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
+            <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
+          </div>
+        </van-list>
+      </div>
+      <div class="news-box" v-if="active === 3">
+        <van-list>
+          <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
+            <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
+          </div>
+        </van-list>
+      </div>
+      <div class="news-box" v-if="active === 4">
+        <van-list>
+          <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
+            <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
+          </div>
+        </van-list>
+      </div>
+      <div class="calendar-box" v-if="active === 5">
+        <van-list>
+          <div class="calendar-item" v-for="(item, index) in calendarList" :key="index">
+            <div class="time">十二月24日 &nbsp; 星期五</div>
+            <div class="title">
+              <van-image width="18px" height="18px" :src="item.url"></van-image>
+              <div class="name1">Stacks</div>
+              <div class="name2">STX</div>
+            </div>
+            <div class="star-box">
+              <van-rate v-model="item.star" allow-half void-icon="star" color="#FAD97E" void-color="#E8E8E8" />
+            </div>
+            <div class="info-box">
+              <span :class="item.status === 1 ? 'yello' : 'green'">
+                {{ item.status === 1 ? '产品发布' : '会议/AMA' }}
+              </span>
+              <span>
+                ALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过Stack
+              </span>
+            </div>
+          </div>
+        </van-list>
+      </div>
+    </div>
   </div>
 </template>
 

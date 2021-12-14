@@ -48,7 +48,6 @@ export default {
       }
     }
   }
-  min-height: 100vh;
 
   .page-content {
     margin: 42px 30px 0 30px;
