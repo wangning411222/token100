@@ -7,7 +7,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import moment from 'moment'
-
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 import 'moment/locale/zh-cn'
 // 引入全局样式
 import '@/assets/css/index.scss'
