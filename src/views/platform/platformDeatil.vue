@@ -59,6 +59,115 @@
         <div id="mychart"></div>
       </div>
     </div>
+    <div class="head">
+      <div class="head-left">
+        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
+          <van-tab title="行情"> </van-tab>
+          <van-tab title="简况"> </van-tab>
+          <van-tab title="公告"> </van-tab>
+        </van-tabs>
+      </div>
+      <div class="head-right">
+        <van-dropdown-menu>
+          <van-dropdown-item :title="rate" v-model="rate" ref="item">
+            <div class="rate-box">
+              <van-row>
+                <van-col
+                  class="rate-item"
+                  v-for="(item, index) in rateArr"
+                  :key="index"
+                  span="8"
+                  @click="selectRate(item)"
+                  >{{ item.name }}&nbsp;{{ item.value }}</van-col
+                >
+              </van-row>
+            </div>
+          </van-dropdown-item>
+        </van-dropdown-menu>
+      </div>
+    </div>
+    <div class="table-head" v-if="active === 0">
+      <van-row type="flex" justify="space-between" cente="center">
+        <van-col span="2">#</van-col>
+        <van-col span="4">交易对</van-col>
+        <van-col span="6">
+          <div class="arrow-box">
+            <div>平台价</div>
+            <div class="img-box">
+              <van-image
+                style="transform: rotate(180deg); margin-bottom: 2px"
+                width="6px"
+                height="3px"
+                :src="require('../../assets/icon/上下箭头@2x(1).png')"
+              >
+              </van-image>
+              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+            </div>
+          </div>
+        </van-col>
+        <van-col span="6">
+          <div class="arrow-box">
+            <div>最新价</div>
+            <div class="img-box">
+              <van-image
+                style="transform: rotate(180deg); margin-bottom: 2px"
+                width="6px"
+                height="3px"
+                :src="require('../../assets/icon/上下箭头@2x(1).png')"
+              >
+              </van-image>
+              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+            </div>
+          </div>
+        </van-col>
+        <van-col span="6">
+          <div class="arrow-box">
+            <div>占比</div>
+            <div class="img-box">
+              <van-image
+                style="transform: rotate(180deg); margin-bottom: 2px"
+                width="6px"
+                height="3px"
+                :src="require('../../assets/icon/上下箭头@2x(1).png')"
+              >
+              </van-image>
+              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+            </div>
+          </div>
+        </van-col>
+      </van-row>
+    </div>
+    <div class="list-box">
+      <van-list v-if="active === 0">
+        <van-row
+          class="list-item"
+          v-for="(item, index) in erList"
+          :key="index"
+          type="flex"
+          justify="space-between"
+          cente="center"
+          @click="toDetail"
+        >
+          <van-col span="2">
+            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+          </van-col>
+          <van-col span="4" class="icon-name">
+            <div class="icon-name-top">
+              <van-image width="18px" height="18px" :src="item.src"></van-image>
+              <span>{{ item.name }}</span>
+            </div>
+            <div class="bicon-name-bottom">Bitcoin</div>
+          </van-col>
+          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
+          <van-col span="6" style="text-align: right">
+            <div>5</div>
+          </van-col>
+          <van-col span="6" style="text-align: right">
+            <div>5</div>
+          </van-col>
+        </van-row>
+      </van-list>
+    </div>
   </div>
 </template>
 <script>
@@ -66,13 +175,99 @@ import * as echarts from 'echarts'
 export default {
   data() {
     return {
-      isLogin: false
+      active: 0,
+      isLogin: false,
+      rate: 'CNY', // 选择的汇率
+      rateArr: [
+        {
+          name: '人民币',
+          value: 'CNY'
+        },
+        {
+          name: '人币',
+          value: 'BNY'
+        },
+        {
+          name: '人民币',
+          value: 'CNY'
+        },
+        {
+          name: '人币',
+          value: 'BNY'
+        },
+        {
+          name: '人民币',
+          value: 'CNY'
+        },
+        {
+          name: '人币',
+          value: 'BNY'
+        },
+        {
+          name: '人民币',
+          value: 'CNY'
+        },
+        {
+          name: '人币',
+          value: 'BNY'
+        }
+      ], // 汇率数组
+      erList: [
+        {
+          index: 0,
+          name: 'BTC',
+          src: require('../../assets/image/比特币@2x.png'),
+          money: 6.95,
+          num: 6
+        },
+        {
+          index: 1,
+          name: 'BTC',
+          src: require('../../assets/image/比特币@2x.png'),
+          money: 6.95,
+          num: 4
+        },
+        {
+          index: 3,
+          name: 'BTC',
+          src: require('../../assets/image/比特币@2x.png'),
+          money: 6.95,
+          num: 9
+        },
+        {
+          index: 4,
+          name: 'BTC',
+          src: require('../../assets/image/比特币@2x.png'),
+          money: 6.95,
+          num: 1
+        },
+        {
+          index: 0,
+          name: 'BTC',
+          src: require('../../assets/image/比特币@2x.png'),
+          money: 6.95,
+          num: 6
+        },
+        {
+          index: 0,
+          name: 'BTC',
+          src: require('../../assets/image/比特币@2x.png'),
+          money: 6.95,
+          num: 6
+        }
+      ]
     }
   },
   mounted() {
     this.initChart()
   },
   methods: {
+    // 去详情页
+    toDetail() {
+      this.$router.push({
+        name: 'platformDeatil'
+      })
+    },
     initChart() {
       const that = this
       // 基于准备好的dom，初始化echarts实例
@@ -124,7 +319,7 @@ export default {
           axisLabel: {
             color: '#ccc',
             fontSize: 10,
-            formatter: function (params) {
+            formatter: function(params) {
               return params.replace(',', '\n')
             },
             interval: 1
@@ -148,7 +343,7 @@ export default {
             inside: true, // 文字朝向,true里面
             color: '#ccc',
             fontSize: 10,
-            formatter: function (value) {
+            formatter: function(value) {
               if (value >= 100000000) {
                 return Math.round(value / 100000000) + '亿'
               } else if (value >= 10000) {
@@ -192,7 +387,7 @@ export default {
       }
       option && myChart.setOption(option)
       console.log(myChart, 'myChartmyChartmyChart')
-      myChart.on('click', function (params) {
+      myChart.on('click', function(params) {
         // 控制台打印数据的名称
         console.log(params)
       })
@@ -346,6 +541,87 @@ export default {
       #mychart {
         width: 100%;
         height: 304px;
+      }
+    }
+  }
+  .head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .head-right {
+      height: 100%;
+      /deep/ .van-dropdown-menu__bar {
+        box-shadow: none;
+        margin-right: 20px;
+      }
+      /deep/ .van-dropdown-menu__title {
+        color: #909090;
+      }
+      .rate-box {
+        margin-top: 20px;
+        padding: 30px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        .rate-item {
+          padding: 15px 20px;
+          color: #515a6e;
+          text-align: center;
+        }
+      }
+    }
+  }
+  .table-head {
+    color: #999;
+    font-size: 22px;
+    padding: 31px 28px 0 28px;
+    .arrow-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      .img-box {
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+  .list-box {
+    padding: 0 28px;
+    .list-item {
+      border-bottom: 1px solid #eeeeee;
+      padding: 22px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .icon-name {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        .icon-name-top {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          span {
+            margin-left: 11px;
+            overflow: hidden; /* 溢出隐藏 */
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap; /* 不换行 */
+            text-overflow: ellipsis; /* ...代替隐藏的内容 */
+          }
+        }
+        .bicon-name-bottom {
+          margin-top: 6px;
+          color: #92959c;
+          font-size: 24px;
+        }
       }
     }
   }
