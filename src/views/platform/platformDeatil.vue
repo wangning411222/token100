@@ -56,6 +56,10 @@
         <div class="center-right">-0.32%</div>
       </div>
       <div class="chart-box">
+        <div class="tip" v-show="tipShow">
+          <div>{{chartTime}} 00:00</div>
+          <div>成交额:${{chartNum}}亿</div>
+        </div>
         <div id="mychart"></div>
       </div>
     </div>
@@ -255,7 +259,12 @@ export default {
           money: 6.95,
           num: 6
         }
-      ]
+      ],
+      result: [], //chart 数据
+      chartTime: null,//点击显示的时间
+      chartNum:null,//点击显示的金钱
+      myChart: null,
+      tipShow:false
     }
   },
   mounted() {
@@ -271,10 +280,10 @@ export default {
     initChart() {
       const that = this
       // 基于准备好的dom，初始化echarts实例
-      var myChart = echarts.init(document.getElementById('mychart'))
+      this.myChart = echarts.init(document.getElementById('mychart'))
 
       var option
-      const result = [
+      this.result = [
         [1638979200000, 85140300611.68],
         [1639065600000, 87263983461.96],
         [1639152000000, 66799780134.02],
@@ -283,29 +292,39 @@ export default {
         [1639411200000, 79687401227.36],
         [1639497600000, 99287346121.66]
       ]
-      const xArr = result.map(item => {
+      const xArr = this.result.map(item => {
         return that.$moment(item[0]).format('MM-DD,YYYY')
       })
-      const yArr = result.map(item => {
+      const yArr = this.result.map(item => {
         return item[1]
       })
       option = {
         // 提示框
-        // tooltip: {
-        //   trigger: 'axis',
-        //   position: function(pt) {
-        //     return [pt[0], '10%']
-        //   }
-        // },
+        tooltip: {
+          trigger:"axis",
+          axisPointer: {
+            label:{
+              show:false
+            },
+            type:"cross",
+             
+          },
+          showContent:false
+        },
+
         grid: {
           left: '0', // 与容器左侧的距离
           right: '5%', // 与容器右侧的距离
-          top: '5%', // 与容器顶部的距离
+          top: '10%', // 与容器顶部的距离
           bottom: '0', // 与容器底部的距离
           borderWidth: 10,
           containLabel: true
         },
         xAxis: {
+          // axisPointer:{
+          //   show:true
+          // },
+          snap:true,
           type: 'category',
           axisTick: {
             show: false
@@ -319,13 +338,16 @@ export default {
           axisLabel: {
             color: '#ccc',
             fontSize: 10,
-            formatter: function(params) {
+            formatter: function (params) {
               return params.replace(',', '\n')
             },
             interval: 1
           }
         },
         yAxis: {
+          //  axisPointer:{
+          //   show:true
+          // },
           scale: true,
           axisTick: {
             show: false // 展示刻度
@@ -343,7 +365,7 @@ export default {
             inside: true, // 文字朝向,true里面
             color: '#ccc',
             fontSize: 10,
-            formatter: function(value) {
+            formatter: function (value) {
               if (value >= 100000000) {
                 return Math.round(value / 100000000) + '亿'
               } else if (value >= 10000) {
@@ -358,7 +380,11 @@ export default {
           {
             data: yArr,
             type: 'line',
-            symbol: 'none',
+            symbol: 'circle', //折点设定为实心点
+            symbolSize: 1,
+            itemStyle: {
+              color: '#3D8FFD'
+            },
             lineStyle: {
               color: '#3D8FFD'
             },
@@ -385,12 +411,26 @@ export default {
           }
         ]
       }
-      option && myChart.setOption(option)
-      console.log(myChart, 'myChartmyChartmyChart')
-      myChart.on('click', function(params) {
-        // 控制台打印数据的名称
-        console.log(params)
+      option && this.myChart.setOption(option)
+
+      this.myChart.getZr().on('click', params => {
+        this.chartClick(params)
       })
+    },
+    // chart点击事件
+    chartClick(params) {
+      const pointInPixel = [params.offsetX, params.offsetY]
+      // 使用 convertFromPixel方法 转换像素坐标值到逻辑坐标系上的点。获取点击位置对应的x轴数据的索引值，借助于索引值的获取到其它的信息
+      let pointInGrid = this.myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel)
+      // 点击的坐标点
+      let clickIndex = pointInGrid[0]
+      // 使用getOption() 获取图表的option
+      let op = this.myChart.getOption()
+      // 获取当前点击位置要的数据
+      let time=this.result[clickIndex][0]
+      this.chartTime = this.$moment(time).format('YYYY-MM-DD')
+      this.chartNum=(this.result[clickIndex][1]/100000000).toFixed(2)
+      this.tipShow=true
     },
     // 点击小星星
     collect() {
@@ -536,8 +576,20 @@ export default {
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      width: 100vw;
-      overflow-x: hidden;
+      // width: 100vw;
+      // overflow-x: hidden;
+      position: relative;
+      .tip{
+        position: absolute;
+        top:10px;
+        left:20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color:#939ea9;
+        font-size:0.01rem;
+      }
       #mychart {
         width: 100%;
         height: 304px;
@@ -602,7 +654,7 @@ export default {
       .icon-name {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
         .icon-name-top {
           display: flex;
