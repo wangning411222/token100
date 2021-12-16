@@ -74,107 +74,128 @@ export default {
   },
   methods: {
     initChart() {
-      console.log(this.$echarts, 'aaaaaaaaaaaaaaaaaaaaaaaaa')
+      const that = this
       // 基于准备好的dom，初始化echarts实例
       var myChart = echarts.init(document.getElementById('mychart'))
-      var option
 
-      const dataCount = 2e5
-      const data = generateOHLC(dataCount)
+      var option
+      const result = [
+        [1638979200000, 85140300611.68],
+        [1639065600000, 87263983461.96],
+        [1639152000000, 66799780134.02],
+        [1639238400000, 52974988423.97],
+        [1639324800000, 86217667968.22],
+        [1639411200000, 79687401227.36],
+        [1639497600000, 99287346121.66]
+      ]
+      const xArr = result.map(item => {
+        return that.$moment(item[0]).format('MM-DD,YYYY')
+      })
+      const yArr = result.map(item => {
+        return item[1]
+      })
       option = {
-        tooltip: {
-          trigger: 'axis',
-          position: function(pt) {
-            return [pt[0], '10%']
-          }
-        },
-        legend: {
-          top: 'middle'
-          // orient: 'vertical'
-        },
+        // 提示框
+        // tooltip: {
+        //   trigger: 'axis',
+        //   position: function(pt) {
+        //     return [pt[0], '10%']
+        //   }
+        // },
         grid: {
-          x: 0,
-          y: 0,
-          y2: 0,
-          x2: 0
+          left: '0', // 与容器左侧的距离
+          right: '5%', // 与容器右侧的距离
+          top: '5%', // 与容器顶部的距离
+          bottom: '0', // 与容器底部的距离
+          borderWidth: 10,
+          containLabel: true
         },
         xAxis: {
-          type: 'time',
-          boundaryGap: false
+          type: 'category',
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          },
+
+          triggerEvent: false,
+          data: xArr,
+          axisLabel: {
+            color: '#ccc',
+            fontSize: 10,
+            formatter: function (params) {
+              return params.replace(',', '\n')
+            },
+            interval: 1
+          }
         },
         yAxis: {
           scale: true,
+          axisTick: {
+            show: false // 展示刻度
+          },
+          axisLine: {
+            show: false // 展示边线
+          },
+          splitLine: {
+            show: false // 分割线
+          },
           position: 'right',
           type: 'value',
-          axisLable: {
-            formatter: '{value}亿'
-          },
-          boundaryGap: [0, '100%'],
-          min: 'dataMin'
+          splitNumber: 2,
+          axisLabel: {
+            inside: true, // 文字朝向,true里面
+            color: '#ccc',
+            fontSize: 10,
+            formatter: function (value) {
+              if (value >= 100000000) {
+                return Math.round(value / 100000000) + '亿'
+              } else if (value >= 10000) {
+                return Math.round(value / 10000) + '万'
+              } else {
+                return Math.round(value)
+              }
+            }
+          }
         },
         series: [
           {
+            data: yArr,
             type: 'line',
-            smooth: true,
             symbol: 'none',
-            areaStyle: {},
-            data: data
+            lineStyle: {
+              color: '#3D8FFD'
+            },
+            areaStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: '#CEF5FF'
+                  },
+                  {
+                    offset: 1,
+                    color: '#CEF5FF00'
+                  }
+                ],
+                global: false
+              }
+            }
           }
         ]
       }
-      function generateOHLC(count) {
-        const data = []
-        let xValue = +new Date(2011, 0, 1)
-        const minute = 60 * 1000
-        let baseValue = Math.random() * 12000
-        const boxVals = new Array(4)
-        const dayRange = 12
-        for (let i = 0; i < count; i++) {
-          baseValue = baseValue + Math.random() * 20 - 10
-          for (let j = 0; j < 4; j++) {
-            boxVals[j] = (Math.random() - 0.5) * dayRange + baseValue
-          }
-          boxVals.sort()
-          const openIdx = Math.round(Math.random() * 3)
-          let closeIdx = Math.round(Math.random() * 2)
-          if (closeIdx === openIdx) {
-            closeIdx++
-          }
-          const volumn = boxVals[3] * (1000 + Math.random() * 500)
-          // ['open', 'close', 'lowest', 'highest', 'volumn']
-          // [1, 4, 3, 2]
-          data[i] = [
-            echarts.time.format('yyyy-MM-dd\nhh:mm:ss', (xValue += minute)),
-            +boxVals[openIdx].toFixed(2),
-            +boxVals[3].toFixed(2),
-            +boxVals[0].toFixed(2),
-            +boxVals[closeIdx].toFixed(2),
-            +volumn.toFixed(0),
-            getSign(data, i, +boxVals[openIdx], +boxVals[closeIdx], 4) // sign
-          ]
-        }
-        return data
-        function getSign(data, dataIndex, openVal, closeVal, closeDimIdx) {
-          var sign
-          if (openVal > closeVal) {
-            sign = -1
-          } else if (openVal < closeVal) {
-            sign = 1
-          } else {
-            sign =
-        dataIndex > 0
-          ? // If close === open, compare with close of last record
-          data[dataIndex - 1][closeDimIdx] <= closeVal
-            ? 1
-            : -1
-          : // No record of previous, set to be positive
-          1
-          }
-          return sign
-        }
-      }
-
       option && myChart.setOption(option)
+      console.log(myChart, 'myChartmyChartmyChart')
+      myChart.on('click', function (params) {
+        // 控制台打印数据的名称
+        console.log(params)
+      })
     },
     // 点击小星星
     collect() {
@@ -315,9 +336,17 @@ export default {
         color: #e86b7a;
       }
     }
-    #mychart{
-      width:725px;
-      height:304px;
+    .chart-box {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      overflow-x: hidden;
+      #mychart {
+        width: 100%;
+        height: 304px;
+      }
     }
   }
 }
