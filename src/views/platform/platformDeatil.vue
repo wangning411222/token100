@@ -55,10 +55,25 @@
         </div>
         <div class="center-right">-0.32%</div>
       </div>
+      <div class="chart-select">
+        <div class="chart-title">成交额走势</div>
+        <div>
+          <ul>
+            <li
+              v-for="(item, index) in timeArr"
+              :key="index"
+              :class="chartActive === item.value ? 'color-active' : 'color-inactive'"
+              @click="selectTime(item.value)"
+            >
+              {{ item.label }}
+            </li>
+          </ul>
+        </div>
+      </div>
       <div class="chart-box">
         <div class="tip" v-show="tipShow">
-          <div>{{chartTime}} 00:00</div>
-          <div>成交额:${{chartNum}}亿</div>
+          <div>{{ chartTime }} 00:00</div>
+          <div>成交额:${{ chartNum }}亿</div>
         </div>
         <div id="mychart"></div>
       </div>
@@ -72,7 +87,7 @@
         </van-tabs>
       </div>
       <div class="head-right">
-        <van-dropdown-menu>
+        <van-dropdown-menu v-if="active===0">
           <van-dropdown-item :title="rate" v-model="rate" ref="item">
             <div class="rate-box">
               <van-row>
@@ -171,6 +186,69 @@
           </van-col>
         </van-row>
       </van-list>
+      <van-list v-if="active === 1">
+        <div class="profiles-box">
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left">国家/地区</van-col>
+            <van-col span="18" class="profiles-right">马耳他</van-col>
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left">交易支持</van-col>
+            <van-col span="18" class="profiles-right">现货期货场外法币</van-col>
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left"> 交易对</van-col>
+            <van-col span="18" class="profiles-right">1444个 </van-col>
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left"> 交易区</van-col>
+            <van-col span="18" class="profiles-right">
+              BTC, BUSD, USDT, BNB, ETH, USD, EUR, RUB, TRY, TUSD, USDC, BIDR, AUD, BRL, DAI, GBP, IDRT, UAH, NGN, TRX,
+              XRP</van-col
+            >
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left"> 简介</van-col>
+            <van-col
+class="profiles-right unfold"
+span="18"
+              ><p :class="unfoldTxt ? 'p2-show' : ''">
+                币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
+                币交易、区块链教育、区币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
+                币交易、区块链教育、区币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
+                币交易、区块链教育、区币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
+                币交易、区块链教育、区
+              </p>
+              <span @click="unfoldClick">{{ unfoldTxt ? '展开' : '收起' }}</span>
+            </van-col>
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left">相关链接</van-col>
+            <van-col span="18" class="profiles-right link-box">
+              <div>https://accounts. binancezh.biz/zh-CN/register?ref=1862</div>
+              <div>
+                <span>备用地址1</span>
+                <span>备用地址2</span>
+                <span>备用地址3</span>
+                <span>备用地址4</span>
+              </div>
+              <div>
+                <span>Facebook</span>
+                <span>Twitter</span>
+                <span> 微博 </span>
+              </div></van-col
+            >
+          </van-row>
+        </div>
+      </van-list>
+      <van-list v-if="active === 2">
+        <div class="notic-box">
+          <div class="notic-item" v-for="(item, index) in noticList" :key="index" @click="toRich">
+            <div class="notic-top">{{item.name}}</div>
+            <div class="notic-bottom">{{item.time}}</div>
+          </div>
+        </div>
+      </van-list>
     </div>
   </div>
 </template>
@@ -260,17 +338,61 @@ export default {
           num: 6
         }
       ],
-      result: [], //chart 数据
-      chartTime: null,//点击显示的时间
-      chartNum:null,//点击显示的金钱
+      result: [], // chart 数据
+      chartTime: null, // 点击显示的时间
+      chartNum: null, // 点击显示的金钱
       myChart: null,
-      tipShow:false
+      tipShow: false,
+      chartActive: 0,
+      timeArr: [
+        {
+          label: '所有',
+          value: 0
+        },
+        {
+          label: '24H',
+          value: 1
+        },
+        {
+          label: '1周',
+          value: 2
+        },
+        {
+          label: '3月',
+          value: 3
+        }
+      ],
+      unfoldTxt: true,
+      noticList: [
+        {
+          name: '幣安.上市Render (RNDR)',
+          time: '昨天 13:57'
+        },
+        {
+          name: '幣安.上市Render (RNDR)',
+          time: '昨天 13:57'
+        },
+        {
+          name: '幣安.上市Render (RNDR)',
+          time: '昨天 13:57'
+        }
+      ]// 公告列表
     }
   },
   mounted() {
     this.initChart()
   },
   methods: {
+    // 点击公告
+    toRich() {
+      this.$router.push({
+        name: 'richHtml'
+      })
+    },
+    // 点击展开
+    unfoldClick() {
+      this.unfoldTxt = !this.unfoldTxt
+    },
     // 去详情页
     toDetail() {
       this.$router.push({
@@ -301,20 +423,19 @@ export default {
       option = {
         // 提示框
         tooltip: {
-          trigger:"axis",
+          trigger: 'axis',
           axisPointer: {
-            label:{
-              show:false
+            label: {
+              show: false
             },
-            type:"cross",
-             
+            type: 'cross'
           },
-          showContent:false
+          showContent: false
         },
 
         grid: {
           left: '0', // 与容器左侧的距离
-          right: '5%', // 与容器右侧的距离
+          right: '0', // 与容器右侧的距离
           top: '10%', // 与容器顶部的距离
           bottom: '0', // 与容器底部的距离
           borderWidth: 10,
@@ -324,7 +445,7 @@ export default {
           // axisPointer:{
           //   show:true
           // },
-          snap:true,
+          snap: true,
           type: 'category',
           axisTick: {
             show: false
@@ -338,7 +459,7 @@ export default {
           axisLabel: {
             color: '#ccc',
             fontSize: 10,
-            formatter: function (params) {
+            formatter: function(params) {
               return params.replace(',', '\n')
             },
             interval: 1
@@ -365,7 +486,7 @@ export default {
             inside: true, // 文字朝向,true里面
             color: '#ccc',
             fontSize: 10,
-            formatter: function (value) {
+            formatter: function(value) {
               if (value >= 100000000) {
                 return Math.round(value / 100000000) + '亿'
               } else if (value >= 10000) {
@@ -380,7 +501,7 @@ export default {
           {
             data: yArr,
             type: 'line',
-            symbol: 'circle', //折点设定为实心点
+            symbol: 'circle', // 折点设定为实心点
             symbolSize: 1,
             itemStyle: {
               color: '#3D8FFD'
@@ -421,16 +542,14 @@ export default {
     chartClick(params) {
       const pointInPixel = [params.offsetX, params.offsetY]
       // 使用 convertFromPixel方法 转换像素坐标值到逻辑坐标系上的点。获取点击位置对应的x轴数据的索引值，借助于索引值的获取到其它的信息
-      let pointInGrid = this.myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel)
+      const pointInGrid = this.myChart.convertFromPixel({ seriesIndex: 0 }, pointInPixel)
       // 点击的坐标点
-      let clickIndex = pointInGrid[0]
-      // 使用getOption() 获取图表的option
-      let op = this.myChart.getOption()
+      const clickIndex = pointInGrid[0]
       // 获取当前点击位置要的数据
-      let time=this.result[clickIndex][0]
+      const time = this.result[clickIndex][0]
       this.chartTime = this.$moment(time).format('YYYY-MM-DD')
-      this.chartNum=(this.result[clickIndex][1]/100000000).toFixed(2)
-      this.tipShow=true
+      this.chartNum = (this.result[clickIndex][1] / 100000000).toFixed(2)
+      this.tipShow = true
     },
     // 点击小星星
     collect() {
@@ -571,6 +690,41 @@ export default {
         color: #e86b7a;
       }
     }
+    .chart-select {
+      padding: 40px 28px 20px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .chart-title {
+        font-size: 32px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #e4bc31;
+      }
+      ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        li {
+          text-align: center;
+          width: 119px;
+          height: 55px;
+          line-height: 55px;
+          border: 1px solid #eeeeee;
+          border-radius: 5px 0px 0px 5px;
+        }
+        .color-active {
+          background: #e4bc31;
+          color: #fff;
+        }
+        .clolor-inactive {
+          background: #fff;
+          color: #808080;
+        }
+      }
+    }
     .chart-box {
       display: flex;
       flex-direction: row;
@@ -579,28 +733,39 @@ export default {
       // width: 100vw;
       // overflow-x: hidden;
       position: relative;
-      .tip{
+      .tip {
         position: absolute;
-        top:10px;
-        left:20px;
+        top: 10px;
+        left: 20px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color:#939ea9;
-        font-size:0.01rem;
+        color: #939ea9;
+        font-size: 0.01rem;
       }
       #mychart {
         width: 100%;
         height: 304px;
+        & > div {
+          width: 100%;
+        }
       }
     }
   }
   .head {
+    margin-top: 20px;
+    border-top: 24px solid #f3f3f3;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    .head-left {
+      margin-left: 57px;
+      /deep/ .van-tab {
+        padding: 0 20px;
+      }
+    }
     .head-right {
       height: 100%;
       /deep/ .van-dropdown-menu__bar {
@@ -673,6 +838,88 @@ export default {
           margin-top: 6px;
           color: #92959c;
           font-size: 24px;
+        }
+      }
+    }
+    .profiles-box {
+      border-top: 1px solid #eee;
+      .profiles {
+        line-height: 48px;
+        font-size: 26px;
+        padding: 20px 0;
+        border-bottom: 1px solid #eee;
+        .profiles-left {
+          color: #666666;
+        }
+        .profiles-right {
+          color: #333;
+        }
+        .unfold {
+          position: relative;
+          p {
+            margin: 0;
+          }
+          .p2-show {
+            white-space: normal;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            -webkit-line-clamp: 3;
+          }
+          span {
+            color: #1890ff;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            flex: 1;
+            text-align: right;
+            display: inline-block;
+            padding-left: 30px;
+            z-index: 1000;
+            background: #fff;
+          }
+        }
+        .link-box {
+          color: #1890ff;
+          display: flex;
+          flex-direction: column;
+          & > div:first-child {
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 30px;
+          }
+          & > div:nth-child(2) {
+            span {
+              margin-left: 5px;
+            }
+          }
+          & > div:last-child {
+            margin-top: 50px;
+            span {
+              margin-right: 30px;
+            }
+          }
+        }
+      }
+    }
+    .notic-box {
+      border-top: 1px solid #eeeeee;
+      .notic-item {
+        border-bottom: 1px solid #eeeeee;
+        padding-bottom:10px;
+        .notic-top {
+          font-size: 32px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #333333;
+          line-height: 79px;
+        }
+        .notic-bottom {
+          font-size: 24px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #92959c;
+          line-height: 34px;
         }
       }
     }

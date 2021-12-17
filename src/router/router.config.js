@@ -33,6 +33,13 @@ export const constantRouterMap = [
     component: () => import('@/views/platform/platformDeatil'),
     meta: { title: '详情', keepAlive: false }
   },
+  // 货币详情页
+  {
+    path: '/marketDetail',
+    name: 'marketDetail',
+    component: () => import('@/views/market/marketDetail'),
+    meta: { title: '详情', keepAlive: false }
+  },
   // 富文本页面
   {
     path: '/detail',
