@@ -34,8 +34,8 @@
         </div>
       </div>
       <!-- ER全球交易排行榜 -->
-      <div class="table-head" v-if="active === 0">
-        <van-row type="flex" justify="space-between" cente="center">
+      <div class="table-head" v-if="active === 0 ">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="6">交易所</van-col>
           <van-col span="8">
@@ -60,7 +60,7 @@
       </div>
       <!-- 持有资产 -->
       <div class="table-head" v-if="active === 1">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="6">交易所</van-col>
           <van-col span="8">
@@ -85,7 +85,7 @@
       </div>
       <!-- 合约平台 -->
       <div class="table-head" v-if="active === 2">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="8">ER排名/交易平台</van-col>
           <van-col span="8" style="text-align: right"> 合约交易数量 </van-col>
           <van-col span="8" style="text-align: right">
@@ -95,7 +95,7 @@
       </div>
       <!-- OTC -->
       <div class="table-head" v-if="active === 3">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="8">ER排名/交易平台</van-col>
           <van-col span="8">
             <div class="arrow-box">
@@ -119,7 +119,7 @@
       </div>
       <!-- 活跃平台 -->
       <div class="table-head" v-if="active === 4">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="6">交易所</van-col>
           <van-col span="8">
@@ -138,6 +138,30 @@
             </div>
           </van-col>
           <van-col span="8" style="text-align: right">
+            <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
+          </van-col>
+        </van-row>
+      </div>
+       <div class="table-head" v-if="active === 5 && isLogin">
+        <van-row type="flex" justify="space-between" align="center">
+          <van-col span="2">#</van-col>
+          <van-col span="6">交易所</van-col>
+          <van-col span="6">
+            <div class="arrow-box">
+              <div>24H额(¥)</div>
+              <div class="img-box">
+                <van-image
+                  style="transform: rotate(180deg); margin-bottom: 2px"
+                  width="6px"
+                  height="3px"
+                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
+                >
+                </van-image>
+                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+              </div>
+            </div>
+          </van-col>
+          <van-col span="10" style="text-align: right">
             <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
           </van-col>
         </van-row>
@@ -272,10 +296,37 @@
       </van-list>
       <!-- 关注 -->
       <div v-if="active === 5">
-        <div class="login-box">
+        <div class="login-box" v-if="!isLogin">
           <van-image width="140px" height="169px" :src="require('../../assets/image/空@2x.png')"></van-image>
           <span>登陆查看更多</span>
           <van-button color="#E4BC31" @click="linkToLogin">立即登陆</van-button>
+        </div>
+        <div v-else>
+          <van-list>
+            <van-row
+              class="list-item"
+              v-for="(item, index) in erList"
+              :key="index"
+              type="flex"
+              justify="space-between"
+              cente="center"
+            >
+              <van-col span="2">
+                <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+              </van-col>
+              <van-col span="6" class="icon-name">
+                <van-image width="18px" height="18px" :src="item.src"></van-image>
+                <span>{{ item.name }}</span>
+              </van-col>
+              <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
+              <van-col span="10" >
+                <div class="guanzhu-start">
+                  <myprogress :num="item.num"></myprogress>
+                  <van-image @click="starClick" width="15px" height="14px" :src="require('../../assets/image/星星2@2x.png')"></van-image>
+                </div>
+              </van-col>
+            </van-row>
+          </van-list>
         </div>
       </div>
     </div>
@@ -369,7 +420,8 @@ export default {
           money: 6.95,
           num: 6
         }
-      ]
+      ],
+      isLogin: true
     }
   },
   // eslint-disable-next-line vue/no-unused-components
@@ -395,6 +447,10 @@ export default {
       this.$router.push({
         name: 'platformDeatil'
       })
+    },
+    // 关注列表点击星星
+    starClick() {
+      this.$toast('已取消关注')
     }
   }
 }
@@ -462,6 +518,15 @@ export default {
           margin-left: 11px;
         }
       }
+      .guanzhu-start{
+        display: flex;
+        flex-basis: row;
+        justify-content: flex-end;
+        align-items: center;
+        .van-image{
+          margin-left:36px;
+        }
+      }
     }
     .heyue-box {
       display: flex;
@@ -484,11 +549,11 @@ export default {
         color: rgba(0, 0, 0, 0.65);
         line-height: 37px;
       }
-      .van-button{
+      .van-button {
         border-radius: 8px;
-        margin-top:19px;
-        /deep/ .van-button__text{
-          color:#fff;
+        margin-top: 19px;
+        /deep/ .van-button__text {
+          color: #fff;
         }
       }
     }

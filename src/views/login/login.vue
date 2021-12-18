@@ -81,13 +81,13 @@ export default {
 <style lang="scss" scoped>
 .page {
   background: #fff;
-  .van-nav-bar {
+  /deep/.van-nav-bar {
     background: #fff;
-    .van-icon {
+    /deep/.van-icon {
       color: #666666;
     }
-    .van-nav-bar__left {
-      .van-icon-arrow-left {
+    /deep/.van-nav-bar__left {
+    /deep/  .van-icon-arrow-left {
         color: #666666;
       }
     }

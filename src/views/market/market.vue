@@ -41,16 +41,92 @@
       </div>
       <!-- 关注 -->
       <div v-if="active === 0">
-        <div class="login-box">
+        <div class="login-box" v-if="!isLogin">
           <van-image width="140px" height="169px" :src="require('../../assets/image/空@2x.png')"></van-image>
           <span>登陆查看更多</span>
           <van-button color="#E4BC31" @click="linkToLogin">立即登陆</van-button>
+        </div>
+        <div v-else>
+          <div class="table-head">
+            <van-row type="flex" justify="space-between" align="center">
+              <van-col span="2">#</van-col>
+              <van-col span="4">币种</van-col>
+              <van-col span="7">
+                <div class="arrow-box">
+                  <div>全球指数</div>
+                  <div class="img-box">
+                    <van-image
+                      style="transform: rotate(180deg); margin-bottom: 2px"
+                      width="6px"
+                      height="3px"
+                      :src="require('../../assets/icon/上下箭头@2x(1).png')"
+                    >
+                    </van-image>
+                    <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')">
+                    </van-image>
+                  </div>
+                </div>
+              </van-col>
+              <van-col span="7">
+                <div class="arrow-box">
+                  <div>24H涨幅</div>
+                  <div class="img-box">
+                    <van-image
+                      style="transform: rotate(180deg); margin-bottom: 2px"
+                      width="6px"
+                      height="3px"
+                      :src="require('../../assets/icon/上下箭头@2x(1).png')"
+                    >
+                    </van-image>
+                    <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')">
+                    </van-image>
+                  </div>
+                </div>
+              </van-col>
+              <van-col span="4"> </van-col>
+            </van-row>
+          </div>
+          <van-list>
+            <div class="list-box">
+              <van-row
+                class="list-item"
+                v-for="(item, index) in erList"
+                :key="index"
+                type="flex"
+                justify="space-between"
+                cente="center"
+              >
+                <van-col span="2">
+                  <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+                </van-col>
+                <van-col span="4" class="icon-name">
+                  <div class="icon-name-top">
+                    <van-image width="18px" height="18px" :src="item.src"></van-image>
+                    <span>{{ item.name }}</span>
+                  </div>
+                  <div class="bicon-name-bottom">Bitcoin</div>
+                </van-col>
+                <van-col span="7" style="text-align: right"> {{ item.money }}万亿 </van-col>
+                <van-col span="7" style="text-align: right">
+                  <div>5</div>
+                </van-col>
+                <van-col span="4" style="text-align: right">
+                  <van-image
+                    @click="starClick"
+                    width="15px"
+                    height="14px"
+                    :src="require('../../assets/image/星星2@2x.png')"
+                  ></van-image>
+                </van-col>
+              </van-row>
+            </div>
+          </van-list>
         </div>
       </div>
 
       <!-- 市值排名 -->
       <div class="table-head" v-if="active === 1">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
@@ -102,7 +178,7 @@
       </div>
       <!-- 期货合约 -->
       <div class="table-head" v-if="active === 2">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="10">币种</van-col>
           <van-col span="6">
@@ -138,8 +214,8 @@
         </van-row>
       </div>
       <!-- 热搜榜 -->
-        <div class="table-head" v-if="active === 3">
-        <van-row type="flex" justify="space-between" cente="center">
+      <div class="table-head" v-if="active === 3">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="10">币种</van-col>
           <van-col span="6">
@@ -158,15 +234,15 @@
             </div>
           </van-col>
           <van-col span="6">
-            <div style="text-align:right">
+            <div style="text-align: right">
               <div>24H热搜指数</div>
             </div>
           </van-col>
         </van-row>
       </div>
       <!-- 历史高位 -->
-       <div class="table-head" v-if="active === 4">
-        <van-row type="flex" justify="space-between" cente="center">
+      <div class="table-head" v-if="active === 4">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
@@ -218,7 +294,7 @@
       </div>
       <!-- 涨幅榜 -->
       <div class="table-head" v-if="active === 5">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
@@ -252,15 +328,13 @@
             </div>
           </van-col>
           <van-col span="6">
-            <div style="text-align:right">
-             24H涨幅
-            </div>
+            <div style="text-align: right">24H涨幅</div>
           </van-col>
         </van-row>
       </div>
       <!-- 跌幅榜 -->
       <div class="table-head" v-if="active === 6">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
@@ -294,45 +368,33 @@
             </div>
           </van-col>
           <van-col span="6">
-            <div style="text-align:right">
-             24H涨幅
-            </div>
+            <div style="text-align: right">24H涨幅</div>
           </van-col>
         </van-row>
       </div>
       <!-- 换手率榜 -->
       <div class="table-head" v-if="active === 7">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
-            <div style="text-align:right">
-             全球指数 (¥)
-
-            </div>
+            <div style="text-align: right">全球指数 (¥)</div>
           </van-col>
           <van-col span="6">
-            <div style="text-align:right">
-            24H额 (¥)
-
-            </div>
+            <div style="text-align: right">24H额 (¥)</div>
           </van-col>
           <van-col span="6">
-            <div style="text-align:right">
-             24H换手率
-            </div>
+            <div style="text-align: right">24H换手率</div>
           </van-col>
         </van-row>
       </div>
       <!-- 成交额榜 -->
       <div class="table-head" v-if="active === 8">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="8">币种</van-col>
           <van-col span="8">
-            <div style="text-align:left">
-         流通量/发行量
-            </div>
+            <div style="text-align: left">流通量/发行量</div>
           </van-col>
           <van-col span="6">
             <div class="arrow-box">
@@ -353,7 +415,7 @@
       </div>
       <!-- 新币上市 -->
       <div class="table-head" v-if="active === 9">
-        <van-row type="flex" justify="space-between" cente="center">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
@@ -387,21 +449,17 @@
             </div>
           </van-col>
           <van-col span="6">
-            <div style="text-align:right">
-              上市时间
-            </div>
+            <div style="text-align: right">上市时间</div>
           </van-col>
         </van-row>
       </div>
       <!-- 概念行情 -->
-       <div class="table-head" v-if="active === 10">
-        <van-row type="flex" justify="space-between" cente="center">
+      <div class="table-head" v-if="active === 10">
+        <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="10">概念名称</van-col>
           <van-col span="6">
-            <div style="text-align:left">
-        领涨/领跌
-            </div>
+            <div style="text-align: left">领涨/领跌</div>
           </van-col>
           <van-col span="6">
             <div class="arrow-box">
@@ -453,7 +511,7 @@
         </van-row>
       </van-list>
       <!-- 期货合约 -->
-       <van-list v-if="active === 2">
+      <van-list v-if="active === 2">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -482,7 +540,7 @@
         </van-row>
       </van-list>
       <!-- 热搜榜 -->
-       <van-list v-if="active === 3">
+      <van-list v-if="active === 3">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -506,12 +564,12 @@
             <div>5</div>
           </van-col>
           <van-col span="6">
-           <fire :num="2"></fire>
+            <fire :num="2"></fire>
           </van-col>
         </van-row>
       </van-list>
       <!-- 历史高位 -->
-      <van-list v-if="active ===4">
+      <van-list v-if="active === 4">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -541,7 +599,7 @@
         </van-row>
       </van-list>
       <!-- 涨幅榜 -->
-      <van-list v-if="active ===5">
+      <van-list v-if="active === 5">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -571,7 +629,7 @@
         </van-row>
       </van-list>
       <!-- 跌幅榜 -->
-      <van-list v-if="active ===6">
+      <van-list v-if="active === 6">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -601,7 +659,7 @@
         </van-row>
       </van-list>
       <!-- 换手率榜 -->
-        <van-list v-if="active ===7">
+      <van-list v-if="active === 7">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -631,7 +689,7 @@
         </van-row>
       </van-list>
       <!-- 成交额榜 -->
-      <van-list v-if="active ===8">
+      <van-list v-if="active === 8">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -656,7 +714,6 @@
               <greenprogress :num="30.2"></greenprogress>
               <div>345678909876545678987</div>
             </div>
-
           </van-col>
           <van-col span="6" style="text-align: right">
             <div>5</div>
@@ -664,7 +721,7 @@
         </van-row>
       </van-list>
       <!-- 新币上市 -->
-       <van-list v-if="active === 9">
+      <van-list v-if="active === 9">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -694,7 +751,7 @@
         </van-row>
       </van-list>
       <!-- 概念行情 -->
-       <van-list v-if="active === 10">
+      <van-list v-if="active === 10">
         <van-row
           class="list-item"
           v-for="(item, index) in erList"
@@ -702,23 +759,26 @@
           type="flex"
           justify="space-between"
           cente="center"
-          @click="toDetail"
+          @click="toConceptDetail"
         >
           <van-col span="2">
             <van-tag color="#E4BC31">{{ item.index }}</van-tag>
           </van-col>
-          <van-col span="10" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
+          <van-col span="10">
+            <div>{{ item.name }}</div>
           </van-col>
           <van-col span="6" style="text-align: left">
-            <div>5</div>
+            <div class="gainian">
+              <span>AE</span>
+              <span class="green">+28.26%</span>
+            </div>
+            <div class="gainian">
+              <span>POE</span>
+              <span class="red">-4.26%</span>
+            </div>
           </van-col>
-          <van-col span="6" style="text-align:right">
-           <div>1111</div>
+          <van-col span="6" style="text-align: right">
+            <div>1111</div>
           </van-col>
         </van-row>
       </van-list>
@@ -815,7 +875,8 @@ export default {
           money: 6.95,
           num: 6
         }
-      ]
+      ],
+      isLogin: true
     }
   },
   components: { banner, search, fire, greenprogress },
@@ -824,6 +885,10 @@ export default {
   },
   mounted() {},
   methods: {
+    // 关注点击小星星
+    starClick() {
+      this.$toast('已取消关注')
+    },
     // 点击去登陆
     linkToLogin() {
       this.$router.push({
@@ -835,6 +900,12 @@ export default {
       this.$router.push({
         name: 'marketDetail'
       })
+    },
+    // 概念详情
+    toConceptDetail() {
+      this.$router.push({
+        name: 'conceptDetail'
+      })
     }
   }
 }
@@ -843,29 +914,31 @@ export default {
 .about-container {
   background: #fff;
   box-sizing: border-box;
+
   .head {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    .head-left{
-     width:85%;
+    .head-left {
+      padding-right: 30px;
+      width: 597px;
     }
     .head-right {
       height: 100%;
       /deep/ .van-dropdown-menu__bar {
         box-shadow: none;
-        padding-right: 20px;
       }
-      /deep/ .van-ellipsis{
-        font-size:16px;
+      /deep/ .van-ellipsis {
+        font-size: 16px;
+        margin-right: 20px;
       }
       /deep/ .van-dropdown-menu__title {
         color: #909090;
-        padding:0;
-        margin-right:40px;
-        z-index:1000;
-        background:#fff;
+        padding: 0;
+        margin-right: 40px;
+        z-index: 1000;
+        background: #fff;
       }
       .rate-box {
         margin-top: 20px;
@@ -953,15 +1026,27 @@ export default {
           font-size: 24px;
         }
       }
-      .greenprogress{
+      .gainian {
+        span {
+          color: #333;
+          font-size: 22px;
+        }
+        .green {
+          color: #00a287;
+        }
+        .red {
+          color: #da5949;
+        }
+      }
+      .greenprogress {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-start;
-        &>div:last-child{
-          margin-top:13px;
-          color:#333;
-          font-size:20px;
+        & > div:last-child {
+          margin-top: 13px;
+          color: #333;
+          font-size: 20px;
         }
       }
     }

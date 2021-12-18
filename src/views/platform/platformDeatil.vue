@@ -383,6 +383,10 @@ export default {
     this.initChart()
   },
   methods: {
+    // 点击chart时间选择
+    selectTime(value) {
+      this.chartActive = value
+    },
     // 点击公告
     toRich() {
       this.$router.push({

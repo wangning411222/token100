@@ -40,6 +40,13 @@ export const constantRouterMap = [
     component: () => import('@/views/market/marketDetail'),
     meta: { title: '详情', keepAlive: false }
   },
+  // 概念详情页
+  {
+    path: '/conceptDetail',
+    name: 'conceptDetail',
+    component: () => import('@/views/market/conceptDetail'),
+    meta: { title: '概念详情', keepAlive: false }
+  },
   // 富文本页面
   {
     path: '/detail',
