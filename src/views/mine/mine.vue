@@ -14,7 +14,7 @@
           <van-image :src="require('../../assets/image/Bitmap@2x (1).png')" />
         </div>
         <div class="head-right">
-          <div v-if="islogin">
+          <div v-if="isLogin">
             <div class="right-t">158****6743</div>
             <div class="right-b">欢迎来到TOKEN100</div>
           </div>
@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <div class="page-bottom" v-if="islogin">
+      <div class="page-bottom" v-if="isLogin">
         <ul>
           <li @click="changePhone">
             <div class="li-l">
@@ -89,7 +89,7 @@
           </li>
         </ul>
       </div>
-      <div class="login-out">
+      <div class="login-out" v-if="isLogin">
         <van-button color="#fff" size="large">退出登陆</van-button>
       </div>
     </div>
@@ -100,20 +100,20 @@
 
 <script>
 // 请求接口
-import { getUserInfo } from '@/api/user.js'
+import { getUserInfo } from '@/api/home.js'
 import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      islogin: true, // 是否登陆
+      // islogin: true, // 是否登陆
       wechat: `${this.$cdn}/wx/640.gif`,
       languageShow: false,
-      actions: [{ name: '中文' }, { name: '英文' }],
+      actions: [{ name: '中文', value: 'zh-CN' }, { name: '英文', value: 'en-uk' }],
       language: '中文'
     }
   },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['userName', 'isLogin', 'languageId'])
   },
   mounted() {
     this.initData()
@@ -136,6 +136,8 @@ export default {
       console.log(item, 'item``````````````')
       this.languageShow = false
       this.language = item.name
+      this.$store.dispatch('setLanguageId', item.value)
+      console.log(this.languageId, 'languageIdlanguageIdlanguageId')
     },
     // 切换中英文
     handlerLanguage() {
@@ -166,7 +168,7 @@ export default {
     // 请求数据案例
     initData() {
       // 请求接口数据，仅作为展示，需要配置src->config下环境文件
-      const params = { user: 'sunnie' }
+      const params = { user: 'sunnie', age: 20 }
       getUserInfo(params)
         .then(() => {})
         .catch(() => {})
@@ -183,7 +185,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page {
-  height:calc(100vh - 50px);
+  height: calc(100vh - 50px);
   overflow: hidden;
   background: #f5f5f5;
   .van-nav-bar {
@@ -193,7 +195,7 @@ export default {
     }
   }
   .page-content {
-     background: #f5f5f5;
+    background: #f5f5f5;
     .page-head {
       background: #fff;
       padding: 24px;

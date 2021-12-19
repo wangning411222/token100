@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TabBar from '@/components/TabBar'
 import globalPreview from '@/components/globalPreview'
 export default {
@@ -67,6 +68,9 @@ export default {
   components: {
     TabBar,
     globalPreview
+  },
+  computed: {
+    ...mapGetters(['userName'])
   },
   methods: {
     handleChange(v) {

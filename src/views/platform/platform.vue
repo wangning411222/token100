@@ -420,14 +420,13 @@ export default {
           money: 6.95,
           num: 6
         }
-      ],
-      isLogin: true
+      ]
     }
   },
   // eslint-disable-next-line vue/no-unused-components
   components: { banner, search, myprogress },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['userName', 'isLogin'])
   },
   mounted() {},
   methods: {

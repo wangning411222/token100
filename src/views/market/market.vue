@@ -875,13 +875,12 @@ export default {
           money: 6.95,
           num: 6
         }
-      ],
-      isLogin: true
+      ]
     }
   },
   components: { banner, search, fire, greenprogress },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['userName', 'isLogin'])
   },
   mounted() {},
   methods: {
