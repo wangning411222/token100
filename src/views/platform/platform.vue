@@ -24,8 +24,8 @@
                     v-for="(item, index) in rateArr"
                     :key="index"
                     span="8"
-                    @click="selectRate(item)"
-                    >{{ item.name }}&nbsp;{{ item.value }}</van-col
+                   @click="selectRate( item.rateC)"
+                    >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                   >
                 </van-row>
               </div>
@@ -334,6 +334,7 @@
 </template>
 
 <script>
+import { rateList } from '@/api/common'
 import banner from '@/components/banner'
 import search from '@/components/search'
 import myprogress from '@/components/myprogress'
@@ -343,40 +344,7 @@ export default {
     return {
       active: 0,
       rate: 'CNY', // 选择的汇率
-      rateArr: [
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        }
-      ], // 汇率数组
+      rateArr: [], // 汇率数组
       erList: [
         {
           index: 0,
@@ -428,12 +396,22 @@ export default {
   computed: {
     ...mapGetters(['userName', 'isLogin'])
   },
-  mounted() {},
+  mounted() {
+    // 获取汇率
+    this.rateList()
+  },
   methods: {
-    // 点击选择汇率
+    // 选择汇率
     selectRate(value) {
-      this.rate = value.value
+      this.rate = value
       this.$refs.item.toggle()
+    },
+    // 获取汇率列表
+    rateList() {
+      rateList().then(res => {
+        console.log(res, 'res````````````````````````')
+        this.rateArr = res
+      })
     },
     // 去登陆页
     linkToLogin() {

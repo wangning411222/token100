@@ -2,10 +2,10 @@ import axios from 'axios'
 import store from '@/store'
 import { Toast } from 'vant'
 // 根据环境不同引入不同api地址
-import { baseApi } from '@/config'
+const baseURL = process.env.VUE_APP_BASE_API
 // create an axios instance
 const service = axios.create({
-  baseURL: baseApi, // url = base api url + request url
+  baseURL: baseURL, // url = base api url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -43,7 +43,11 @@ service.interceptors.response.use(
 
       return Promise.reject(res || 'error')
     } else {
-      return Promise.resolve(res)
+      if (res.ok) {
+        return Promise.resolve(res.data)
+      } else {
+        return Promise.reject(res)
+      }
     }
   },
   error => {

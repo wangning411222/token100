@@ -99,8 +99,8 @@
                   v-for="(item, index) in rateArr"
                   :key="index"
                   span="8"
-                  @click="selectRate(item)"
-                  >{{ item.name }}&nbsp;{{ item.value }}</van-col
+                  @click="selectRate( item.rateC)"
+                    >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                 >
               </van-row>
             </div>
@@ -648,6 +648,7 @@ https://btc.com/en"
   </div>
 </template>
 <script>
+import { rateList } from '@/api/common'
 import * as echarts from 'echarts'
 export default {
   data() {
@@ -685,40 +686,7 @@ export default {
       myChart: null,
       chartActive: 0,
       rate: 'CNY', // 选择的汇率
-      rateArr: [
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        }
-      ], // 汇率数组
+      rateArr: [], // 汇率数组
       erList: [
         {
           index: 0,
@@ -823,7 +791,23 @@ export default {
       ]
     }
   },
+  mounted() {
+    // 获取汇率
+    this.rateList()
+    this.initChart()
+  },
   methods: {
+    // 选择汇率
+    selectRate(value) {
+      this.rate = value
+      this.$refs.item.toggle()
+    },
+    // 获取汇率列表
+    rateList() {
+      rateList().then(res => {
+        this.rateArr = res
+      })
+    },
     // 查看更多机构
     organizationMore() {
       this.organizationShow = true
@@ -1000,9 +984,6 @@ export default {
       this.chartNum = (this.result[clickIndex][1] / 100000000).toFixed(2)
       this.tipShow = true
     }
-  },
-  mounted() {
-    this.initChart()
   }
 }
 </script>

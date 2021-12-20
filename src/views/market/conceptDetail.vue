@@ -54,8 +54,8 @@
                       v-for="(item, index) in rateArr"
                       :key="index"
                       span="8"
-                      @click="selectRate(item)"
-                      >{{ item.name }}&nbsp;{{ item.value }}</van-col
+                      @click="selectRate( item.rateC)"
+                    >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                     >
                   </van-row>
                 </div>
@@ -151,43 +151,11 @@
   </div>
 </template>
 <script>
+import { rateList } from '@/api/common'
 export default {
   data() {
     return {
-      rateArr: [
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        }
-      ], // 汇率数组
+      rateArr: [], // 汇率数组
       rate: 'CNY',
       erList: [
         {
@@ -235,7 +203,22 @@ export default {
       ]
     }
   },
+  mounted() {
+    // 获取汇率
+    this.rateList()
+  },
   methods: {
+    // 选择汇率
+    selectRate(value) {
+      this.rate = value
+      this.$refs.item.toggle()
+    },
+    // 获取汇率列表
+    rateList() {
+      rateList().then(res => {
+        this.rateArr = res
+      })
+    },
     // 详情页
     toDetail() {
       this.$router.push({

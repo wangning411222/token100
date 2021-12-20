@@ -6,7 +6,7 @@
       <search></search>
       <div class="head">
         <div class="head-left">
-          <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
+          <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" @click="clickTab">
             <van-tab title="关注 "> </van-tab>
             <van-tab title="市值排名"> </van-tab>
             <van-tab title="期货合约"> </van-tab>
@@ -30,8 +30,8 @@
                     v-for="(item, index) in rateArr"
                     :key="index"
                     span="8"
-                    @click="selectRate(item)"
-                    >{{ item.name }}&nbsp;{{ item.value }}</van-col
+                    @click="selectRate(item.rateC)"
+                    >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                   >
                 </van-row>
               </div>
@@ -128,8 +128,8 @@
       <div class="table-head" v-if="active === 1">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="4">币种</van-col>
-          <van-col span="6">
+          <van-col span="6">币种</van-col>
+          <van-col span="4">
             <div class="arrow-box">
               <div>市值 (¥)</div>
               <div class="img-box">
@@ -180,7 +180,7 @@
       <div class="table-head" v-if="active === 2">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="10">币种</van-col>
+          <van-col span="9" offset="1">币种</van-col>
           <van-col span="6">
             <div class="arrow-box">
               <div>最新价 (¥)</div>
@@ -216,8 +216,8 @@
       <!-- 热搜榜 -->
       <div class="table-head" v-if="active === 3">
         <van-row type="flex" justify="space-between" align="center">
-          <van-col span="2">#</van-col>
-          <van-col span="10">币种</van-col>
+          <van-col span="3">#</van-col>
+          <van-col span="8" offset='1'>币种</van-col>
           <van-col span="6">
             <div class="arrow-box">
               <div>全球指数 (¥)</div>
@@ -480,317 +480,388 @@
       </div>
     </van-sticky>
     <div class="list-box">
+      <van-loading v-show="loading" style="width:100%;height:100%;position:absolute;top:200px;text-align:center" color="rgb(228, 188, 49)" />
       <!-- 市值排名 -->
-      <van-list v-if="active === 1">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="4" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 1">
+        <van-list >
+          <van-row
+            class="list-item"
+            v-for="(item, index) in shizhiList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="6" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolCode }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{ item.symbolName }}</div>
+            </van-col>
+            <van-col span="4" style="text-align: right"> {{ numUnti(item.symbolMarketCapUsd) }} </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{ numUnti(item.priceUsd) }}</div>
+            </van-col>
+            <van-col
+              span="6"
+              style="text-align: right"
+              :class="item.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+            >
+              <div>{{ item.priceChange1d }}%</div>
+            </van-col>
+          </van-row>
+           <div class="list-more" @click="listMore(active)">点击加载更多</div>
+        </van-list>
+
+      </div>
+
       <!-- 期货合约 -->
-      <van-list v-if="active === 2">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="10" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 2">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in qihuoList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2" >
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="9" offset="1" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolName }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{ numUnti(item.price) }}</div>
+            </van-col>
+            <van-col
+              span="6"
+              style="text-align: right"
+              :class="item.percentChange.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+            >
+              <div>{{ item.percentChange }}%</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+
       <!-- 热搜榜 -->
-      <van-list v-if="active === 3">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="10" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6">
-            <fire :num="2"></fire>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 3">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in resouList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="3">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="8" offset='1' class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolName }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{item.currentPriceUsd}}</div>
+            </van-col>
+            <van-col span="6">
+              <fire :num="item.starLevel"></fire>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+
       <!-- 历史高位 -->
-      <van-list v-if="active === 4">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="4" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 4">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in lishigaoweiList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="4" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolName }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right"> {{ numUnti(item.priceUsd) }} </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{numUnti(item.highPriceAll)}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right" :class="item.quoteChange&&item.quoteChange.toString().indexOf('-') >= 0 ? 'red' : 'green'">
+              <div>{{item.quoteChange}}</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+
       <!-- 涨幅榜 -->
-      <van-list v-if="active === 5">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="4" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 5">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in zhangfuList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="4" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolName }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{numUnti(item.volume)}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right" :class="item.changePercent&&item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
+              <div>{{item.changePercent}}%</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+
       <!-- 跌幅榜 -->
-      <van-list v-if="active === 6">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="4" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 6">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in zhangfuList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="4" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolName }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{numUnti(item.volume)}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right" :class="item.changePercent&&item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
+              <div>{{item.changePercent}}%</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
       <!-- 换手率榜 -->
-      <van-list v-if="active === 7">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="4" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 7">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in huanshouList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="4" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolName }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{numUnti(item.volume)}}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{item.turnoverPercent}}%</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+
       <!-- 成交额榜 -->
-      <van-list v-if="active === 8">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="8" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="8" style="text-align: right">
-            <div class="greenprogress">
-              <greenprogress :num="30.2"></greenprogress>
-              <div>345678909876545678987</div>
-            </div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 8">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in chengjiaoeList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="8" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span>{{ item.symbolName }}</span>
+              </div>
+              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+            </van-col>
+            <van-col span="8" style="text-align: right">
+              <div class="greenprogress">
+                <greenprogress :num="item.circulateAmount"></greenprogress>
+                <div>{{item.totalSupply}}</div>
+              </div>
+            </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>{{numUnti(item.volume)}}</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+
       <!-- 新币上市 -->
-      <van-list v-if="active === 9">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="4" class="icon-name">
-            <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
-            </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
-          </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>5</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 9">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in erList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="4" class="icon-name">
+              <div class="icon-name-top">
+                <van-image width="18px" height="18px" :src="item.src"></van-image>
+                <span>{{ item.name }}</span>
+              </div>
+              <div class="bicon-name-bottom">Bitcoin</div>
+            </van-col>
+            <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>5</div>
+            </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>5</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
+
       <!-- 概念行情 -->
-      <van-list v-if="active === 10">
-        <van-row
-          class="list-item"
-          v-for="(item, index) in erList"
-          :key="index"
-          type="flex"
-          justify="space-between"
-          cente="center"
-          @click="toConceptDetail"
-        >
-          <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
-          </van-col>
-          <van-col span="10">
-            <div>{{ item.name }}</div>
-          </van-col>
-          <van-col span="6" style="text-align: left">
-            <div class="gainian">
-              <span>AE</span>
-              <span class="green">+28.26%</span>
-            </div>
-            <div class="gainian">
-              <span>POE</span>
-              <span class="red">-4.26%</span>
-            </div>
-          </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>1111</div>
-          </van-col>
-        </van-row>
-      </van-list>
+      <div v-if="active === 10">
+        <van-list>
+          <van-row
+            class="list-item"
+            v-for="(item, index) in erList"
+            :key="index"
+            type="flex"
+            justify="space-between"
+            cente="center"
+            @click="toConceptDetail"
+          >
+            <van-col span="2">
+              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+            </van-col>
+            <van-col span="10">
+              <div>{{ item.name }}</div>
+            </van-col>
+            <van-col span="6" style="text-align: left">
+              <div class="gainian">
+                <span>AE</span>
+                <span class="green">+28.26%</span>
+              </div>
+              <div class="gainian">
+                <span>POE</span>
+                <span class="red">-4.26%</span>
+              </div>
+            </van-col>
+            <van-col span="6" style="text-align: right">
+              <div>1111</div>
+            </van-col>
+          </van-row>
+        </van-list>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import mixin from '@/filters/mixin'
 import banner from '@/components/banner'
 import search from '@/components/search'
 import greenprogress from '@/components/greenprogress'
-
+import { rateList } from '@/api/common'
+import { symbolRankPage, symbolFuturesPage, symbolHotList, symbolHignList, symbolSortList, symbolChangeList, symbolVolumeList } from '@/api/market'
 import fire from '@/components/fire'
 import { mapGetters } from 'vuex'
 export default {
@@ -798,40 +869,7 @@ export default {
     return {
       active: 1,
       rate: 'CNY', // 选择的汇率
-      rateArr: [
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        },
-        {
-          name: '人民币',
-          value: 'CNY'
-        },
-        {
-          name: '人币',
-          value: 'BNY'
-        }
-      ], // 汇率数组
+      rateArr: [], // 汇率数组
       erList: [
         {
           index: 0,
@@ -875,15 +913,156 @@ export default {
           money: 6.95,
           num: 6
         }
-      ]
+      ],
+      loading: false,
+      shizhicurrent: 1,
+      shizhisize: 100,
+      shizhiList: [],
+      qihuoList: [],
+      resouList: [],
+      lishigaoweiList: [],
+      zhangfuList: [],
+      huanshouList: [],
+      chengjiaoeList: []
+
     }
   },
+  mixins: [mixin],
   components: { banner, search, fire, greenprogress },
   computed: {
     ...mapGetters(['userName', 'isLogin'])
   },
-  mounted() {},
+  mounted() {
+    // 获取汇率
+    this.rateList()
+    // 获取市值排名列表
+    this.symbolRankPage()
+  },
   methods: {
+    // 成交额榜
+    symbolVolumeList() {
+      this.loading = true
+      const data = {
+        current: 1,
+        size: 100
+      }
+      symbolVolumeList(data).then(res => {
+        console.log(res, 'res``````````````')
+        this.chengjiaoeList = res
+        this.loading = false
+      })
+    },
+    // 换手率list
+    symbolChangeList() {
+      this.loading = true
+      const data = {
+        current: 1,
+        size: 100
+      }
+      symbolChangeList(data).then(res => {
+        this.huanshouList = res
+        this.loading = false
+      })
+    },
+    // 涨幅跌幅榜
+    symbolSortList(value) {
+      this.loading = true
+      // 1 涨幅 0跌幅
+      const data = {
+        sort: value,
+        current: 1,
+        size: 100
+      }
+      symbolSortList(data).then(res => {
+        this.zhangfuList = res
+        this.loading = false
+      })
+    },
+    // 历史高位list
+    symbolHignList() {
+      this.loading = true
+      const data = {
+        current: 1,
+        size: 100
+      }
+      symbolHignList(data).then(res => {
+        this.lishigaoweiList = res
+        this.loading = false
+      })
+    },
+    // 切换tab
+    clickTab(value) {
+      if (value === 1) {
+        this.symbolRankPage()
+      } else if (value === 2) {
+        this.symbolFuturesPage()
+      } else if (value === 3) {
+        this.symbolHotList()
+      } else if (value === 4) {
+        this.symbolHignList()
+      } else if (value === 5) {
+        this.symbolSortList(1)
+      } else if (value === 6) {
+        this.symbolSortList(0)
+      } else if (value === 7) {
+        this.symbolChangeList()
+      } else if (value === 8) {
+        this.symbolVolumeList()
+      }
+      console.log(value, 'clickTabclickTabclickTab')
+    },
+    // 热搜榜list
+    symbolHotList() {
+      this.loading = true
+      const data = {
+        current: 1,
+        size: 100
+      }
+      symbolHotList(data).then(res => {
+        this.resouList = res
+        this.loading = false
+      })
+    },
+    // 期货合约list
+    symbolFuturesPage() {
+      this.loading = true
+      const data = {
+        current: 1,
+        size: 100
+      }
+      symbolFuturesPage(data).then(res => {
+        this.qihuoList = res.records
+        this.loading = false
+      })
+    },
+    // 点击加载更多
+    listMore(index) {
+      this.shizhicurrent++
+      this.symbolRankPage()
+    },
+    // 获取市值排名列表
+    symbolRankPage() {
+      this.loading = true
+      const data = {
+        current: this.shizhicurrent,
+        size: this.shizhisize
+      }
+      symbolRankPage(data).then(res => {
+        this.shizhiList = [...this.shizhiList, ...res.records]
+        this.loading = false
+      })
+    },
+    // 选择汇率
+    selectRate(value) {
+      this.rate = value
+      this.$refs.item.toggle()
+    },
+    // 获取汇率列表
+    rateList() {
+      rateList().then(res => {
+        this.rateArr = res
+      })
+    },
     // 关注点击小星星
     starClick() {
       this.$toast('已取消关注')
@@ -911,10 +1090,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .about-container {
+  .red {
+    color: #e86d7c;
+  }
+  .green {
+    color: #00a287;
+  }
   background: #fff;
   box-sizing: border-box;
 
   .head {
+    background: #fff;
+    z-index: 10000;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -957,6 +1144,8 @@ export default {
     }
   }
   .table-head {
+    background: #fff;
+    z-index: 10000;
     color: #999;
     font-size: 22px;
     padding: 0 28px;
@@ -994,6 +1183,15 @@ export default {
     }
   }
   .list-box {
+    position: relative;
+    margin-bottom: 30px;
+    .list-more {
+      font-size: 26px;
+      text-align: center;
+      color: rgb(228, 188, 49);
+      line-height: 80px;
+      height: 80px;
+    }
     padding: 0 28px;
     .list-item {
       border-bottom: 1px solid #eeeeee;
@@ -1011,12 +1209,14 @@ export default {
           flex-direction: row;
           justify-content: flex-start;
           align-items: center;
+
           span {
             margin-left: 11px;
             overflow: hidden; /* 溢出隐藏 */
             word-break: keep-all; /* 不换行 */
             white-space: nowrap; /* 不换行 */
             text-overflow: ellipsis; /* ...代替隐藏的内容 */
+             flex-basis: 100px;
           }
         }
         .bicon-name-bottom {

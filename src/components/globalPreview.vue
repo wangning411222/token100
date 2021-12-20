@@ -4,11 +4,11 @@
       <div class="left">
         <div>
           <div class="label">总市值</div>
-          <div class="value">¥16.89万亿</div>
+          <div class="value">¥{{marketVolume}}</div>
         </div>
         <div>
           <div class="label">24H额</div>
-          <div class="value">¥1.52万亿</div>
+          <div class="value">¥{{dayVolume}}</div>
         </div>
       </div>
       <div class="right">
@@ -19,36 +19,36 @@
                 <div class="content-item">
                   <div class="item-text">
                     <span>虚拟币</span>
-                    <span>3457</span>
+                    <span>{{codeTotal}}</span>
                   </div>
                   <div class="item-text">
                     <span>总市值¥</span>
-                    <span>15.05万亿</span>
+                    <span>{{marketVolume}}</span>
                   </div>
                 </div>
                 <div class="content-item">
                   <div class="item-text">
                     <span>代币</span>
-                    <span>10106</span>
+                    <span>{{tokenTotal}}</span>
                   </div>
                   <div class="item-text">
                     <span>24H成交额¥</span>
-                    <span>15.05万亿</span>
+                    <span>{{dayVolume}}</span>
                   </div>
                 </div>
                 <div class="content-item">
                   <div class="item-text">
                     <span>交易平台</span>
-                    <span>3457</span>
+                    <span>{{marketTotal}}</span>
                   </div>
                   <div class="item-shape">
                     <div class="shape-left">
                       <span>上涨</span>
-                      <span>2162</span>
+                      <span>{{riseNum}}</span>
                     </div>
                     <div class="shape-right">
                       <span>下跌</span>
-                      <span>2201</span>
+                      <span>{{fallNum}}</span>
                     </div>
                   </div>
                 </div>
@@ -61,13 +61,49 @@
   </div>
 </template>
 <script>
+import mixin from '@/filters/mixin'
+import { total } from '@/api/common'
 export default {
   data() {
     return {
-      popShow: false
+      popShow: false,
+      codeTotal: 0,
+      dayVolume: 0,
+      fallNum: 0,
+      marketTotal: 0,
+      marketVolume: 0,
+      riseNum: 0,
+      tokenTotal: 0
     }
   },
-  methods: {}
+  mixins: [
+    mixin
+  ],
+  methods: {
+    total() {
+      total().then(res => {
+        const {
+          codeTotal,
+          dayVolume,
+          fallNum,
+          marketTotal,
+          marketVolume,
+          riseNum,
+          tokenTotal
+        } = res
+        this.codeTotal = this.numUnti(codeTotal)
+        this.dayVolume = this.numUnti(dayVolume)
+        this.fallNum = this.numUnti(fallNum)
+        this.marketTotal = this.numUnti(marketTotal)
+        this.marketVolume = this.numUnti(marketVolume)
+        this.riseNum = this.numUnti(riseNum)
+        this.tokenTotal = this.numUnti(tokenTotal)
+      })
+    }
+  },
+  created() {
+    this.total()
+  }
 }
 </script>
 <style lang="scss" scoped>

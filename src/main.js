@@ -14,9 +14,10 @@ import 'moment/locale/zh-cn'
 import '@/assets/css/index.scss'
 // 移动端适配
 import 'lib-flexible/flexible.js'
-import Vant from 'vant'
+import Vant, { Lazyload } from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)
+Vue.use(Lazyload)
 Vue.prototype.$moment = moment
 // filters
 import './filters'
