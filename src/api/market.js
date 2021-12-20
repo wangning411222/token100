@@ -67,4 +67,23 @@ export function symbolVolumeList(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
+// 新币上市
 
+export function symbolNewsList(data) {
+  return request({
+    url: '/appSymbol/symbolNewsList',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+// 概念详情
+
+export function symbolConceptList(data) {
+  return request({
+    url: '/appSymbol/symbolConceptList',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}

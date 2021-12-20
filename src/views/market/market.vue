@@ -217,7 +217,7 @@
       <div class="table-head" v-if="active === 3">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="3">#</van-col>
-          <van-col span="8" offset='1'>币种</van-col>
+          <van-col span="8" offset="1">币种</van-col>
           <van-col span="6">
             <div class="arrow-box">
               <div>全球指数 (¥)</div>
@@ -392,8 +392,8 @@
       <div class="table-head" v-if="active === 8">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="8">币种</van-col>
-          <van-col span="8">
+          <van-col span="6">币种</van-col>
+          <van-col span="10">
             <div style="text-align: left">流通量/发行量</div>
           </van-col>
           <van-col span="6">
@@ -480,10 +480,14 @@
       </div>
     </van-sticky>
     <div class="list-box">
-      <van-loading v-show="loading" style="width:100%;height:100%;position:absolute;top:200px;text-align:center" color="rgb(228, 188, 49)" />
+      <van-loading
+        v-show="loading"
+        style="width: 100%; height: 100%; position: absolute; top: 200px; text-align: center"
+        color="rgb(228, 188, 49)"
+      />
       <!-- 市值排名 -->
       <div v-if="active === 1">
-        <van-list >
+        <van-list>
           <van-row
             class="list-item"
             v-for="(item, index) in shizhiList"
@@ -518,9 +522,8 @@
               <div>{{ item.priceChange1d }}%</div>
             </van-col>
           </van-row>
-           <div class="list-more" @click="listMore(active)">点击加载更多</div>
+          <div class="list-more" v-if="shizhiList.length" @click="listMore(active)">点击加载更多</div>
         </van-list>
-
       </div>
 
       <!-- 期货合约 -->
@@ -535,7 +538,7 @@
             cente="center"
             @click="toDetail"
           >
-            <van-col span="2" >
+            <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
               <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
               <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
@@ -580,15 +583,15 @@
               <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
               <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
             </van-col>
-            <van-col span="8" offset='1' class="icon-name">
+            <van-col span="8" offset="1" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
                 <span>{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+              <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{item.currentPriceUsd}}</div>
+              <div>{{ item.currentPriceUsd }}</div>
             </van-col>
             <van-col span="6">
               <fire :num="item.starLevel"></fire>
@@ -618,16 +621,20 @@
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span>{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+              <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right"> {{ numUnti(item.priceUsd) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{numUnti(item.highPriceAll)}}</div>
+              <div>{{ numUnti(item.highPriceAll) }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right" :class="item.quoteChange&&item.quoteChange.toString().indexOf('-') >= 0 ? 'red' : 'green'">
-              <div>{{item.quoteChange}}</div>
+            <van-col
+              span="6"
+              style="text-align: right"
+              :class="item.quoteChange && item.quoteChange.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+            >
+              <div>{{ item.quoteChange }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -654,16 +661,20 @@
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span>{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+              <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{numUnti(item.volume)}}</div>
+              <div>{{ numUnti(item.volume) }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right" :class="item.changePercent&&item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
-              <div>{{item.changePercent}}%</div>
+            <van-col
+              span="6"
+              style="text-align: right"
+              :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+            >
+              <div>{{ item.changePercent }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -690,16 +701,20 @@
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span>{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+              <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{numUnti(item.volume)}}</div>
+              <div>{{ numUnti(item.volume) }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right" :class="item.changePercent&&item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
-              <div>{{item.changePercent}}%</div>
+            <van-col
+              span="6"
+              style="text-align: right"
+              :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+            >
+              <div>{{ item.changePercent }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -725,16 +740,16 @@
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span>{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+              <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ numUnti(item.price) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{numUnti(item.volume)}}</div>
+              <div>{{ numUnti(item.volume) }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{item.turnoverPercent}}%</div>
+              <div>{{ item.turnoverPercent }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -758,21 +773,21 @@
               <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
               <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
             </van-col>
-            <van-col span="8" class="icon-name">
+            <van-col span="6" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span>{{ item.symbolName }}</span>
+                <span class="base185">{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">{{item.symbolFullName}}</div>
+              <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="8" style="text-align: right">
+            <van-col span="10" style="text-align: right">
               <div class="greenprogress">
-                <greenprogress :num="item.circulateAmount"></greenprogress>
-                <div>{{item.totalSupply}}</div>
+                <greenprogress :num="(item.circulateAmount / item.totalSupply).toFixed(2) - 0"></greenprogress>
+                <div>{{ item.circulateAmount }}/{{ item.totalSupply }}</div>
               </div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{numUnti(item.volume)}}</div>
+              <div>{{ numUnti(item.volume) }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -783,7 +798,7 @@
         <van-list>
           <van-row
             class="list-item"
-            v-for="(item, index) in erList"
+            v-for="(item, index) in xinbiList"
             :key="index"
             type="flex"
             justify="space-between"
@@ -798,17 +813,20 @@
             </van-col>
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
-                <van-image width="18px" height="18px" :src="item.src"></van-image>
-                <span>{{ item.name }}</span>
+                <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                <span class="base100">{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">Bitcoin</div>
+              <div class="bicon-name-bottom xinbi-bottom">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
-            <van-col span="6" style="text-align: right">
-              <div>5</div>
+            <van-col span="6" style="text-align: right"> {{ item.price===0?'--':numUnti(item.price) }} </van-col>
+            <van-col v-if="item.changePercent !==0" span="6" style="text-align: right" :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
+              <div>{{ item.changePercent }}%</div>
+            </van-col>
+             <van-col v-else span="6" style="text-align: right" class="gray">
+              <div>{{ item.changePercent }}%</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>5</div>
+              <div>{{ item.day===0?'今天':item.day+'天前' }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -819,7 +837,7 @@
         <van-list>
           <van-row
             class="list-item"
-            v-for="(item, index) in erList"
+            v-for="(item, index) in gainianList"
             :key="index"
             type="flex"
             justify="space-between"
@@ -827,26 +845,26 @@
             @click="toConceptDetail"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index===2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index+1 }}</van-tag>
             </van-col>
             <van-col span="10">
               <div>{{ item.name }}</div>
             </van-col>
             <van-col span="6" style="text-align: left">
               <div class="gainian">
-                <span>AE</span>
-                <span class="green">+28.26%</span>
+                <span>{{item.best}}</span>
+                <span class="green">{{item.best_percent}}%</span>
               </div>
               <div class="gainian">
-                <span>POE</span>
-                <span class="red">-4.26%</span>
+                <span>{{item.worst}}</span>
+                <span class="red">{{item.worst_percent}}%</span>
               </div>
             </van-col>
-            <van-col span="6" style="text-align: right">
-              <div>1111</div>
+            <van-col span="6" style="text-align: right" :class="item.change_percent && item.change_percent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
+              <div>{{item.change_percent}}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -861,7 +879,17 @@ import banner from '@/components/banner'
 import search from '@/components/search'
 import greenprogress from '@/components/greenprogress'
 import { rateList } from '@/api/common'
-import { symbolRankPage, symbolFuturesPage, symbolHotList, symbolHignList, symbolSortList, symbolChangeList, symbolVolumeList } from '@/api/market'
+import {
+  symbolRankPage,
+  symbolFuturesPage,
+  symbolHotList,
+  symbolHignList,
+  symbolSortList,
+  symbolChangeList,
+  symbolVolumeList,
+  symbolNewsList,
+  symbolConceptList
+} from '@/api/market'
 import fire from '@/components/fire'
 import { mapGetters } from 'vuex'
 export default {
@@ -923,8 +951,9 @@ export default {
       lishigaoweiList: [],
       zhangfuList: [],
       huanshouList: [],
-      chengjiaoeList: []
-
+      chengjiaoeList: [],
+      xinbiList: [],
+      gainianList: []
     }
   },
   mixins: [mixin],
@@ -939,6 +968,30 @@ export default {
     this.symbolRankPage()
   },
   methods: {
+    // 概念详情
+    symbolConceptList() {
+      this.loading = true
+      const data = {
+        current: 1,
+        size: 100
+      }
+      symbolConceptList(data).then(res => {
+        this.gainianList = res
+        this.loading = false
+      })
+    },
+    // 新币上市
+    symbolNewsList() {
+      this.loading = true
+      const data = {
+        current: 1,
+        size: 100
+      }
+      symbolNewsList(data).then(res => {
+        this.xinbiList = res
+        this.loading = false
+      })
+    },
     // 成交额榜
     symbolVolumeList() {
       this.loading = true
@@ -947,7 +1000,6 @@ export default {
         size: 100
       }
       symbolVolumeList(data).then(res => {
-        console.log(res, 'res``````````````')
         this.chengjiaoeList = res
         this.loading = false
       })
@@ -1008,7 +1060,12 @@ export default {
         this.symbolChangeList()
       } else if (value === 8) {
         this.symbolVolumeList()
+      } else if (value === 9) {
+        this.symbolNewsList()
+      } else if (value === 10) {
+        this.symbolConceptList()
       }
+
       console.log(value, 'clickTabclickTabclickTab')
     },
     // 热搜榜list
@@ -1092,6 +1149,9 @@ export default {
 .about-container {
   .red {
     color: #e86d7c;
+  }
+  .gray{
+    color:#939ea9;
   }
   .green {
     color: #00a287;
@@ -1216,13 +1276,33 @@ export default {
             word-break: keep-all; /* 不换行 */
             white-space: nowrap; /* 不换行 */
             text-overflow: ellipsis; /* ...代替隐藏的内容 */
+
+          }
+          .base125{
+            flex-basis: 125px;
+          }
+          .base100{
              flex-basis: 100px;
+          }
+          .base185{
+            flex-basis: 120px;
           }
         }
         .bicon-name-bottom {
           margin-top: 6px;
           color: #92959c;
           font-size: 24px;
+           overflow: hidden;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+        }
+        .xinbi-bottom{
+           max-width: 185px;
+        }
+        .huanshou{
+          max-width: 125px;
         }
       }
       .gainian {

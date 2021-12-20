@@ -7,8 +7,12 @@ export default {
         return (num / 100000000).toFixed(2) + '亿'
       } else if (Number(num) >= 10000) {
         return (num / 10000).toFixed(2) + '万'
+      } else if (num < 1) {
+        return (num - 0).toFixed(8)
+      } else if (num >= 1) {
+        return (num - 0).toFixed(4)
       } else {
-        return num
+        return (num - 0).toFixed(8)
       }
     }
 

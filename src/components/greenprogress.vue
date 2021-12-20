@@ -1,9 +1,9 @@
 <template>
   <div class="lin-box">
     <span class="max">
-      <span class="num" :style="{width:num+'%'}"></span>
+      <span class="num" :style="{width:num*100+'%'}"></span>
     </span>
-    <span class="num-text">{{num}}%</span>
+    <span class="num-text">{{num*100}}%</span>
   </div>
 </template>
 <script>
