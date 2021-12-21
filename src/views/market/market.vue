@@ -130,47 +130,32 @@
           <van-col span="2">#</van-col>
           <van-col span="6">币种</van-col>
           <van-col span="4">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortshizhi('symbolMarketCapUsd')">
               <div>市值 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortshizhiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortshizhiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortshizhi('priceUsd')">
               <div>最新价 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortshizhiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortshizhiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
             <div class="arrow-box">
               <div>24小时涨幅</div>
-              <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+              <div class="img-box" @click="sortshizhi('priceChange1d')">
+                <img v-if="sortshizhiFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortshizhiFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -182,32 +167,22 @@
           <van-col span="2">#</van-col>
           <van-col span="9" offset="1">币种</van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortqihuo('price')">
               <div>最新价 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortqihuoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortqihuoFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortqihuo('percentChange')">
               <div>24小时涨幅</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortqihuoFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortqihuoFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -219,17 +194,12 @@
           <van-col span="3">#</van-col>
           <van-col span="8" offset="1">币种</van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortresou('currentPriceUsd')">
               <div>全球指数 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                 <img v-if="sortresouFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortresouFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -246,47 +216,32 @@
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortlishi('priceUsd')">
               <div>全球指数 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortlishiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortlishiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortlishi('highPriceAll')">
               <div>历史高位 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortlishiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortlishiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortlishi('quoteChange')">
               <div>ath跌幅</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+               <img v-if="sortlishiFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortlishiFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -298,32 +253,22 @@
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortzhangfu('price')">
               <div>全球指数 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                 <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortzhangfuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortzhangfu('volume')">
               <div>24H额 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortzhangfuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortzhangfuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -338,32 +283,22 @@
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortzhangfu('price')">
               <div>全球指数 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                  <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortzhangfuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortzhangfu('volume')">
               <div>24H额 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                  <img v-if="sortzhangfuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortzhangfuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -397,17 +332,12 @@
             <div style="text-align: left">流通量/发行量</div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortchengjiao('volume')">
               <div>24H额 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortchengjiaoeFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortchengjiaoeFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -419,32 +349,22 @@
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortxinbi('price')">
               <div>全球指数 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortxinbiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortxinbiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortxinbi('changePercent')">
               <div>24H涨幅 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortxinbiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortxinbiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -462,17 +382,12 @@
             <div style="text-align: left">领涨/领跌</div>
           </van-col>
           <van-col span="6">
-            <div class="arrow-box">
+            <div class="arrow-box" @click="sortgainian('change_percent')">
               <div>24H涨幅 (¥)</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortgainianFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortgainianFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -495,7 +410,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -510,9 +425,9 @@
               </div>
               <div class="bicon-name-bottom">{{ item.symbolName }}</div>
             </van-col>
-            <van-col span="4" style="text-align: right"> {{ numUnti(item.symbolMarketCapUsd) }} </van-col>
+            <van-col span="4" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ numUnti(item.priceUsd) }}</div>
+              <div>{{ enNumUnti(item.priceUsd) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -552,7 +467,7 @@
               <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ numUnti(item.price) }}</div>
+              <div>{{ enNumUnti(item.price) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -586,9 +501,9 @@
             <van-col span="8" offset="1" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span>{{ item.symbolName }}</span>
+                <span class="base218">{{ item.symbolName }}</span>
               </div>
-              <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
+              <div class="bicon-name-bottom resou">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
               <div>{{ item.currentPriceUsd }}</div>
@@ -625,9 +540,9 @@
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ numUnti(item.priceUsd) }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.priceUsd) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ numUnti(item.highPriceAll) }}</div>
+              <div>{{ enNumUnti(item.highPriceAll) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -667,7 +582,7 @@
             </van-col>
             <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ numUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -707,7 +622,7 @@
             </van-col>
             <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ numUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -744,9 +659,9 @@
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ numUnti(item.price) }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.price) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ numUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume) }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
               <div>{{ item.turnoverPercent }}%</div>
@@ -787,7 +702,7 @@
               </div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ numUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume) }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -818,15 +733,20 @@
               </div>
               <div class="bicon-name-bottom xinbi-bottom">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.price===0?'--':numUnti(item.price) }} </van-col>
-            <van-col v-if="item.changePercent !==0" span="6" style="text-align: right" :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
+            <van-col span="6" style="text-align: right"> {{ item.price === 0 ? '--' : enNumUnti(item.price) }} </van-col>
+            <van-col
+              v-if="item.changePercent !== 0"
+              span="6"
+              style="text-align: right"
+              :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+            >
               <div>{{ item.changePercent }}%</div>
             </van-col>
-             <van-col v-else span="6" style="text-align: right" class="gray">
+            <van-col v-else span="6" style="text-align: right" class="gray">
               <div>{{ item.changePercent }}%</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ item.day===0?'今天':item.day+'天前' }}</div>
+              <div>{{ item.day === 0 ? '今天' : item.day + '天前' }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -847,24 +767,28 @@
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
               <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index===2">3</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index+1 }}</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index + 1 }}</van-tag>
             </van-col>
             <van-col span="10">
               <div>{{ item.name }}</div>
             </van-col>
             <van-col span="6" style="text-align: left">
               <div class="gainian">
-                <span>{{item.best}}</span>
-                <span class="green">{{item.best_percent}}%</span>
+                <span>{{ item.best }}</span>
+                <span class="green">{{ item.best_percent }}%</span>
               </div>
               <div class="gainian">
-                <span>{{item.worst}}</span>
-                <span class="red">{{item.worst_percent}}%</span>
+                <span>{{ item.worst }}</span>
+                <span class="red">{{ item.worst_percent }}%</span>
               </div>
             </van-col>
-            <van-col span="6" style="text-align: right" :class="item.change_percent && item.change_percent.toString().indexOf('-') >= 0 ? 'red' : 'green'">
-              <div>{{item.change_percent}}%</div>
+            <van-col
+              span="6"
+              style="text-align: right"
+              :class="item.change_percent && item.change_percent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+            >
+              <div>{{ item.change_percent }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -953,7 +877,22 @@ export default {
       huanshouList: [],
       chengjiaoeList: [],
       xinbiList: [],
-      gainianList: []
+      gainianList: [],
+      sortshizhiFlag1: 0,
+      sortshizhiFlag2: 0,
+      sortshizhiFlag3: 0,
+      sortqihuoFlag1: 0,
+      sortqihuoFlag2: 0,
+      sortresouFlag1: 0,
+      sortlishiFlag1: 0,
+      sortlishiFlag2: 0,
+      sortlishiFlag3: 0,
+      sortzhangfuFlag1: 0,
+      sortzhangfuFlag2: 0,
+      sortchengjiaoeFlag1: 0,
+      sortxinbiFlag2: 0,
+      sortxinbiFlag1: 0,
+      sortgainianFlag1: 0
     }
   },
   mixins: [mixin],
@@ -968,6 +907,273 @@ export default {
     this.symbolRankPage()
   },
   methods: {
+    // 概念排序
+    sortgainian() {
+      this.sortgainianFlag1++
+      if (this.sortgainianFlag1 === 1) {
+        this.gainianList.sort((a, b) => {
+          return a['change_percent'] - b['change_percent']
+        })
+      } else if (this.sortgainianFlag1 === 2) {
+        this.gainianList.sort((a, b) => {
+          return b['change_percent'] - a['change_percent']
+        })
+      } else {
+        this.gainianList.sort((a, b) => {
+          return a - b
+        })
+        this.sortgainianFlag1 = 0
+      }
+    },
+    // 新币排序
+    sortxinbi(key) {
+      if (key === 'price') {
+        this.sortxinbiFlag1++
+        if (this.sortxinbiFlag1 === 1) {
+          this.xinbiList.sort((a, b) => {
+            return a['price'] - b['price']
+          })
+        } else if (this.sortxinbiFlag1 === 2) {
+          this.xinbiList.sort((a, b) => {
+            return b['price'] - a['price']
+          })
+        } else {
+          this.xinbiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortxinbiFlag1 = 0
+        }
+      } else {
+        this.sortxinbiFlag2++
+        if (this.sortxinbiFlag2 === 1) {
+          this.xinbiList.sort((a, b) => {
+            return a['changePercent'] - b['changePercent']
+          })
+        } else if (this.sortxinbiFlag2 === 2) {
+          this.xinbiList.sort((a, b) => {
+            return b['changePercent'] - a['changePercent']
+          })
+        } else {
+          this.xinbiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortxinbiFlag2 = 0
+        }
+      }
+    },
+    // 成交额排序
+    sortchengjiao(key) {
+      this.sortchengjiaoeFlag1++
+      if (this.sortchengjiaoeFlag1 === 1) {
+        this.chengjiaoeList.sort((a, b) => {
+          return a['volume'] - b['volume']
+        })
+      } else if (this.sortchengjiaoeFlag1 === 2) {
+        this.chengjiaoeList.sort((a, b) => {
+          return b['volume'] - a['volume']
+        })
+      } else {
+        this.chengjiaoeList.sort((a, b) => {
+          return a['symbolRank'] - b['symbolRank']
+        })
+        this.sortchengjiaoeFlag1 = 0
+      }
+    },
+    // 涨幅排序
+    sortzhangfu(key) {
+      if (key === 'price') {
+        this.sortzhangfuFlag1++
+        if (this.sortzhangfuFlag1 === 1) {
+          this.zhangfuList.sort((a, b) => {
+            return a['price'] - b['price']
+          })
+        } else if (this.sortzhangfuFlag1 === 2) {
+          this.zhangfuList.sort((a, b) => {
+            return b['price'] - a['price']
+          })
+        } else {
+          this.zhangfuList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortzhangfuFlag1 = 0
+        }
+      } else {
+        this.sortzhangfuFlag2++
+        if (this.sortzhangfuFlag2 === 1) {
+          this.zhangfuList.sort((a, b) => {
+            return a['volume'] - b['volume']
+          })
+        } else if (this.sortzhangfuFlag2 === 2) {
+          this.zhangfuList.sort((a, b) => {
+            return b['volume'] - a['volume']
+          })
+        } else {
+          this.zhangfuList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortzhangfuFlag2 = 0
+        }
+      }
+    },
+    // 历史高位排序
+    sortlishi(key) {
+      if (key === 'priceUsd') {
+        this.sortlishiFlag1++
+        if (this.sortlishiFlag1 === 1) {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['priceUsd'] - b['priceUsd']
+          })
+        } else if (this.sortlishiFlag1 === 2) {
+          this.lishigaoweiList.sort((a, b) => {
+            return b['priceUsd'] - a['priceUsd']
+          })
+        } else {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortlishiFlag1 = 0
+        }
+      } else if (key === 'highPriceAll') {
+        this.sortlishiFlag2++
+        if (this.sortlishiFlag2 === 1) {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['highPriceAll'] - b['highPriceAll']
+          })
+        } else if (this.sortlishiFlag2 === 2) {
+          this.lishigaoweiList.sort((a, b) => {
+            return b['highPriceAll'] - a['highPriceAll']
+          })
+        } else {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortlishiFlag2 = 0
+        }
+      } else {
+        this.sortlishiFlag3++
+        if (this.sortlishiFlag3 === 1) {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['quoteChange'] - b['quoteChange']
+          })
+        } else if (this.sortlishiFlag3 === 2) {
+          this.lishigaoweiList.sort((a, b) => {
+            return b['quoteChange'] - a['quoteChange']
+          })
+        } else {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortlishiFlag3 = 0
+        }
+      }
+    },
+    // 热搜榜排名
+    sortresou(key) {
+      this.sortresouFlag1++
+      if (this.sortresouFlag1 === 1) {
+        this.resouList.sort((a, b) => {
+          return a['currentPriceUsd'] - b['currentPriceUsd']
+        })
+      } else if (this.sortresouFlag1 === 2) {
+        this.resouList.sort((a, b) => {
+          return b['currentPriceUsd'] - a['currentPriceUsd']
+        })
+      } else {
+        this.resouList.sort((a, b) => {
+          return a['symbolRank'] - b['symbolRank']
+        })
+        this.sortresouFlag1 = 0
+      }
+    },
+    // 市值排名
+    sortshizhi(key) {
+      // sortshizhiFlag1 symbolMarketCapUsd 市值排名 sortshizhiFlag2 priceUsd 最新价排名 sortshizhiFlag3 priceChange1d24小时涨幅排名
+      if (key === 'symbolMarketCapUsd') {
+        this.sortshizhiFlag1++
+        if (this.sortshizhiFlag1 === 1) {
+          this.shizhiList.sort((a, b) => {
+            return a['symbolMarketCapUsd'] - b['symbolMarketCapUsd']
+          })
+        } else if (this.sortshizhiFlag1 === 2) {
+          this.shizhiList.sort((a, b) => {
+            return b['symbolMarketCapUsd'] - a['symbolMarketCapUsd']
+          })
+        } else {
+          this.shizhiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortshizhiFlag1 = 0
+        }
+      } else if (key === 'priceUsd') {
+        this.sortshizhiFlag2++
+        if (this.sortshizhiFlag2 === 1) {
+          this.shizhiList.sort((a, b) => {
+            return a['priceUsd'] - b['priceUsd']
+          })
+        } else if (this.sortshizhiFlag2 === 2) {
+          this.shizhiList.sort((a, b) => {
+            return b['priceUsd'] - a['priceUsd']
+          })
+        } else {
+          this.shizhiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortshizhiFlag2 = 0
+        }
+      } else {
+        this.sortshizhiFlag3++
+        if (this.sortshizhiFlag3 === 1) {
+          this.shizhiList.sort((a, b) => {
+            return a['priceChange1d'] - b['priceChange1d']
+          })
+        } else if (this.sortshizhiFlag3 === 2) {
+          this.shizhiList.sort((a, b) => {
+            return b['priceChange1d'] - a['priceChange1d']
+          })
+        } else {
+          this.shizhiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortshizhiFlag3 = 0
+        }
+      }
+    },
+    // 期货合约排名
+    sortqihuo(key) {
+      if (key === 'percentChange') {
+        this.sortqihuoFlag2++
+        if (this.sortqihuoFlag2 === 1) {
+          this.qihuoList.sort((a, b) => {
+            return a['percentChange'] - b['percentChange']
+          })
+        } else if (this.sortqihuoFlag2 === 2) {
+          this.qihuoList.sort((a, b) => {
+            return b['percentChange'] - a['percentChange']
+          })
+        } else {
+          this.qihuoList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortqihuoFlag2 = 0
+        }
+      } else {
+        this.sortqihuoFlag1++
+        if (this.sortqihuoFlag1 === 1) {
+          this.qihuoList.sort((a, b) => {
+            return a['price'] - b['price']
+          })
+        } else if (this.sortqihuoFlag1 === 2) {
+          this.qihuoList.sort((a, b) => {
+            return b['price'] - a['price']
+          })
+        } else {
+          this.qihuoList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortqihuoFlag1 = 0
+        }
+      }
+    },
     // 概念详情
     symbolConceptList() {
       this.loading = true
@@ -1065,8 +1271,6 @@ export default {
       } else if (value === 10) {
         this.symbolConceptList()
       }
-
-      console.log(value, 'clickTabclickTabclickTab')
     },
     // 热搜榜list
     symbolHotList() {
@@ -1131,9 +1335,12 @@ export default {
       })
     },
     // 详情
-    toDetail() {
+    toDetail(id) {
       this.$router.push({
-        name: 'marketDetail'
+        name: 'marketDetail',
+        params: {
+          id
+        }
       })
     },
     // 概念详情
@@ -1150,8 +1357,8 @@ export default {
   .red {
     color: #e86d7c;
   }
-  .gray{
-    color:#939ea9;
+  .gray {
+    color: #939ea9;
   }
   .green {
     color: #00a287;
@@ -1214,10 +1421,13 @@ export default {
       flex-direction: row;
       justify-content: flex-end;
       .img-box {
-        margin-left: 15px;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        img {
+          width: 24px;
+          height: 28px;
+        }
       }
     }
   }
@@ -1267,42 +1477,46 @@ export default {
         .icon-name-top {
           display: flex;
           flex-direction: row;
-          justify-content: flex-start;
+          justify-content: space-between;
           align-items: center;
-
           span {
+            flex-grow: 1;
             margin-left: 11px;
             overflow: hidden; /* 溢出隐藏 */
             word-break: keep-all; /* 不换行 */
             white-space: nowrap; /* 不换行 */
             text-overflow: ellipsis; /* ...代替隐藏的内容 */
-
           }
-          .base125{
-            flex-basis: 125px;
+          .base125 {
+            max-width: 125px;
           }
-          .base100{
-             flex-basis: 100px;
+          .base100 {
+            max-width: 100px;
           }
-          .base185{
-            flex-basis: 120px;
+          .base185 {
+            max-width: 120px;
+          }
+          .base218{
+            max-width:250px;
           }
         }
         .bicon-name-bottom {
           margin-top: 6px;
           color: #92959c;
           font-size: 24px;
-           overflow: hidden;
+          overflow: hidden;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-
         }
-        .xinbi-bottom{
-           max-width: 185px;
+        .xinbi-bottom {
+          max-width: 185px;
         }
-        .huanshou{
+        .huanshou {
           max-width: 125px;
+        }
+        .resou{
+          max-width:250px;
         }
       }
       .gainian {

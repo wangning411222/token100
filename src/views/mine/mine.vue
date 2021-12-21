@@ -113,7 +113,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userName', 'isLogin', 'languageId'])
+    ...mapGetters(['userName', 'isLogin', 'languageId', 'globalRate'])
   },
   mounted() {
     this.initData()
@@ -133,11 +133,14 @@ export default {
     },
     // 中英选中
     onSelect(item) {
-      console.log(item, 'item``````````````')
       this.languageShow = false
       this.language = item.name
       this.$store.dispatch('setLanguageId', item.value)
-      console.log(this.languageId, 'languageIdlanguageIdlanguageId')
+      if (this.languageId === 'zh-CN') {
+        this.$store.dispatch('setRate', this.globalRate)
+      } else {
+        this.$store.dispatch('setRate', 1)
+      }
     },
     // 切换中英文
     handlerLanguage() {

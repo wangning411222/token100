@@ -1,7 +1,8 @@
 const state = {
   userName: '',
   isLogin: false,
-  languageId: 'zh-CN'
+  languageId: 'zh-CN',
+  globalRate: 0
 }
 const mutations = {
   SET_USER_NAME(state, name) {
@@ -12,6 +13,9 @@ const mutations = {
   },
   SET_USER_LANGUAGE(state, languageId) {
     state.languageId = languageId
+  },
+  SET_USER_RATE(state, globalRate) {
+    state.globalRate = globalRate
   }
 }
 const actions = {
@@ -24,6 +28,9 @@ const actions = {
   },
   setLanguageId({ commit }, languageId) {
     commit('SET_USER_LANGUAGE', languageId)
+  },
+  setRate({ commit }, globalRate) {
+    commit('SET_USER_RATE', globalRate)
   }
 }
 export default {

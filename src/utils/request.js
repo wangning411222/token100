@@ -24,7 +24,11 @@ service.interceptors.request.use(
     if (token) {
       config.headers['userToken'] = token
     }
-    config.data['languageId'] = store.getters.languageId
+    config.headers['languageId'] = store.getters.languageId
+    // config.data['languageId'] = store.getters.languageId
+    if (config.ContentType) {
+      config.headers['Content-Type'] = config.ContentType
+    }
     return config
   },
   error => {

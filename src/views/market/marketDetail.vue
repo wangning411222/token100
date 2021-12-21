@@ -8,17 +8,17 @@
       </van-nav-bar>
     </van-sticky>
     <!-- 头部信息 -->
-    <div class="detail-head">
+    <div class="detail-head" v-if="symbolInfoObj">
       <div class="head-top">
         <div class="head-top-left">
-          <van-image width="24px" height="24px" :src="require('../../assets//image/比特币@2x.png')"></van-image>
-          <span>BTC</span>
-          <span>比特币</span>
+          <van-image width="24px" height="24px" :src="symbolInfoObj.symbolLogoUrl"></van-image>
+          <span>{{symbolInfoObj.symbolCode}}</span>
+          <span>{{symbolInfoObj.symbolName}}</span>
         </div>
         <div class="head-top-right">
           <div class="light">
             <van-image width="11px" height="10px" :src="require('../../assets/image/灯泡@2x.png')"></van-image>
-            <div>NO.1</div>
+            <div>NO.{{symbolInfoObj.symbolRank}}</div>
           </div>
         </div>
       </div>
@@ -26,15 +26,15 @@
         <div class="head-bottom-left">
           <div class="line-1">
             <span>¥</span>
-            <span>34.77万</span>
+            <span>{{cnNumUnti(symbolInfoObj.priceUsd)}}</span>
           </div>
           <div class="line-2">
-            <span>≈$ 54392.83</span>
-            <span>（-5.92%）</span>
+            <span>≈$ {{enNumUnti(symbolInfoObj.priceUsd)}}</span>
+            <span :class="symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'">{{symbolInfoObj.priceChange1d}}%</span>
           </div>
           <div class="line-3">
             <span>市值</span>
-            <span>¥6.57万亿</span>
+            <span>¥{{cnNumUnti(symbolInfoObj.marketCapUsd)}}</span>
           </div>
         </div>
         <div class="head-bottom-right">
@@ -46,11 +46,11 @@
             <span>24H换</span>
           </div>
           <div class="column-right">
-            <span>¥6.95万 </span>
-            <span>¥6.95万</span>
-            <span>¥6.95万 </span>
-            <span>¥1451.05亿</span>
-            <span> 2.21%</span>
+            <span>¥{{cnNumUnti(symbolInfoObj.highPrice1d)}} </span>
+            <span>¥{{cnNumUnti(symbolInfoObj.lowPrice1d)}}</span>
+            <span>¥{{cnNumUnti(symbolInfoObj.volumeUsd)}} </span>
+            <span>¥{{cnNumUnti(symbolInfoObj.volumeDay)}}</span>
+            <span>{{enNumUnti(symbolInfoObj.volumeRate)}}%</span>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
           <li
             v-for="(item, index) in timeArr"
             :key="index"
-            :class="chartActive === item.value ? 'color-active' : 'color-inactive'"
+            :class="classify === item.value ? 'color-active' : 'color-inactive'"
             @click="selectTime(item.value)"
           >
             {{ item.label }}
@@ -73,7 +73,11 @@
       <div class="chart-box">
         <div class="tip" v-show="tipShow">
           <div>{{ chartTime }} 00:00</div>
-          <div>成交额:${{ chartNum }}亿</div>
+          <div>
+            <span>美元价格:${{ priceUsd }}&nbsp;&nbsp;</span>
+            <span>人民币价格:¥{{ priceCN }}&nbsp;&nbsp;</span>
+            <span>BTC价格:${{ priceBtc }}&nbsp;&nbsp;</span>
+          </div>
         </div>
         <div id="mychart"></div>
       </div>
@@ -81,7 +85,7 @@
     <!-- tabs -->
     <div class="head">
       <div class="head-left">
-        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" :ellipsis="false">
+        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" :ellipsis="false"  @click="clickTab">
           <van-tab title="行情 "> </van-tab>
           <van-tab title="期货合约"> </van-tab>
           <van-tab title="简况"> </van-tab>
@@ -114,17 +118,12 @@
         <van-col span="2">#</van-col>
         <van-col span="4">交易对</van-col>
         <van-col span="6">
-          <div class="arrow-box">
+          <div class="arrow-box" @click="sorthangqing('symbolMarketCapUsd')">
             <div>最新价 (¥)</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
@@ -132,14 +131,9 @@
           <div class="arrow-box">
             <div>24H额 (¥)</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
@@ -147,14 +141,9 @@
           <div class="arrow-box">
             <div>成交额占比</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+              <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
@@ -203,7 +192,7 @@
       <van-list v-if="active === 0">
         <van-row
           class="list-item"
-          v-for="(item, index) in erList"
+          v-for="(item, index) in hangqingList"
           :key="index"
           type="flex"
           justify="space-between"
@@ -211,14 +200,14 @@
           @click="toDetail"
         >
           <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+            <van-tag color="#E4BC31">{{ item.accounting }}</van-tag>
           </van-col>
           <van-col span="4" class="icon-name">
             <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
+              <van-image width="18px" height="18px" :src="item.logo"></van-image>
+              <span>{{ item.nameZh }}</span>
             </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
+            <div class="bicon-name-bottom">{{item.name}}</div>
           </van-col>
           <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
           <van-col span="6" style="text-align: right">
@@ -648,7 +637,9 @@ https://btc.com/en"
   </div>
 </template>
 <script>
+import mixin from '@/filters/mixin'
 import { rateList } from '@/api/common'
+import { symbolInfo, symbolKline, marketTicker } from '@/api/market'
 import * as echarts from 'echarts'
 export default {
   data() {
@@ -682,9 +673,10 @@ export default {
       ],
       tipShow: false,
       chartTime: null,
-      chartNum: null,
+      priceCN: null,
+      priceUsd: null,
+      priceBtc: null,
       myChart: null,
-      chartActive: 0,
       rate: 'CNY', // 选择的汇率
       rateArr: [], // 汇率数组
       erList: [
@@ -788,15 +780,134 @@ export default {
           chipImg: require('../../assets/image/芯片@2x.png'),
           value: 2.5
         }
-      ]
+      ],
+      hangqingList: [],
+      symbolId: null,
+      symbolInfoObj: null,
+      classify: 0,
+      result: [], // echart数据
+      paramsType: 0,
+      sorthangqingFlag1: 0,
+      sorthangqingFlag2: 0,
+      sorthangqingFlag3: 0
     }
   },
+  mixins: [mixin],
   mounted() {
+    this.symbolId = this.$route.params.id
+    // 获取币种详情
+    this.symbolInfo()
     // 获取汇率
     this.rateList()
+    this.myChart = echarts.init(document.getElementById('mychart'))
     this.initChart()
+    // 获取K线
+    this.symbolKline()
+    // 获取行情列表
+    this.marketTicker()
   },
   methods: {
+    // 行情排序
+    sorthangqing(key) {
+      if (key === 'priceUsd') {
+        this.sortlishiFlag1++
+        if (this.sortlishiFlag1 === 1) {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['priceUsd'] - b['priceUsd']
+          })
+        } else if (this.sortlishiFlag1 === 2) {
+          this.lishigaoweiList.sort((a, b) => {
+            return b['priceUsd'] - a['priceUsd']
+          })
+        } else {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortlishiFlag1 = 0
+        }
+      } else if (key === 'highPriceAll') {
+        this.sortlishiFlag2++
+        if (this.sortlishiFlag2 === 1) {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['highPriceAll'] - b['highPriceAll']
+          })
+        } else if (this.sortlishiFlag2 === 2) {
+          this.lishigaoweiList.sort((a, b) => {
+            return b['highPriceAll'] - a['highPriceAll']
+          })
+        } else {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortlishiFlag2 = 0
+        }
+      } else {
+        this.sortlishiFlag3++
+        if (this.sortlishiFlag3 === 1) {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['quoteChange'] - b['quoteChange']
+          })
+        } else if (this.sortlishiFlag3 === 2) {
+          this.lishigaoweiList.sort((a, b) => {
+            return b['quoteChange'] - a['quoteChange']
+          })
+        } else {
+          this.lishigaoweiList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortlishiFlag3 = 0
+        }
+      }
+    },
+    // tabs点击事件
+    clickTab(value) {
+      // if (value === 0) {
+      //   this.paramsType = 0
+      //   this.marketTicker()
+      // } else if (value === 1) {
+      //   this.paramsType = 1
+      //   this.marketTicker()
+      // } else if (value === 2) {
+
+      // } else if (value === 3) {
+
+      // } else {
+
+      // }
+    },
+    // 获取行情,合约列表
+    marketTicker() {
+      const data = {
+        current: 1,
+        size: 100,
+        symbolId: this.symbolId,
+        type: this.paramsType
+      }
+      marketTicker(data).then(res => {
+        this.hangqingList = res.markets
+        console.log(res, 'res``````````````')
+      })
+    },
+    // K线请求接口
+    symbolKline() {
+      const data = {
+        symbolId: this.symbolId,
+        classify: this.classify
+      }
+      symbolKline(data).then(res => {
+        this.result = res
+        this.initChart()
+      })
+    },
+    // 币种详情
+    symbolInfo() {
+      const data = {
+        symbolId: this.symbolInfo
+      }
+      symbolInfo(data).then(res => {
+        this.symbolInfoObj = res
+      })
+    },
     // 选择汇率
     selectRate(value) {
       this.rate = value
@@ -820,7 +931,8 @@ export default {
     toDetail() {},
     // 点击chart时间选择
     selectTime(value) {
-      this.chartActive = value
+      this.classify = value
+      this.symbolKline()
     },
     // 返回
     onClickLeft() {
@@ -833,26 +945,18 @@ export default {
       })
     },
     initChart() {
+      this.tipShow = false
       const that = this
       // 基于准备好的dom，初始化echarts实例
-      this.myChart = echarts.init(document.getElementById('mychart'))
 
       var option
-      this.result = [
-        [1638979200000, 85140300611.68],
-        [1639065600000, 87263983461.96],
-        [1639152000000, 66799780134.02],
-        [1639238400000, 52974988423.97],
-        [1639324800000, 86217667968.22],
-        [1639411200000, 79687401227.36],
-        [1639497600000, 99287346121.66]
-      ]
       const xArr = this.result.map(item => {
-        return that.$moment(item[0]).format('MM-DD,YYYY')
+        return that.$moment(item.timestamp).format('MM-DD,YYYY')
       })
       const yArr = this.result.map(item => {
-        return item[1]
+        return item.marketcapUsd
       })
+      const interval = Math.ceil(this.result.length / 5)
       option = {
         // 提示框
         tooltip: {
@@ -867,8 +971,8 @@ export default {
         },
 
         grid: {
-          left: '0', // 与容器左侧的距离
-          right: '0', // 与容器右侧的距离
+          left: '5%', // 与容器左侧的距离
+          right: '5%', // 与容器右侧的距离
           top: '10%', // 与容器顶部的距离
           bottom: '0', // 与容器底部的距离
           borderWidth: 10,
@@ -895,7 +999,7 @@ export default {
             formatter: function(params) {
               return params.replace(',', '\n')
             },
-            interval: 1
+            interval: interval
           }
         },
         yAxis: {
@@ -980,8 +1084,10 @@ export default {
       const clickIndex = pointInGrid[0]
       // 获取当前点击位置要的数据
       const time = this.result[clickIndex][0]
-      this.chartTime = this.$moment(time).format('YYYY-MM-DD')
-      this.chartNum = (this.result[clickIndex][1] / 100000000).toFixed(2)
+      this.chartTime = this.$moment(time).format('YYYY-MM-DD HH:mm')
+      this.priceUsd = this.result[clickIndex].priceUsd
+      this.priceCN = this.cnNumUnti(this.result[clickIndex].priceUsd)
+      this.priceBtc = this.result[clickIndex].priceBtc
       this.tipShow = true
     }
   }
@@ -989,6 +1095,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-head {
+    .red {
+    color: #e86d7c;
+  }
+  .gray {
+    color: #939ea9;
+  }
+  .green {
+    color: #00a287;
+  }
   padding: 37px 27px 31px 17px;
   .head-top {
     display: flex;
@@ -1058,9 +1173,6 @@ export default {
         flex-wrap: nowrap;
         & > span:first-child {
           color: #333;
-        }
-        & > span:last-child {
-          color: #d64d40;
         }
       }
       .line-3 {
@@ -1151,9 +1263,17 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       color: #939ea9;
       font-size: 0.01rem;
+      transform: scale(0.9);
+      text-align:left;
+      &>div:first-child{
+        margin-bottom:5px;
+      }
+      span{
+        margin-right:14px;
+      }
     }
     #mychart {
       width: 100%;
@@ -1215,13 +1335,16 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    .img-box {
-      margin-left: 15px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+     .img-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        img {
+          width: 24px;
+          height: 28px;
+        }
+      }
     }
-  }
 }
 .list-box {
   padding: 0 28px;

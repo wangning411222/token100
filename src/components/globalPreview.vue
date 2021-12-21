@@ -91,13 +91,13 @@ export default {
           riseNum,
           tokenTotal
         } = res
-        this.codeTotal = this.numUnti(codeTotal)
-        this.dayVolume = this.numUnti(dayVolume)
-        this.fallNum = this.numUnti(fallNum)
-        this.marketTotal = this.numUnti(marketTotal)
-        this.marketVolume = this.numUnti(marketVolume)
-        this.riseNum = this.numUnti(riseNum)
-        this.tokenTotal = this.numUnti(tokenTotal)
+        this.codeTotal = this.enNumUnti(codeTotal)
+        this.dayVolume = this.enNumUnti(dayVolume)
+        this.fallNum = this.enNumUnti(fallNum)
+        this.marketTotal = this.enNumUnti(marketTotal)
+        this.marketVolume = this.enNumUnti(marketVolume)
+        this.riseNum = this.enNumUnti(riseNum)
+        this.tokenTotal = this.enNumUnti(tokenTotal)
       })
     }
   },
