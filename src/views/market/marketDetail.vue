@@ -12,13 +12,13 @@
       <div class="head-top">
         <div class="head-top-left">
           <van-image width="24px" height="24px" :src="symbolInfoObj.symbolLogoUrl"></van-image>
-          <span>{{symbolInfoObj.symbolCode}}</span>
-          <span>{{symbolInfoObj.symbolName}}</span>
+          <span>{{ symbolInfoObj.symbolCode }}</span>
+          <span>{{ symbolInfoObj.symbolName }}</span>
         </div>
         <div class="head-top-right">
           <div class="light">
             <van-image width="11px" height="10px" :src="require('../../assets/image/灯泡@2x.png')"></van-image>
-            <div>NO.{{symbolInfoObj.symbolRank}}</div>
+            <div>NO.{{ symbolInfoObj.symbolRank }}</div>
           </div>
         </div>
       </div>
@@ -26,15 +26,18 @@
         <div class="head-bottom-left">
           <div class="line-1">
             <span>¥</span>
-            <span>{{cnNumUnti(symbolInfoObj.priceUsd)}}</span>
+            <span>{{ cnNumUnti(symbolInfoObj.priceUsd) }}</span>
           </div>
           <div class="line-2">
-            <span>≈$ {{enNumUnti(symbolInfoObj.priceUsd)}}</span>
-            <span :class="symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'">{{symbolInfoObj.priceChange1d}}%</span>
+            <span>≈$ {{ enNumUnti(symbolInfoObj.priceUsd) }}</span>
+            <span
+:class="symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+              >{{ symbolInfoObj.priceChange1d }}%</span
+            >
           </div>
           <div class="line-3">
             <span>市值</span>
-            <span>¥{{cnNumUnti(symbolInfoObj.marketCapUsd)}}</span>
+            <span>¥{{ cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
           </div>
         </div>
         <div class="head-bottom-right">
@@ -46,11 +49,11 @@
             <span>24H换</span>
           </div>
           <div class="column-right">
-            <span>¥{{cnNumUnti(symbolInfoObj.highPrice1d)}} </span>
-            <span>¥{{cnNumUnti(symbolInfoObj.lowPrice1d)}}</span>
-            <span>¥{{cnNumUnti(symbolInfoObj.volumeUsd)}} </span>
-            <span>¥{{cnNumUnti(symbolInfoObj.volumeDay)}}</span>
-            <span>{{enNumUnti(symbolInfoObj.volumeRate)}}%</span>
+            <span>¥{{ cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
+            <span>¥{{ cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
+            <span>¥{{ cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
+            <span>¥{{ cnNumUnti(symbolInfoObj.volumeDay) }}</span>
+            <span>{{ enNumUnti(symbolInfoObj.volumeRate) }}%</span>
           </div>
         </div>
       </div>
@@ -85,7 +88,7 @@
     <!-- tabs -->
     <div class="head">
       <div class="head-left">
-        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" :ellipsis="false"  @click="clickTab">
+        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" :ellipsis="false" @click="clickTab">
           <van-tab title="行情 "> </van-tab>
           <van-tab title="期货合约"> </van-tab>
           <van-tab title="简况"> </van-tab>
@@ -103,8 +106,8 @@
                   v-for="(item, index) in rateArr"
                   :key="index"
                   span="8"
-                  @click="selectRate( item.rateC)"
-                    >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
+                  @click="selectRate(item.rateC)"
+                  >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                 >
               </van-row>
             </div>
@@ -118,32 +121,32 @@
         <van-col span="2">#</van-col>
         <van-col span="4">交易对</van-col>
         <van-col span="6">
-          <div class="arrow-box" @click="sorthangqing('symbolMarketCapUsd')">
+          <div class="arrow-box" @click="sorthangqing('priceUsd')">
             <div>最新价 (¥)</div>
             <div class="img-box">
-               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
-                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
+              <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
         <van-col span="6">
-          <div class="arrow-box">
+          <div class="arrow-box" @click="sorthangqing('volume')">
             <div>24H额 (¥)</div>
             <div class="img-box">
-               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
-                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
+              <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
         <van-col span="6">
-          <div class="arrow-box">
+          <div class="arrow-box" @click="sorthangqing('accounting')">
             <div>成交额占比</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
-                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
+              <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
@@ -153,34 +156,24 @@
     <div class="table-head" v-if="active === 1">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="6">币种</van-col>
+        <van-col span="6">交易对</van-col>
         <van-col span="8">
-          <div class="arrow-box">
+          <div class="arrow-box" @click="sorthangqing('priceUsd')">
             <div>最新价 (¥)</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+              <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
         <van-col span="8">
-          <div class="arrow-box">
-            <div>24小时涨幅</div>
+          <div class="arrow-box" @click="sorthangqing('volume')">
+            <div>24H额 (¥)</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+              <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
@@ -200,21 +193,24 @@
           @click="toDetail"
         >
           <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.accounting }}</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index + 1 }}</van-tag>
           </van-col>
           <van-col span="4" class="icon-name">
             <div class="icon-name-top">
               <van-image width="18px" height="18px" :src="item.logo"></van-image>
-              <span>{{ item.nameZh }}</span>
+              <span class="base125">{{ item.name }}</span>
             </div>
-            <div class="bicon-name-bottom">{{item.name}}</div>
+            <div class="bicon-name-bottom hangqing">{{ item.pair1 }}/{{ item.pair2 }}</div>
           </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
+          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.priceUsd) }}</van-col>
           <van-col span="6" style="text-align: right">
-            <div>5</div>
+            <div>{{ enNumUnti(item.volume) }}</div>
           </van-col>
           <van-col span="6" style="text-align: right">
-            <div>5</div>
+            <div>{{ item.accounting }}%</div>
           </van-col>
         </van-row>
       </van-list>
@@ -222,7 +218,7 @@
       <van-list v-if="active === 1">
         <van-row
           class="list-item"
-          v-for="(item, index) in erList"
+          v-for="(item, index) in hangqingList"
           :key="index"
           type="flex"
           justify="space-between"
@@ -230,325 +226,232 @@
           @click="toDetail"
         >
           <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index + 1 }}</van-tag>
           </van-col>
           <van-col span="6" class="icon-name">
             <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
+              <van-image width="18px" height="18px" :src="item.logo"></van-image>
               <span>{{ item.name }}</span>
             </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
+            <div class="bicon-name-bottom">{{ item.pair1 }}/{{ item.pair2 }}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <div>5</div>
+            <div>{{ enNumUnti(item.priceUsd) }}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <div>5</div>
+            <div>{{ enNumUnti(item.volume) }}</div>
           </van-col>
         </van-row>
       </van-list>
     </div>
     <div class="info-box" v-if="active === 2">
-      <div class="info-txt">
-        <h3>持币情况</h3>
-        <div>
-          <p>
-            比特币(BitCoin) 的概念最初由中本聪在2008年提出, 根据中本聪的思路设计发布的开源软件以及建构其上的
-            P2P网络。比特币是一种P2P形式的数字货币...
-          </p>
-          <span>查看更多</span>
-        </div>
-      </div>
-      <div class="info-list">
-        <div class="info-item">
-          <div class="item-left">发行日期</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">历史最高价</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">历史最低价</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">流通市值</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">排名</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">全球总市值占比</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">最大供应量</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">总供应量</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">流通总量</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">流通率</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">核心算法</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">共识机制</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">上架交易所</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-        <div class="info-item">
-          <div class="item-left">持币地址数</div>
-          <div class="item-right">2008-10-31</div>
-        </div>
-      </div>
-      <!-- 团队信息 -->
-      <div class="team-info">
-        <h3>团队信息</h3>
-        <div class="team-list">
-          <div class="team-left">
-            <van-image width="39px" height="37px" :src="require('../../assets/image/people.png')"></van-image>
-            <div>互动的环节</div>
+      <div v-if="symbolDetailObj">
+        <div class="info-txt">
+          <h3>持币情况</h3>
+          <div>
+            <p>
+              {{symbolDetailObj.symbolDetails}}
+            </p>
+            <span><a :href="symbolDetailObj.symbolExplorerUrls">查看更多</a></span>
           </div>
-          <div class="team-right">
-            <div>Bitcoin Core开发团队 成员</div>
-            <div class="team-icon">
-              <van-image
-                width="22px"
-                height="22px"
-                :src="require('../../assets/image/推特_twitter43@2x.png')"
-              ></van-image>
-              <van-image width="22px" height="22px" :src="require('../../assets/image/in@2x.png')"></van-image>
+        </div>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="item-left">发行日期</div>
+            <div class="item-right">{{symbolDetailObj.symbolIssueDate}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">历史最高价</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMax)}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">历史最低价</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMin)}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">流通市值</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMarketCapUsd)}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">排名</div>
+            <div class="item-right">{{symbolDetailObj.symbolRank}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">全球总市值占比</div>
+            <div class="item-right">{{symbolDetailObj.symbolMarketValue}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">最大供应量</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMaxSupply)}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">总供应量</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolTotalSupply)}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">流通总量</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolAvailableSupply)}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">流通率</div>
+            <div class="item-right">2008-10-31</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">核心算法</div>
+            <div class="item-right">{{symbolDetailObj.symbolAlgorithm}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">共识机制</div>
+            <div class="item-right">{{symbolDetailObj.symbolConsensusMechanism}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">上架交易所</div>
+            <div class="item-right">{{symbolDetailObj.symbolMarketNum}}</div>
+          </div>
+          <div class="info-item">
+            <div class="item-left">持币地址数</div>
+            <div class="item-right">{{symbolDetailObj.symbolAddress}}</div>
+          </div>
+        </div>
+        <!-- 团队信息 -->
+        <div class="team-info" v-if="symbolTeamObj">
+          <h3>团队信息</h3>
+          <div class="team-list" v-for="(item,index) in (teamMoreShow?symbolTeamObj.team:symbolTeamObj.team.slice(0,5))" :key="index">
+            <div class="team-left">
+              <van-image width="39px" height="37px" :src="item.logo"></van-image>
+              <div>{{item.name}}</div>
             </div>
-          </div>
-        </div>
-        <div class="team-list">
-          <div class="team-left">
-            <van-image width="39px" height="37px" :src="require('../../assets/image/people.png')"></van-image>
-            <div>互动的环节</div>
-          </div>
-          <div class="team-right">
-            <div>Bitcoin Core开发团队 成员</div>
-            <div class="team-icon">
-              <van-image
-                width="22px"
-                height="22px"
-                :src="require('../../assets/image/推特_twitter43@2x.png')"
-              ></van-image>
-              <van-image width="22px" height="22px" :src="require('../../assets/image/in@2x.png')"></van-image>
-            </div>
-          </div>
-        </div>
-        <div class="team-list">
-          <div class="team-left">
-            <van-image width="39px" height="37px" :src="require('../../assets/image/people.png')"></van-image>
-            <div>互动的环节</div>
-          </div>
-          <div class="team-right">
-            <div>Bitcoin Core开发团队 成员</div>
-            <div class="team-icon">
-              <van-image
-                width="22px"
-                height="22px"
-                :src="require('../../assets/image/推特_twitter43@2x.png')"
-              ></van-image>
-              <van-image width="22px" height="22px" :src="require('../../assets/image/in@2x.png')"></van-image>
-            </div>
-          </div>
-        </div>
-        <div class="team-list" v-if="teamMoreShow">
-          <div class="team-left">
-            <van-image width="39px" height="37px" :src="require('../../assets/image/people.png')"></van-image>
-            <div>互动的环节</div>
-          </div>
-          <div class="team-right">
-            <div>Bitcoin Core开发团队 成员</div>
-            <div class="team-icon">
-              <van-image
-                width="22px"
-                height="22px"
-                :src="require('../../assets/image/推特_twitter43@2x.png')"
-              ></van-image>
-              <van-image width="22px" height="22px" :src="require('../../assets/image/in@2x.png')"></van-image>
-            </div>
-          </div>
-        </div>
-        <div class="team-list" v-if="teamMoreShow">
-          <div class="team-left">
-            <van-image width="39px" height="37px" :src="require('../../assets/image/people.png')"></van-image>
-            <div>互动的环节</div>
-          </div>
-          <div class="team-right">
-            <div>Bitcoin Core开发团队 成员</div>
-            <div class="team-icon">
-              <van-image
-                width="22px"
-                height="22px"
-                :src="require('../../assets/image/推特_twitter43@2x.png')"
-              ></van-image>
-              <van-image width="22px" height="22px" :src="require('../../assets/image/in@2x.png')"></van-image>
-            </div>
-          </div>
-        </div>
-        <div class="more" v-if="!teamMoreShow" @click="teamMore">查看更多</div>
-      </div>
-      <!-- 投资机构 -->
-      <div class="organization-info">
-        <h3>投资机构</h3>
-        <div class="b-p"></div>
-        <div class="organization-list">
-          <div class="icon-box">
-            <van-image width="34px" height="34px" :src="require('../../assets/image/people.png')"></van-image>
-          </div>
-          <p class="organization-right">
-            由David Williams创办的投资由David Williams创办的投资由David Williams创办的投资由David Williams创办的投资
-          </p>
-        </div>
-        <div class="organization-list">
-          <div class="icon-box">
-            <van-image width="34px" height="34px" :src="require('../../assets/image/people.png')"></van-image>
-          </div>
-          <p class="organization-right">Williams创办的投资由David Williams创办的投资由David Williams创办的投资</p>
-        </div>
-        <div class="organization-list" v-show="organizationShow">
-          <div class="icon-box">
-            <van-image width="34px" height="34px" :src="require('../../assets/image/people.png')"></van-image>
-          </div>
-          <p class="organization-right">由David Williams创办的投资由David</p>
-        </div>
-        <div class="organization-list" v-show="organizationShow">
-          <div class="icon-box">
-            <van-image width="34px" height="34px" :src="require('../../assets/image/people.png')"></van-image>
-          </div>
+            <div class="team-right">
+              <div>{{item.intro}}</div>
+              <div class="team-icon">
+                <a :href="item.twitterlink">
+                  <van-image
+                  width="22px"
+                  height="22px"
+                  :src="require('../../assets/image/推特_twitter43@2x.png')"
+                ></van-image>
+                </a>
+                <a :href="item.linkinlink">
+                  <van-image width="22px" height="22px" :src="require('../../assets/image/in@2x.png')"></van-image>
+                </a>
 
-          <p class="organization-right">由David</p>
+              </div>
+            </div>
+          </div>
+          <div class="more" v-if="!teamMoreShow" @click="teamMore">查看更多</div>
         </div>
-        <div class="more" v-if="!organizationShow" @click="organizationMore">查看更多</div>
-      </div>
-      <!--路线 -->
-      <div class="steps-box">
-        <h3>发展路程和路线</h3>
-        <div class="step-box">
-          <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
-            <van-step>
-              <div class="step-item">
-                <div class="step-time">
-                  <span>2021年10月16日</span>
-                </div>
-                <p>
-                  据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
-                </p>
-              </div>
-            </van-step>
-            <van-step>
-              <div class="step-item">
-                <div class="step-time">
-                  <span>2021年10月16日</span>
-                </div>
-                <p>
-                  据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
-                </p>
-              </div>
-            </van-step>
-            <van-step>
-              <div class="step-item">
-                <div class="step-time">
-                  <span>2021年10月16日</span>
-                </div>
-                <p>
-                  据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
-                </p>
-              </div>
-            </van-step>
-          </van-steps>
+        <!-- 投资机构 -->
+        <div class="organization-info" v-if="symbolTeamObj">
+          <h3>投资机构</h3>
+          <div class="b-p"></div>
+          <div class="organization-list" v-for="(item,index) in (organizationShow?symbolTeamObj.agency:symbolTeamObj.agency.slice(0,5))" :key="index">
+            <div class="icon-box">
+              <van-image width="34px" height="34px" :src="item.logo"></van-image>
+            </div>
+            <p class="organization-right">
+             {{item.intro}}
+            </p>
+          </div>
+          <div class="more" v-if="!organizationShow" @click="organizationMore">查看更多</div>
         </div>
-      </div>
-      <!-- 相关链接 -->
-      <div class="link-box">
-        <h3>相关链接</h3>
-        <div class="link-item">
-          <a class="link" href="https://bitcoin.org">
-            <van-image width="21px" height="21px" :src="require('../../assets/image/首页@2x.png')"></van-image>
-            <span>官网</span>
-          </a>
-          <a class="link" href="http://www.bitcoin.org/bitcoin.pdf">
-            <van-image width="18px" height="22px" :src="require('../../assets/image/指标白皮书@2x.png')"></van-image>
-            <span>白皮书</span>
-          </a>
-          <a class="link" href="https://www.facebook.com/buy.bitcoin.news">
-            <van-image width="13px" height="22px" :src="require('../../assets/image/facebook@2x.png')"></van-image>
-            <span>Facebook</span>
-          </a>
-          <a
-            class="link"
-            href="http://blockchain.info
+        <!--路线 -->
+        <div class="steps-box">
+          <h3>发展路程和路线</h3>
+          <div class="step-box">
+            <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
+              <van-step v-for="(item,index) in symbolEventList" :key="index">
+                <div class="step-item">
+                  <div class="step-time">
+                    <span>{{item.eventDate}}</span>
+                  </div>
+                  <p>
+                   {{item.title}}
+                  </p>
+                </div>
+              </van-step>
+            </van-steps>
+          </div>
+        </div>
+        <!-- 相关链接 -->
+        <div class="link-box">
+          <h3>相关链接</h3>
+          <div class="link-item">
+            <a class="link" href="https://bitcoin.org">
+              <van-image width="21px" height="21px" :src="require('../../assets/image/首页@2x.png')"></van-image>
+              <span>官网</span>
+            </a>
+            <a class="link" href="http://www.bitcoin.org/bitcoin.pdf">
+              <van-image width="18px" height="22px" :src="require('../../assets/image/指标白皮书@2x.png')"></van-image>
+              <span>白皮书</span>
+            </a>
+            <a class="link" href="https://www.facebook.com/buy.bitcoin.news">
+              <van-image width="13px" height="22px" :src="require('../../assets/image/facebook@2x.png')"></van-image>
+              <span>Facebook</span>
+            </a>
+            <a
+              class="link"
+              href="http://blockchain.info
 https://live.blockcypher.com/btc
 https://blockchair.com/bitcoin
 https://explorer.viabtc.com/btc
 https://btc.com/en"
-          >
-            <van-image width="22px" height="21px" :src="require('../../assets/image/bg-ie-browser@2x.png')"></van-image>
-            <span>区块链</span>
-          </a>
-          <a class="link" href="https://www.reddit.com/r/Bitcoin">
-            <van-image width="25px" height="21px" :src="require('../../assets/image/reddit@2x.png')"></van-image>
-            <span>Reddit</span>
-          </a>
-          <a class="link" href="https://twitter.com/BTCTN">
-            <van-image width="25px" height="21px" :src="require('../../assets/image/emi纸飞机@2x.png')"></van-image>
-            <span>Twitter</span>
-          </a>
+            >
+              <van-image
+                width="22px"
+                height="21px"
+                :src="require('../../assets/image/bg-ie-browser@2x.png')"
+              ></van-image>
+              <span>区块链</span>
+            </a>
+            <a class="link" href="https://www.reddit.com/r/Bitcoin">
+              <van-image width="25px" height="21px" :src="require('../../assets/image/reddit@2x.png')"></van-image>
+              <span>Reddit</span>
+            </a>
+            <a class="link" href="https://twitter.com/BTCTN">
+              <van-image width="25px" height="21px" :src="require('../../assets/image/emi纸飞机@2x.png')"></van-image>
+              <span>Twitter</span>
+            </a>
+          </div>
         </div>
-      </div>
-      <!-- 声明 -->
-      <div class="shengming">
-        [免责声明]Token100所提供信息之目的在于方便用户操作，而非用户进行交易决策或交易相关操作之依据。用户应对独立作出交易或与交易相关操作的决策，Token100对于声明称依据上述信息所做交易以及交易相关的其他操作之决策导致的损失均不会以任何形式承担任何责任。简况信息如有缺失或错误，欢迎联系我们修正。
+        <!-- 声明 -->
+        <div class="shengming">
+          [免责声明]Token100所提供信息之目的在于方便用户操作，而非用户进行交易决策或交易相关操作之依据。用户应对独立作出交易或与交易相关操作的决策，Token100对于声明称依据上述信息所做交易以及交易相关的其他操作之决策导致的损失均不会以任何形式承担任何责任。简况信息如有缺失或错误，欢迎联系我们修正。
+        </div>
       </div>
     </div>
     <!-- 持币 -->
     <div class="cash-box" v-if="active === 3">
-      <div class="cash-num">
+      <div v-if="symbolHolderObj">
+        <div class="cash-num">
         <h3>持币情况</h3>
         <div class="line-1">
           <div class="txt-left">
             <span>持币地址数</span>
-            <span>39228597</span>
+            <span>{{symbolHolderObj.totalHolders}}</span>
           </div>
-          <div class="txt-right">2021-12-13 18：34</div>
+          <div class="txt-right">{{symbolHolderObj.updateTime}}</div>
         </div>
         <div class="line-2">
           <div class="txt-left">
             <span>持币前10名</span>
-            <span>39228597</span>
+            <span>{{symbolHolderObj.percentageTop10}}</span>
           </div>
           <div class="txt-right">
             <span>持币前20名</span>
-            <span>39228597</span>
+            <span>{{symbolHolderObj.percentageTop20}}</span>
           </div>
         </div>
         <div class="line-2">
           <div class="txt-left">
             <span>持币前50名</span>
-            <span>39228597</span>
+            <span>{{symbolHolderObj.percentageTop50}}</span>
           </div>
           <div class="txt-right">
             <span>持币前100名</span>
-            <span>39228597</span>
+            <span>{{symbolHolderObj.percentageTop100}}</span>
           </div>
         </div>
       </div>
@@ -570,23 +473,25 @@ https://btc.com/en"
         <van-list>
           <van-row
             class="list-item"
-            v-for="(item, index) in erList"
+            v-for="(item, index) in symbolHolderObj.holdersList"
             :key="index"
             type="flex"
             justify="space-between"
             cente="center"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+              <van-tag color="#E4BC31">{{ index }}</van-tag>
             </van-col>
-            <van-col span="6" style="text-align: left"> {{ item.money }}% </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.money }} </van-col>
-            <van-col span="10" style="text-align: right; padding-left: 30px">
-              <div>uytuyuy rtuytyuyt tyuyyuiuyt ghjhbvbnm bvbnm, gfdfghgfd ertyi7678i</div>
+            <van-col span="6" style="text-align: left"> {{ item.percentage }}% </van-col>
+            <van-col span="6" style="text-align: right"> {{ item.quantity }} </van-col>
+            <van-col span="10" style="text-align: right; padding:0 30px;overflow:hidden">
+              <div>{{item.address}}</div>
             </van-col>
           </van-row>
         </van-list>
       </div>
+      </div>
+
     </div>
     <!-- 钱包 -->
     <div class="wallet-box" v-if="active === 4">
@@ -639,7 +544,7 @@ https://btc.com/en"
 <script>
 import mixin from '@/filters/mixin'
 import { rateList } from '@/api/common'
-import { symbolInfo, symbolKline, marketTicker } from '@/api/market'
+import { symbolInfo, symbolKline, marketTicker, symbolDetail, symbolTeam, symbolEvent, symbolHolder } from '@/api/market'
 import * as echarts from 'echarts'
 export default {
   data() {
@@ -789,7 +694,11 @@ export default {
       paramsType: 0,
       sorthangqingFlag1: 0,
       sorthangqingFlag2: 0,
-      sorthangqingFlag3: 0
+      sorthangqingFlag3: 0,
+      symbolDetailObj: null,
+      symbolTeamObj: null,
+      symbolEventList: [],
+      symbolHolderObj: null
     }
   },
   mixins: [mixin],
@@ -807,73 +716,112 @@ export default {
     this.marketTicker()
   },
   methods: {
+    // 持币
+    symbolHolder() {
+      const data = {
+        symbolId: this.symbolId
+      }
+      symbolHolder(data).then(res => {
+        this.symbolHolderObj = res
+        console.log(res, 'res`````````')
+      })
+    },
+    // 发展历程
+    symbolEvent() {
+      const data = {
+        symbolId: this.symbolId
+      }
+      symbolEvent(data).then(res => {
+        this.symbolEventList = res
+      })
+    },
+    // 获取团队
+    symbolTeam() {
+      const data = {
+        symbolId: this.symbolId
+      }
+      symbolTeam(data).then(res => {
+        this.symbolTeamObj = res
+      })
+    },
     // 行情排序
     sorthangqing(key) {
       if (key === 'priceUsd') {
-        this.sortlishiFlag1++
-        if (this.sortlishiFlag1 === 1) {
-          this.lishigaoweiList.sort((a, b) => {
+        this.sorthangqingFlag1++
+        if (this.sorthangqingFlag1 === 1) {
+          this.hangqingList.sort((a, b) => {
             return a['priceUsd'] - b['priceUsd']
           })
-        } else if (this.sortlishiFlag1 === 2) {
-          this.lishigaoweiList.sort((a, b) => {
+        } else if (this.sorthangqingFlag1 === 2) {
+          this.hangqingList.sort((a, b) => {
             return b['priceUsd'] - a['priceUsd']
           })
         } else {
-          this.lishigaoweiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+          this.hangqingList.sort((a, b) => {
+            return a - b
           })
-          this.sortlishiFlag1 = 0
+          this.sorthangqingFlag1 = 0
         }
-      } else if (key === 'highPriceAll') {
-        this.sortlishiFlag2++
-        if (this.sortlishiFlag2 === 1) {
-          this.lishigaoweiList.sort((a, b) => {
-            return a['highPriceAll'] - b['highPriceAll']
+      } else if (key === 'volume') {
+        this.sorthangqingFlag2++
+        if (this.sorthangqingFlag2 === 1) {
+          this.hangqingList.sort((a, b) => {
+            return a['volume'] - b['volume']
           })
-        } else if (this.sortlishiFlag2 === 2) {
-          this.lishigaoweiList.sort((a, b) => {
-            return b['highPriceAll'] - a['highPriceAll']
+        } else if (this.sorthangqingFlag2 === 2) {
+          this.hangqingList.sort((a, b) => {
+            return b['volume'] - a['volume']
           })
         } else {
-          this.lishigaoweiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+          this.hangqingList.sort((a, b) => {
+            return a - b
           })
-          this.sortlishiFlag2 = 0
+          this.sorthangqingFlag2 = 0
         }
       } else {
-        this.sortlishiFlag3++
-        if (this.sortlishiFlag3 === 1) {
-          this.lishigaoweiList.sort((a, b) => {
-            return a['quoteChange'] - b['quoteChange']
+        this.sorthangqingFlag3++
+        if (this.sorthangqingFlag3 === 1) {
+          this.hangqingList.sort((a, b) => {
+            return a['accounting'] - b['accounting']
           })
-        } else if (this.sortlishiFlag3 === 2) {
-          this.lishigaoweiList.sort((a, b) => {
-            return b['quoteChange'] - a['quoteChange']
+        } else if (this.sorthangqingFlag3 === 2) {
+          this.hangqingList.sort((a, b) => {
+            return b['accounting'] - a['accounting']
           })
         } else {
-          this.lishigaoweiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+          this.hangqingList.sort((a, b) => {
+            return a - b
           })
-          this.sortlishiFlag3 = 0
+          this.sorthangqingFlag3 = 0
         }
       }
     },
     // tabs点击事件
     clickTab(value) {
-      // if (value === 0) {
-      //   this.paramsType = 0
-      //   this.marketTicker()
-      // } else if (value === 1) {
-      //   this.paramsType = 1
-      //   this.marketTicker()
-      // } else if (value === 2) {
-
-      // } else if (value === 3) {
-
-      // } else {
-
-      // }
+      if (value === 0) {
+        this.paramsType = 0
+        this.marketTicker()
+      } else if (value === 1) {
+        this.paramsType = 1
+        this.marketTicker()
+      } else if (value === 2) {
+        this.symbolDetail()
+        this.symbolTeam()
+        this.symbolEvent()
+      } else if (value === 3) {
+        this.symbolHolder()
+      } else {
+      }
+    },
+    // 获取简况
+    symbolDetail() {
+      const data = {
+        symbolId: this.symbolId
+      }
+      symbolDetail(data).then(res => {
+        this.symbolDetailObj = res
+        console.log(res, 'res')
+      })
     },
     // 获取行情,合约列表
     marketTicker() {
@@ -885,7 +833,6 @@ export default {
       }
       marketTicker(data).then(res => {
         this.hangqingList = res.markets
-        console.log(res, 'res``````````````')
       })
     },
     // K线请求接口
@@ -1095,7 +1042,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-head {
-    .red {
+  .red {
     color: #e86d7c;
   }
   .gray {
@@ -1267,12 +1214,12 @@ export default {
       color: #939ea9;
       font-size: 0.01rem;
       transform: scale(0.9);
-      text-align:left;
-      &>div:first-child{
-        margin-bottom:5px;
+      text-align: left;
+      & > div:first-child {
+        margin-bottom: 5px;
       }
-      span{
-        margin-right:14px;
+      span {
+        margin-right: 14px;
       }
     }
     #mychart {
@@ -1335,16 +1282,16 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-     .img-box {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        img {
-          width: 24px;
-          height: 28px;
-        }
+    .img-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      img {
+        width: 24px;
+        height: 28px;
       }
     }
+  }
 }
 .list-box {
   padding: 0 28px;
@@ -1365,17 +1312,27 @@ export default {
         justify-content: flex-start;
         align-items: center;
         span {
+          flex-grow: 1;
           margin-left: 11px;
-          overflow: hidden; /* 溢出隐藏 */
-          word-break: keep-all; /* 不换行 */
-          white-space: nowrap; /* 不换行 */
-          text-overflow: ellipsis; /* ...代替隐藏的内容 */
+          overflow: hidden;
+          word-break: keep-all;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .base125 {
+          max-width: 125px;
         }
       }
       .bicon-name-bottom {
         margin-top: 6px;
         color: #92959c;
         font-size: 24px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .hangqing {
+        max-width: 125px;
       }
     }
   }
@@ -1386,6 +1343,11 @@ export default {
     h3,
     p {
       margin: 0;
+      overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     }
     h3 {
       padding-left: 28px;
@@ -1456,6 +1418,7 @@ export default {
         justify-content: flex-start;
         align-items: center;
         padding-left: 11px;
+        max-width: 200px;
         .van-image {
           margin-right: 11px;
         }
@@ -1474,7 +1437,7 @@ export default {
           flex-direction: row;
           align-items: center;
         }
-        .team-icon > .van-image:first-child {
+        .team-icon > a:first-child {
           margin-right: 27px;
         }
       }
@@ -1679,51 +1642,51 @@ export default {
 .wallet-box {
   padding: 0 19px 0 28px;
   .tab-head {
-  background:#fff;
-  z-index:10000;
-  border-top: 1px solid #d8d8d8;
-  font-size: 22px;
-  color: #999;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 33px 19px 0 28px;
-  justify-content: space-between;
-  .head-left,
-  .head-right {
+    background: #fff;
+    z-index: 10000;
+    border-top: 1px solid #d8d8d8;
+    font-size: 22px;
+    color: #999;
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-  .t-1 {
-    margin-right: 52px;
-  }
-  .t-3 {
-    margin-right: 80px;
-  }
-  .t-3,
-  .t-4 {
-    text-align: right;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    .img-box {
-      margin-left: 20px;
-
+    padding: 33px 19px 0 28px;
+    justify-content: space-between;
+    .head-left,
+    .head-right {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      .van-image {
-        width: 12px;
-        height: 6px;
-      }
-      & > .van-image:first-child {
-        margin-bottom: 3px;
-        transform: rotate(180deg);
+      flex-direction: row;
+      align-items: center;
+    }
+    .t-1 {
+      margin-right: 52px;
+    }
+    .t-3 {
+      margin-right: 80px;
+    }
+    .t-3,
+    .t-4 {
+      text-align: right;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      .img-box {
+        margin-left: 20px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .van-image {
+          width: 12px;
+          height: 6px;
+        }
+        & > .van-image:first-child {
+          margin-bottom: 3px;
+          transform: rotate(180deg);
+        }
       }
     }
   }
-}
   .van-cell {
     padding: 24px 0;
     border-bottom: 1px solid #eee;

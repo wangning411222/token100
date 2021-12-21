@@ -116,3 +116,41 @@ export function marketTicker(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
+// 简况
+export function symbolDetail(data) {
+  return request({
+    url: '/appSymbol/symbolDetail',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+// 团队
+export function symbolTeam(data) {
+  return request({
+    url: '/appSymbol/symbolTeam',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+// 事件
+export function symbolEvent(data) {
+  return request({
+    url: '/appSymbol/symbolEvent',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+// 持币
+export function symbolHolder(data) {
+  return request({
+    url: '/appSymbol/symbolHolder',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+
+

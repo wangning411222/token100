@@ -22,13 +22,16 @@ export default {
   methods: {
     rateList() {
       rateList().then(res => {
-        const obj = res.filter(item => {
-          return item.rateC === 'CNY'
-        })
         if (this.languageId === 'zh-CN') {
+          const obj = res.filter(item => {
+            return item.rateC === 'CNY'
+          })
           this.$store.dispatch('setRate', obj[0].rateR)
         } else {
-          this.$store.dispatch('setRate', 1)
+          const obj = res.filter(item => {
+            return item.rateC === 'USD'
+          })
+          this.$store.dispatch('setRate', obj[0].rateR)
         }
       })
     }
