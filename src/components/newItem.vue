@@ -42,6 +42,9 @@ export default {
         name: 'richHtml'
       })
     }
+  },
+  mounted() {
+    console.log(this.info, 'infoinfoinfoinfoinfoinfo')
   }
 }
 </script>

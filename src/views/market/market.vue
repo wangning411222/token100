@@ -762,7 +762,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toConceptDetail(item)"
+            @click="toConceptDetail(item.id)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
@@ -1342,18 +1342,18 @@ export default {
     // 详情
     toDetail(id) {
       this.$router.push({
-        name: 'marketDetail',
-        params: {
+        path: '/marketDetail',
+        query: {
           id
         }
       })
     },
     // 概念详情
-    toConceptDetail(obj) {
+    toConceptDetail(id) {
       this.$router.push({
         path: '/conceptDetail',
         query: {
-          obj
+          id
         }
       })
     }

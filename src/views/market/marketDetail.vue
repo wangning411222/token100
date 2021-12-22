@@ -629,7 +629,7 @@ export default {
   },
   mixins: [mixin],
   mounted() {
-    this.symbolId = this.$route.params.id
+    this.symbolId = this.$route.query.id
     // 获取币种详情
     this.symbolInfo()
     // 获取汇率

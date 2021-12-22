@@ -562,8 +562,8 @@ export default {
     // 去详情页
     toDetail(id) {
       this.$router.push({
-        name: 'platformDeatil',
-        params: { id }
+        path: '/platformDeatil',
+        query: { id }
       })
     },
     // 关注列表点击星星

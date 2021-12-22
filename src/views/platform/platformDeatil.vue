@@ -120,11 +120,11 @@
           </div>
         </van-col>
         <van-col span="6">
-          <div class="arrow-box"  @click="sorthangqingList('changeDaily')">
+          <div class="arrow-box"  @click="sorthangqingList('changeDaily1')">
             <div>最新价</div>
             <div class="img-box">
-                <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
@@ -133,8 +133,8 @@
           <div class="arrow-box"  @click="sorthangqingList('marketScale')">
             <div>占比</div>
             <div class="img-box">
-                <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
@@ -248,50 +248,6 @@ export default {
       isLogin: false,
       rate: 'CNY', // 选择的汇率
       rateArr: [], // 汇率数组
-      erList: [
-        {
-          index: 0,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 6
-        },
-        {
-          index: 1,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 4
-        },
-        {
-          index: 3,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 9
-        },
-        {
-          index: 4,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 1
-        },
-        {
-          index: 0,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 6
-        },
-        {
-          index: 0,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 6
-        }
-      ],
       result: [], // chart 数据
       chartTime: null, // 点击显示的时间
       chartNum: null, // 点击显示的金钱
@@ -317,24 +273,12 @@ export default {
         }
       ],
       unfoldTxt: true,
-      noticList: [
-        {
-          name: '幣安.上市Render (RNDR)',
-          time: '昨天 13:57'
-        },
-        {
-          name: '幣安.上市Render (RNDR)',
-          time: '昨天 13:57'
-        },
-        {
-          name: '幣安.上市Render (RNDR)',
-          time: '昨天 13:57'
-        }
-      ], // 公告列表
+      noticList: [], // 公告列表
       marketId: null,
       detailObj: null,
       sorthangqingFlag1: 0,
       sorthangqingFlag2: 0,
+      sorthangqingFlag3: 0,
       hangqingList: []
     }
   },
@@ -345,8 +289,8 @@ export default {
     // 获取汇率
     this.rateList()
     // 获取id
-    this.marketId = this.$route.params.id
-    this.marketId = 1
+    this.marketId = this.$route.query.id
+    console.log(this.marketId, 'marketIdmarketId')
     // 获取交易所详情
     this.marketInfo()
     // 获取K线数据
@@ -357,7 +301,6 @@ export default {
   methods: {
     // tab点击事件
     tabsClick(value) {
-      console.log(value, '111')
       if (value === 0) {
         this.marketTickerPage()
       } else if (value === 2) {
@@ -393,13 +336,29 @@ export default {
           })
           this.sorthangqingFlag1 = 0
         }
-      } else {
+      } else if (key === 'changeDaily1') {
         this.sorthangqingFlag2++
         if (this.sorthangqingFlag2 === 1) {
           this.hangqingList.sort((a, b) => {
-            return a['marketScale'] - b['marketScale']
+            return a['changeDaily'] - b['changeDaily']
           })
         } else if (this.sorthangqingFlag2 === 2) {
+          this.hangqingList.sort((a, b) => {
+            return b['changeDaily'] - a['changeDaily']
+          })
+        } else {
+          this.hangqingList.sort((a, b) => {
+            return a - b
+          })
+          this.sorthangqingFlag2 = 0
+        }
+      } else {
+        this.sorthangqingFlag3++
+        if (this.sorthangqingFlag3 === 1) {
+          this.hangqingList.sort((a, b) => {
+            return a['marketScale'] - b['marketScale']
+          })
+        } else if (this.sorthangqingFlag3 === 2) {
           this.hangqingList.sort((a, b) => {
             return b['marketScale'] - a['marketScale']
           })
@@ -407,7 +366,7 @@ export default {
           this.hangqingList.sort((a, b) => {
             return a - b
           })
-          this.sorthangqingFlag2 = 0
+          this.sorthangqingFlag3 = 0
         }
       }
     },
@@ -469,9 +428,10 @@ export default {
       this.unfoldTxt = !this.unfoldTxt
     },
     // 去详情页
-    toDetail() {
+    toDetail(id) {
       this.$router.push({
-        name: 'platformDeatil'
+        path: '/marketDetail',
+        query: { id }
       })
     },
     initChart() {
@@ -486,7 +446,6 @@ export default {
       const yArr = this.result.map(item => {
         return item.volume
       })
-      console.log(xArr, 'xArrxArrxArrxArr')
       const interval = Math.ceil(this.result.length / 5)
       option = {
         // 提示框
@@ -644,7 +603,7 @@ export default {
 .page {
   background: #fff;
   .van-nav-bar {
-    background: #fff;
+
     .van-icon {
       color: #666666;
     }

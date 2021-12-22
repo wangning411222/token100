@@ -3,7 +3,7 @@
     <banner></banner>
     <van-sticky>
       <search></search>
-      <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
+      <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" @click="tabsClick">
         <van-tab title="快讯"> </van-tab>
         <van-tab title="平台公告"> </van-tab>
         <van-tab title="新闻"> </van-tab>
@@ -19,15 +19,15 @@
         </div>
         <div class="step-box">
           <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
-            <van-step>
+            <van-step v-for="(item,index) in stepList" :key="index">
               <div class="step-item">
                 <div class="step-time">
-                  <span>10:00</span>
-                  <span>TOKEN数据</span>
+                  <span>{{$moment(item.newsDateTime).format('hh:mm')}}</span>
+                  <span>{{item.newsSourceName}}</span>
                 </div>
-                <h3>平台币24H涨幅</h3>
+                <h3>{{item.newsTitle}}</h3>
                 <p>
-                  据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
+                {{item.newsContent}}
                 </p>
                 <div class="btn-box">
                   <div class="btn" @click="bullishUp">
@@ -43,79 +43,51 @@
                 </div>
               </div>
             </van-step>
-            <van-step>
-              <div class="step-item">
-                <div class="step-time">
-                  <span>10:00</span>
-                  <span>TOKEN数据</span>
-                </div>
-                <h3>平台币24H涨幅</h3>
-                <p>
-                  据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有据数据显示，平台币24H涨幅靠前的币种有
-                </p>
-                <div class="btn-box">
-                  <div class="btn">
-                    <van-icon name="down"></van-icon>
-                    <div>利好</div>
-                    <div>0</div>
-                  </div>
-                  <div class="btn">
-                    <van-icon style="transform: rotate(180deg)" name="down"></van-icon>
-                    <div>利空</div>
-                    <div>0</div>
-                  </div>
-                </div>
-              </div>
-            </van-step>
-            <van-step>
-              <h3>快件已发货</h3>
-              <p>2016-07-10 09:30</p>
-            </van-step>
           </van-steps>
         </div>
       </div>
       <div class="notice-box" v-if="active === 1">
         <van-list>
-          <div class="box" v-for="(item, index) in noticeList" :key="index" @click="toRich">
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
             <div class="notice-left">
-              <van-image width="27px" height="25px" :src="item.url"></van-image>
+              <van-image width="27px" height="25px" :src="item.newsSourceLogo"></van-image>
             </div>
             <div class="notice-right">
-              <div class="notice-name">{{ item.title }}</div>
-              <div class="notice-time">{{ item.time }}</div>
-              <div class="notice-info">{{ item.info }}</div>
+              <div class="notice-name">{{ item.newsTitle }}</div>
+              <div class="notice-time">{{ $moment().startOf('hour').fromNow() }}</div>
+              <div class="notice-info">{{ item.newsContent }}</div>
             </div>
           </div>
         </van-list>
       </div>
       <div class="news-box" v-if="active === 2">
         <van-list>
-          <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
-            <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
+            <newItem :author="item.newsSourceName" :url="item.newsSourceImages" :time="$moment().startOf('hour').fromNow()" :info="item.newsTitle"></newItem>
           </div>
         </van-list>
       </div>
       <div class="news-box" v-if="active === 3">
         <van-list>
-          <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
-            <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
+            <newItem :author="item.newsSourceName" :url="item.newsSourceLogo" :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')" :info="item.newsTitle"></newItem>
           </div>
         </van-list>
       </div>
       <div class="news-box" v-if="active === 4">
         <van-list>
-          <div class="box" v-for="(item, index) in newsList" :key="index" @click="toRich">
-            <newItem :author="item.author" :url="item.url" :time="item.time" :info="item.info"></newItem>
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
+            <newItem :author="item.newsSourceName" :url="item.newsSourceLogo" :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')" :info="item.newsTitle"></newItem>
           </div>
         </van-list>
       </div>
       <div class="calendar-box" v-if="active === 5">
         <van-list>
-          <div class="calendar-item" v-for="(item, index) in calendarList" :key="index">
+          <div class="calendar-item" v-for="(item, index) in stepList" :key="index">
             <div class="time">十二月24日 &nbsp; 星期五</div>
             <div class="title">
-              <van-image width="18px" height="18px" :src="item.url"></van-image>
-              <div class="name1">Stacks</div>
+              <van-image width="18px" height="18px" :src="item.newsSourceLogo"></van-image>
+              <div class="name1">{{item.newsSourceName}}</div>
               <div class="name2">STX</div>
             </div>
             <div class="star-box">
@@ -126,7 +98,7 @@
                 {{ item.status === 1 ? '产品发布' : '会议/AMA' }}
               </span>
               <span>
-                ALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过StackALEX是比特币.上第一个通过Stack
+              {{item.newsTitle}}
               </span>
             </div>
           </div>
@@ -137,6 +109,7 @@
 </template>
 
 <script>
+import { newsList } from '@/api/information'
 import banner from '@/components/banner'
 import search from '@/components/search'
 import newItem from '@/components/newItem'
@@ -215,7 +188,8 @@ export default {
           star: 3,
           status: 3
         }
-      ]
+      ],
+      stepList: []
     }
   },
   components: { banner, search, newItem },
@@ -226,9 +200,23 @@ export default {
     this.month = this.$moment().format('M')
     this.day = this.$moment().format('D')
     this.week = this.$moment().format('dddd')
-    console.log(this.$moment().format('dddd'), this.$moment().format('D'), this.$moment().format('M'))
+    this.getNewsList()
   },
   methods: {
+    // 获取新闻列表
+    tabsClick(value) {
+      this.getNewsList()
+    },
+    getNewsList() {
+      const data = {
+        newsClassify: this.active + 1,
+        current: 1,
+        size: 20
+      }
+      newsList(data).then(res => {
+        this.stepList = res.records
+      })
+    },
     // 详情
     toRich() {
       this.$router.push({

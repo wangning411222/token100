@@ -87,6 +87,16 @@ export function symbolConceptList(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
+// 概念详情
+export function symbolConcept(data) {
+  return request({
+    url: '/appSymbol/symbolConcept',
+    method: 'post',
+    data: qs.stringify(data),
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+
 // 币种详情
 
 export function symbolInfo(data) {
