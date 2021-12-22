@@ -30,7 +30,7 @@
                     v-for="(item, index) in rateArr"
                     :key="index"
                     span="8"
-                    @click="selectRate(item.rateC)"
+                    @click="selectRate(item)"
                     >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                   >
                 </van-row>
@@ -451,7 +451,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -490,7 +490,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="3">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -525,7 +525,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -565,7 +565,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -605,7 +605,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -644,7 +644,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -680,7 +680,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -718,7 +718,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
@@ -762,7 +762,7 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toConceptDetail"
+            @click="toConceptDetail(item)"
           >
             <van-col span="2">
               <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
@@ -892,7 +892,8 @@ export default {
       sortchengjiaoeFlag1: 0,
       sortxinbiFlag2: 0,
       sortxinbiFlag1: 0,
-      sortgainianFlag1: 0
+      sortgainianFlag1: 0,
+      rateR: 0 // 选择汇率数值
     }
   },
   mixins: [mixin],
@@ -905,6 +906,9 @@ export default {
     this.rateList()
     // 获取市值排名列表
     this.symbolRankPage()
+    // 初始化页面汇率默认与语言版本有关.英文默认美元汇率,中文默认RMB汇率
+    console.log(this.globalRate, 'this.globalRatethis.globalRate')
+    this.rateR = this.globalRate
   },
   methods: {
     // 概念排序
@@ -1315,7 +1319,8 @@ export default {
     },
     // 选择汇率
     selectRate(value) {
-      this.rate = value
+      this.rate = value.rateC
+      this.rateR = value.rateR
       this.$refs.item.toggle()
     },
     // 获取汇率列表
@@ -1344,9 +1349,12 @@ export default {
       })
     },
     // 概念详情
-    toConceptDetail() {
+    toConceptDetail(obj) {
       this.$router.push({
-        name: 'conceptDetail'
+        path: '/conceptDetail',
+        query: {
+          obj
+        }
       })
     }
   }
@@ -1375,7 +1383,7 @@ export default {
     align-items: center;
     .head-left {
       padding-right: 30px;
-      width: 597px;
+      width: calc(100vw - 100px);
     }
     .head-right {
       height: 100%;

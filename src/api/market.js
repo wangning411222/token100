@@ -93,11 +93,11 @@ export function symbolInfo(data) {
   return request({
     url: '/appSymbol/symbolInfo',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
-// K线
+//  详情K线
 export function symbolKline(data) {
   return request({
     url: '/appSymbol/symbolKline',
@@ -112,11 +112,11 @@ export function marketTicker(data) {
   return request({
     url: '/appSymbol/marketTicker',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
-// 简况
+//  详情简况
 export function symbolDetail(data) {
   return request({
     url: '/appSymbol/symbolDetail',
@@ -125,7 +125,7 @@ export function symbolDetail(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
-// 团队
+//  详情团队
 export function symbolTeam(data) {
   return request({
     url: '/appSymbol/symbolTeam',
@@ -134,7 +134,7 @@ export function symbolTeam(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
-// 事件
+//  详情事件
 export function symbolEvent(data) {
   return request({
     url: '/appSymbol/symbolEvent',
@@ -143,7 +143,7 @@ export function symbolEvent(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
-// 持币
+//  详情持币
 export function symbolHolder(data) {
   return request({
     url: '/appSymbol/symbolHolder',
@@ -152,5 +152,13 @@ export function symbolHolder(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
-
+// 详情钱包
+export function walletList(data) {
+  return request({
+    url: '/appSymbol/walletList',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
 

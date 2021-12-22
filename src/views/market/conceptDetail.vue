@@ -9,11 +9,11 @@
     </van-sticky>
     <div class="concept">
       <div class="concept-head">
-        <h3>匿名币</h3>
+        <h3>{{dataObj.name}}</h3>
         <div class="num-box">
           <div class="concept-num">
             <div class="num-top">平均涨跌幅</div>
-            <div class="font-big font-green">+11.67%</div>
+            <div class="font-big font-green">{{dataObj.change_percent}}%</div>
           </div>
           <div class="concept-num">
             <div class="num-top">上涨</div>
@@ -200,12 +200,15 @@ export default {
           money: 6.95,
           num: 6
         }
-      ]
+      ],
+      dataObj: null
     }
   },
   mounted() {
     // 获取汇率
     this.rateList()
+    this.dataObj = this.$route.query.obj
+    console.log(this.dataObj, '111111111111111111111')
   },
   methods: {
     // 选择汇率

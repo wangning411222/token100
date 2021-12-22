@@ -8,19 +8,19 @@
       </van-nav-bar>
     </van-sticky>
     <div class="detail-head">
-      <div class="head-top">
+      <div class="head-top" v-if="detailObj">
         <div class="top-left">
           <van-image
             width="51px"
             height="50px"
-            :src="require('../../assets/image/Nem_logotype_overunder_lightbg_WEB@2x.png')"
+            :src="detailObj.marketLogo"
           ></van-image>
         </div>
         <div class="top-right">
           <div class="right-line1">
             <div class="line1-left">
-              <div>币安网</div>
-              <van-tag type="success">ER9</van-tag>
+              <div>{{detailObj.marketName}}</div>
+              <van-tag type="success">ER{{detailObj.marketRankEx}}</van-tag>
             </div>
             <van-image
               @click="collect"
@@ -40,21 +40,21 @@
           <div class="right-line2">
             <div class="light">
               <van-image width="11px" height="10px" :src="require('../../assets/image/灯泡@2x.png')"></van-image>
-              <div>NO.1</div>
+              <div>NO.{{detailObj.marketRank}}</div>
             </div>
             <div>24H平台交易额</div>
-            <div>¥ 1万亿</div>
+            <div>¥{{cnNumUnti(detailObj.marketDayVolume)}}</div>
           </div>
         </div>
       </div>
-      <div class="head-center">
+      <!-- <div class="head-center">
         <div class="center-left">
           <div>BTC</div>
           <div>比特币</div>
           <div>$6.95万亿</div>
         </div>
         <div class="center-right">-0.32%</div>
-      </div>
+      </div> -->
       <div class="chart-select">
         <div class="chart-title">成交额走势</div>
         <div>
@@ -80,7 +80,7 @@
     </div>
     <div class="head">
       <div class="head-left">
-        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
+        <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" @click="tabsClick">
           <van-tab title="行情"> </van-tab>
           <van-tab title="简况"> </van-tab>
           <van-tab title="公告"> </van-tab>
@@ -110,47 +110,32 @@
         <van-col span="2">#</van-col>
         <van-col span="4">交易对</van-col>
         <van-col span="6">
-          <div class="arrow-box">
+          <div class="arrow-box"  @click="sorthangqingList('changeDaily')">
             <div>平台价</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
         <van-col span="6">
-          <div class="arrow-box">
+          <div class="arrow-box"  @click="sorthangqingList('changeDaily')">
             <div>最新价</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
         <van-col span="6">
-          <div class="arrow-box">
+          <div class="arrow-box"  @click="sorthangqingList('marketScale')">
             <div>占比</div>
             <div class="img-box">
-              <van-image
-                style="transform: rotate(180deg); margin-bottom: 2px"
-                width="6px"
-                height="3px"
-                :src="require('../../assets/icon/上下箭头@2x(1).png')"
-              >
-              </van-image>
-              <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
@@ -160,51 +145,53 @@
       <van-list v-if="active === 0">
         <van-row
           class="list-item"
-          v-for="(item, index) in erList"
+          v-for="(item, index) in hangqingList"
           :key="index"
           type="flex"
           justify="space-between"
           cente="center"
-          @click="toDetail"
+          @click="toDetail(item.symbolId)"
         >
           <van-col span="2">
-            <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+             <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index+1 }}</van-tag>
           </van-col>
           <van-col span="4" class="icon-name">
             <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.src"></van-image>
-              <span>{{ item.name }}</span>
+              <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
+              <span>{{ item.marketName }}</span>
             </div>
-            <div class="bicon-name-bottom">Bitcoin</div>
+            <div class="bicon-name-bottom base125">{{item.marketPair}}</div>
           </van-col>
-          <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
+          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.changeDaily) }} </van-col>
           <van-col span="6" style="text-align: right">
-            <div>5</div>
+            <div>{{ cnNumUnti(item.changeDaily) }}</div>
           </van-col>
           <van-col span="6" style="text-align: right">
-            <div>5</div>
+            <div>{{item.marketScale&&(item.marketScale*100).toFixed(2)}}%</div>
           </van-col>
         </van-row>
       </van-list>
       <van-list v-if="active === 1">
-        <div class="profiles-box">
+        <div class="profiles-box" v-if="detailObj">
           <van-row gutter="20" class="profiles">
             <van-col span="6" class="profiles-left">国家/地区</van-col>
-            <van-col span="18" class="profiles-right">马耳他</van-col>
+            <van-col span="18" class="profiles-right">{{detailObj.marketCountry}}</van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
             <van-col span="6" class="profiles-left">交易支持</van-col>
-            <van-col span="18" class="profiles-right">现货期货场外法币</van-col>
+            <van-col span="18" class="profiles-right">{{detailObj.marketSupport}}</van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
             <van-col span="6" class="profiles-left"> 交易对</van-col>
-            <van-col span="18" class="profiles-right">1444个 </van-col>
+            <van-col span="18" class="profiles-right">{{enNumUnti(detailObj.marketExpectedVolume)}}个 </van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
             <van-col span="6" class="profiles-left"> 交易区</van-col>
             <van-col span="18" class="profiles-right">
-              BTC, BUSD, USDT, BNB, ETH, USD, EUR, RUB, TRY, TUSD, USDC, BIDR, AUD, BRL, DAI, GBP, IDRT, UAH, NGN, TRX,
-              XRP</van-col
+             {{detailObj.marketDescName}}</van-col
             >
           </van-row>
           <van-row gutter="20" class="profiles">
@@ -212,12 +199,10 @@
             <van-col
 class="profiles-right unfold"
 span="18"
-              ><p :class="unfoldTxt ? 'p2-show' : ''">
-                币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
-                币交易、区块链教育、区币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
-                币交易、区块链教育、区币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
-                币交易、区块链教育、区币安(Binance)，国际领先的区块链数字 资产国际站，向全球提供广泛的数字货
-                币交易、区块链教育、区
+              >
+
+              <p :class="!unfoldTxt ? 'p2-show' : ''">
+              {{detailObj.marketContent}}
               </p>
               <span @click="unfoldClick">{{ unfoldTxt ? '展开' : '收起' }}</span>
             </van-col>
@@ -225,16 +210,14 @@ span="18"
           <van-row gutter="20" class="profiles">
             <van-col span="6" class="profiles-left">相关链接</van-col>
             <van-col span="18" class="profiles-right link-box">
-              <div>https://accounts. binancezh.biz/zh-CN/register?ref=1862</div>
+              <div>{{detailObj.marketWebsiteUrl}}</div>
               <div>
-                <span>备用地址1</span>
-                <span>备用地址2</span>
-                <span>备用地址3</span>
-                <span>备用地址4</span>
+                <span v-for="(item,index) in detailObj.marketLinks.split(',')" :key="index"><a :href="item">备用地址{{index+1}}</a></span>
+
               </div>
               <div>
-                <span>Facebook</span>
-                <span>Twitter</span>
+                <span> <a href="https://www.facebook.com/binanceexchange">Facebook</a>  </span>
+                <span><a href="https://twitter.com/binance">Twitter</a> </span>
                 <span> 微博 </span>
               </div></van-col
             >
@@ -243,9 +226,10 @@ span="18"
       </van-list>
       <van-list v-if="active === 2">
         <div class="notic-box">
-          <div class="notic-item" v-for="(item, index) in noticList" :key="index" @click="toRich">
-            <div class="notic-top">{{item.name}}</div>
-            <div class="notic-bottom">{{item.time}}</div>
+          <div class="notic-item" v-for="(item, index) in noticList" :key="index" @click="toRich(item.newsId)">
+
+            <div class="notic-top">{{item.newsTitle}}</div>
+            <div class="notic-bottom">{{$moment(item.newsDateTime).format('MM-DD hh:mm')}}</div>
           </div>
         </div>
       </van-list>
@@ -254,6 +238,8 @@ span="18"
 </template>
 <script>
 import { rateList } from '@/api/common'
+import mixin from '@/filters/mixin'
+import { marketInfo, marketKline, marketTickerPage, marketNews } from '@/api/platform'
 import * as echarts from 'echarts'
 export default {
   data() {
@@ -318,15 +304,15 @@ export default {
           value: 0
         },
         {
-          label: '24H',
+          label: '7天',
           value: 1
         },
         {
-          label: '1周',
+          label: '30天',
           value: 2
         },
         {
-          label: '3月',
+          label: '1年',
           value: 3
         }
       ],
@@ -344,15 +330,115 @@ export default {
           name: '幣安.上市Render (RNDR)',
           time: '昨天 13:57'
         }
-      ]// 公告列表
+      ], // 公告列表
+      marketId: null,
+      detailObj: null,
+      sorthangqingFlag1: 0,
+      sorthangqingFlag2: 0,
+      hangqingList: []
     }
   },
+  mixins: [mixin],
   mounted() {
-    this.initChart()
+    this.myChart = echarts.init(document.getElementById('mychart'))
+
     // 获取汇率
     this.rateList()
+    // 获取id
+    this.marketId = this.$route.params.id
+    this.marketId = 1
+    // 获取交易所详情
+    this.marketInfo()
+    // 获取K线数据
+    this.marketKline()
+    // 获取行情
+    this.marketTickerPage()
   },
   methods: {
+    // tab点击事件
+    tabsClick(value) {
+      console.log(value, '111')
+      if (value === 0) {
+        this.marketTickerPage()
+      } else if (value === 2) {
+        this.marketNews()
+      }
+    },
+    // 公告列表
+    marketNews() {
+      const data = {
+        marketId: this.marketId,
+        current: 1,
+        size: 100
+      }
+      marketNews(data).then(res => {
+        this.noticList = res.records
+      })
+    },
+    // 行情排序
+    sorthangqingList(key) {
+      if (key === 'changeDaily') {
+        this.sorthangqingFlag1++
+        if (this.sorthangqingFlag1 === 1) {
+          this.hangqingList.sort((a, b) => {
+            return a['changeDaily'] - b['changeDaily']
+          })
+        } else if (this.sorthangqingFlag1 === 2) {
+          this.hangqingList.sort((a, b) => {
+            return b['changeDaily'] - a['changeDaily']
+          })
+        } else {
+          this.hangqingList.sort((a, b) => {
+            return a - b
+          })
+          this.sorthangqingFlag1 = 0
+        }
+      } else {
+        this.sorthangqingFlag2++
+        if (this.sorthangqingFlag2 === 1) {
+          this.hangqingList.sort((a, b) => {
+            return a['marketScale'] - b['marketScale']
+          })
+        } else if (this.sorthangqingFlag2 === 2) {
+          this.hangqingList.sort((a, b) => {
+            return b['marketScale'] - a['marketScale']
+          })
+        } else {
+          this.hangqingList.sort((a, b) => {
+            return a - b
+          })
+          this.sorthangqingFlag2 = 0
+        }
+      }
+    },
+    // 获取行情列表
+    marketTickerPage() {
+      const data = {
+        marketId: this.marketId,
+        current: 1,
+        size: 100
+      }
+      marketTickerPage(data).then(res => {
+        this.hangqingList = res.records
+      })
+    },
+    // 获取k线数据
+    marketKline() {
+      const data = {
+        marketId: this.marketId,
+        classify: this.chartActive
+      }
+      marketKline(data).then(res => {
+        this.result = res
+        this.initChart()
+      })
+    },
+    // 获取交易所详情
+    marketInfo() {
+      marketInfo(this.marketId).then(res => {
+        this.detailObj = res
+      })
+    },
     // 选择汇率
     selectRate(value) {
       this.rate = value
@@ -367,11 +453,15 @@ export default {
     // 点击chart时间选择
     selectTime(value) {
       this.chartActive = value
+      this.marketKline()
     },
     // 点击公告
-    toRich() {
+    toRich(id) {
       this.$router.push({
-        name: 'richHtml'
+        name: 'richHtml',
+        params: {
+          id
+        }
       })
     },
     // 点击展开
@@ -385,26 +475,19 @@ export default {
       })
     },
     initChart() {
+      this.tipShow = false
       const that = this
       // 基于准备好的dom，初始化echarts实例
-      this.myChart = echarts.init(document.getElementById('mychart'))
 
       var option
-      this.result = [
-        [1638979200000, 85140300611.68],
-        [1639065600000, 87263983461.96],
-        [1639152000000, 66799780134.02],
-        [1639238400000, 52974988423.97],
-        [1639324800000, 86217667968.22],
-        [1639411200000, 79687401227.36],
-        [1639497600000, 99287346121.66]
-      ]
       const xArr = this.result.map(item => {
-        return that.$moment(item[0]).format('MM-DD,YYYY')
+        return that.$moment(item.timestamp).format('MM-DD,YYYY')
       })
       const yArr = this.result.map(item => {
-        return item[1]
+        return item.volume
       })
+      console.log(xArr, 'xArrxArrxArrxArr')
+      const interval = Math.ceil(this.result.length / 5)
       option = {
         // 提示框
         tooltip: {
@@ -419,8 +502,8 @@ export default {
         },
 
         grid: {
-          left: '0', // 与容器左侧的距离
-          right: '0', // 与容器右侧的距离
+          left: '5%', // 与容器左侧的距离
+          right: '5%', // 与容器右侧的距离
           top: '10%', // 与容器顶部的距离
           bottom: '0', // 与容器底部的距离
           borderWidth: 10,
@@ -447,7 +530,7 @@ export default {
             formatter: function(params) {
               return params.replace(',', '\n')
             },
-            interval: 1
+            interval: interval
           }
         },
         yAxis: {
@@ -531,9 +614,9 @@ export default {
       // 点击的坐标点
       const clickIndex = pointInGrid[0]
       // 获取当前点击位置要的数据
-      const time = this.result[clickIndex][0]
+      const time = this.result[clickIndex].timestamp
       this.chartTime = this.$moment(time).format('YYYY-MM-DD')
-      this.chartNum = (this.result[clickIndex][1] / 100000000).toFixed(2)
+      this.chartNum = this.enNumUnti(this.result[clickIndex].volume)
       this.tipShow = true
     },
     // 点击小星星
@@ -578,6 +661,7 @@ export default {
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
+      border-bottom: 19px solid #f3f3f3;
       .top-right {
         margin-left: 32px;
         display: flex;
@@ -639,7 +723,7 @@ export default {
       }
     }
     .head-center {
-      border-top: 19px solid #f3f3f3;
+
       border-bottom: 19px solid #f3f3f3;
       padding: 23px 28px;
       display: flex;
@@ -790,6 +874,10 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
+         img {
+          width: 24px;
+          height: 28px;
+        }
       }
     }
   }
@@ -823,7 +911,15 @@ export default {
           margin-top: 6px;
           color: #92959c;
           font-size: 24px;
+           overflow: hidden;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
         }
+        .base125{
+            max-width: 125px;
+          }
       }
     }
     .profiles-box {
@@ -838,10 +934,14 @@ export default {
         }
         .profiles-right {
           color: #333;
+          padding-right:20px;
+          overflow:hidden;
+          text-overflow:ellipsis; //溢出用省略号显示
+          white-space:nowrap; //溢出不换行
         }
         .unfold {
           position: relative;
-          p {
+             p {
             margin: 0;
           }
           .p2-show {
@@ -851,6 +951,7 @@ export default {
             overflow: hidden;
             -webkit-line-clamp: 3;
           }
+
           span {
             color: #1890ff;
             position: absolute;
@@ -868,6 +969,11 @@ export default {
           color: #1890ff;
           display: flex;
           flex-direction: column;
+          span{
+            a{
+               color: #1890ff;
+            }
+          }
           & > div:first-child {
             overflow: hidden;
             white-space: nowrap;
