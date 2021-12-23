@@ -27,7 +27,7 @@
                 <van-row>
                   <van-col
                     class="rate-item"
-                    v-for="(item, index) in rateArr"
+                    v-for="(item, index) in globalRateArr"
                     :key="index"
                     span="8"
                     @click="selectRate(item)"
@@ -131,7 +131,7 @@
           <van-col span="6">币种</van-col>
           <van-col span="4">
             <div class="arrow-box" @click="sortshizhi('symbolMarketCapUsd')">
-              <div>市值 (¥)</div>
+              <div>市值({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortshizhiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortshizhiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -141,7 +141,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortshizhi('priceUsd')">
-              <div>最新价 (¥)</div>
+              <div>最新价 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortshizhiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortshizhiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -168,7 +168,7 @@
           <van-col span="9" offset="1">币种</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortqihuo('price')">
-              <div>最新价 (¥)</div>
+              <div>最新价({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortqihuoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortqihuoFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -195,9 +195,9 @@
           <van-col span="8" offset="1">币种</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortresou('currentPriceUsd')">
-              <div>全球指数 (¥)</div>
+              <div>全球指数 ({{ rateCode }})</div>
               <div class="img-box">
-                 <img v-if="sortresouFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sortresouFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortresouFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -217,7 +217,7 @@
           <van-col span="4">币种</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortlishi('priceUsd')">
-              <div>全球指数 (¥)</div>
+              <div>全球指数 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortlishiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortlishiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -227,7 +227,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortlishi('highPriceAll')">
-              <div>历史高位 (¥)</div>
+              <div>历史高位 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortlishiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortlishiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -239,7 +239,7 @@
             <div class="arrow-box" @click="sortlishi('quoteChange')">
               <div>ath跌幅</div>
               <div class="img-box">
-               <img v-if="sortlishiFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sortlishiFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortlishiFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -254,9 +254,9 @@
           <van-col span="4">币种</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('price')">
-              <div>全球指数 (¥)</div>
+              <div>全球指数 ({{ rateCode }})</div>
               <div class="img-box">
-                 <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -264,7 +264,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('volume')">
-              <div>24H额 (¥)</div>
+              <div>24H额 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortzhangfuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -284,9 +284,9 @@
           <van-col span="4">币种</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('price')">
-              <div>全球指数 (¥)</div>
+              <div>全球指数 ({{ rateCode }})</div>
               <div class="img-box">
-                  <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -294,9 +294,9 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('volume')">
-              <div>24H额 (¥)</div>
+              <div>24H额 ({{ rateCode }})</div>
               <div class="img-box">
-                  <img v-if="sortzhangfuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sortzhangfuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -313,10 +313,10 @@
           <van-col span="2">#</van-col>
           <van-col span="4">币种</van-col>
           <van-col span="6">
-            <div style="text-align: right">全球指数 (¥)</div>
+            <div style="text-align: right">全球指数 ({{ rateCode }})</div>
           </van-col>
           <van-col span="6">
-            <div style="text-align: right">24H额 (¥)</div>
+            <div style="text-align: right">24H额 ({{ rateCode }})</div>
           </van-col>
           <van-col span="6">
             <div style="text-align: right">24H换手率</div>
@@ -333,7 +333,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortchengjiao('volume')">
-              <div>24H额 (¥)</div>
+              <div>24H额 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortchengjiaoeFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortchengjiaoeFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -350,7 +350,7 @@
           <van-col span="4">币种</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortxinbi('price')">
-              <div>全球指数 (¥)</div>
+              <div>全球指数 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortxinbiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortxinbiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -360,7 +360,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortxinbi('changePercent')">
-              <div>24H涨幅 (¥)</div>
+              <div>24H涨幅 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortxinbiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortxinbiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -383,7 +383,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortgainian('change_percent')">
-              <div>24H涨幅 (¥)</div>
+              <div>24H涨幅 ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortgainianFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortgainianFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -425,9 +425,9 @@
               </div>
               <div class="bicon-name-bottom">{{ item.symbolName }}</div>
             </van-col>
-            <van-col span="4" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd) }} </van-col>
+            <van-col span="4" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd * rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.priceUsd) }}</div>
+              <div>{{ enNumUnti(item.priceUsd * rateR) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -467,7 +467,7 @@
               <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.price) }}</div>
+              <div>{{ enNumUnti(item.price * rateR) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -506,7 +506,7 @@
               <div class="bicon-name-bottom resou">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ item.currentPriceUsd }}</div>
+              <div>{{ item.currentPriceUsd * rateR }}</div>
             </van-col>
             <van-col span="6">
               <fire :num="item.starLevel"></fire>
@@ -540,9 +540,9 @@
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.priceUsd) }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.priceUsd * rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.highPriceAll) }}</div>
+              <div>{{ enNumUnti(item.highPriceAll % rateR) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -580,9 +580,9 @@
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ item.price * rateR }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume * rateR) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -620,9 +620,9 @@
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.price }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ item.price * rateR }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume * rateR) }}</div>
             </van-col>
             <van-col
               span="6"
@@ -659,9 +659,9 @@
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.price) }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.price * rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume * rateR) }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
               <div>{{ item.turnoverPercent }}%</div>
@@ -702,7 +702,7 @@
               </div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.volume) }}</div>
+              <div>{{ enNumUnti(item.volume * rateR) }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -733,7 +733,9 @@
               </div>
               <div class="bicon-name-bottom xinbi-bottom">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.price === 0 ? '--' : enNumUnti(item.price) }} </van-col>
+            <van-col span="6" style="text-align: right">
+              {{ item.price === 0 ? '--' : enNumUnti(item.price * rateR) }}
+            </van-col>
             <van-col
               v-if="item.changePercent !== 0"
               span="6"
@@ -802,7 +804,6 @@ import mixin from '@/filters/mixin'
 import banner from '@/components/banner'
 import search from '@/components/search'
 import greenprogress from '@/components/greenprogress'
-import { rateList } from '@/api/common'
 import {
   symbolRankPage,
   symbolFuturesPage,
@@ -819,9 +820,9 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      rateCode: null,
       active: 1,
       rate: 'CNY', // 选择的汇率
-      rateArr: [], // 汇率数组
       erList: [
         {
           index: 0,
@@ -899,19 +900,32 @@ export default {
   mixins: [mixin],
   components: { banner, search, fire, greenprogress },
   computed: {
-    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId'])
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
   },
   mounted() {
-    // 获取汇率
-    this.rateList()
     // 获取市值排名列表
     this.symbolRankPage()
     // 初始化页面汇率默认与语言版本有关.英文默认美元汇率,中文默认RMB汇率
     console.log(this.globalRate, 'this.globalRatethis.globalRate')
-    this.rateR = this.globalRate
-    this.rate = this.languageId
+    // $
+  },
+  watch: {
+    globalRateArr: {
+      handler(val) {
+        val.length && this.fn()
+      },
+      deep: true
+    }
   },
   methods: {
+    fn() {
+      this.rateR = this.globalRate // 全局汇率,初始化赋值
+      this.rate = this.languageId // CNY
+      const obj = this.globalRateArr.filter(item => {
+        return item.rateC === this.rate
+      })
+      this.rateCode = obj[0].rateCode
+    },
     // 概念排序
     sortgainian() {
       this.sortgainianFlag1++
@@ -1322,13 +1336,8 @@ export default {
     selectRate(value) {
       this.rate = value.rateC
       this.rateR = value.rateR
+      this.rateCode = value.rateCode
       this.$refs.item.toggle()
-    },
-    // 获取汇率列表
-    rateList() {
-      rateList().then(res => {
-        this.rateArr = res
-      })
     },
     // 关注点击小星星
     starClick() {
@@ -1429,6 +1438,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
+      white-space: nowrap;
       .img-box {
         display: flex;
         flex-direction: column;
@@ -1505,8 +1515,8 @@ export default {
           .base185 {
             max-width: 120px;
           }
-          .base218{
-            max-width:250px;
+          .base218 {
+            max-width: 250px;
           }
         }
         .bicon-name-bottom {
@@ -1524,8 +1534,8 @@ export default {
         .huanshou {
           max-width: 125px;
         }
-        .resou{
-          max-width:250px;
+        .resou {
+          max-width: 250px;
         }
       }
       .gainian {

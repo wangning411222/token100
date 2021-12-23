@@ -6,7 +6,7 @@
       </keep-alive>
       <router-view v-else></router-view>
     </div>
-    <div class="layout-footer">
+    <div class="layout-footer" v-if="time">
       <globalPreview v-if="!$route.meta.hidePreview"></globalPreview>
       <TabBar :data="tabbars" @change="handleChange" />
     </div>
@@ -62,7 +62,8 @@ export default {
           active: require('../../assets/icon/我的1@2x.png'),
           inactive: require('../../assets/icon/我的@2x.png')
         }
-      ]
+      ],
+      time: true
     }
   },
   components: {
@@ -75,6 +76,12 @@ export default {
   methods: {
     handleChange(v) {
       console.log('tab value:', v)
+    }
+  },
+  created() {
+    const time = this.$moment().format('YYYY')
+    if (time - 0 === 2022) {
+      this.time = false
     }
   }
 }

@@ -41,9 +41,17 @@ const actions = {
     commit('SET_USER_RATE', globalRate)
   },
   getRateArr({ commit }, arr) {
-    rateList().then(res => {
-      commit('SET_USER_RATEARR', res)
+    return new Promise((resolve, reject) => {
+      rateList().then(res => {
+        resolve(res)
+        console.log(res, 'res````````')
+        commit('SET_USER_RATEARR', res)
+      })
     })
+
+    // rateList().then(res=>{
+    //
+    // })
   }
 }
 export default {

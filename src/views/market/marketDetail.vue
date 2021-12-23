@@ -25,7 +25,7 @@
       <div class="head-bottom">
         <div class="head-bottom-left">
           <div class="line-1">
-            <span>¥</span>
+            <span>{{rateCode}}</span>
             <span>{{ cnNumUnti(symbolInfoObj.priceUsd) }}</span>
           </div>
           <div class="line-2">
@@ -37,7 +37,7 @@
           </div>
           <div class="line-3">
             <span>市值</span>
-            <span>¥{{ cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
+            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
           </div>
         </div>
         <div class="head-bottom-right">
@@ -49,10 +49,10 @@
             <span>24H换</span>
           </div>
           <div class="column-right">
-            <span>¥{{ cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
-            <span>¥{{ cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
-            <span>¥{{ cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
-            <span>¥{{ cnNumUnti(symbolInfoObj.volumeDay) }}</span>
+            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
+            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
+            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
+            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.volumeDay) }}</span>
             <span>{{ enNumUnti(symbolInfoObj.volumeRate) }}%</span>
           </div>
         </div>
@@ -78,7 +78,7 @@
           <div>{{ chartTime }} 00:00</div>
           <div>
             <span>美元价格:${{ priceUsd }}&nbsp;&nbsp;</span>
-            <span>人民币价格:¥{{ priceCN }}&nbsp;&nbsp;</span>
+            <span>人民币价格:{{rateCode}}{{ priceCN }}&nbsp;&nbsp;</span>
             <span>BTC价格:${{ priceBtc }}&nbsp;&nbsp;</span>
           </div>
         </div>
@@ -103,10 +103,10 @@
               <van-row>
                 <van-col
                   class="rate-item"
-                  v-for="(item, index) in rateArr"
+                  v-for="(item, index) in globalRateArr"
                   :key="index"
                   span="8"
-                  @click="selectRate(item.rateC)"
+                  @click="selectRate(item)"
                   >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                 >
               </van-row>
@@ -122,7 +122,7 @@
         <van-col span="4">交易对</van-col>
         <van-col span="6">
           <div class="arrow-box" @click="sorthangqing('changeDaily')">
-            <div>最新价 (¥)</div>
+            <div>最新价 ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -132,7 +132,7 @@
         </van-col>
         <van-col span="6">
           <div class="arrow-box" @click="sorthangqing('baseVolume')">
-            <div>24H额 (¥)</div>
+            <div>24H额 ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -159,7 +159,7 @@
         <van-col span="6">交易对</van-col>
         <van-col span="8">
           <div class="arrow-box" @click="sorthangqing('changeDaily')">
-            <div>最新价 (¥)</div>
+            <div>最新价 ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -169,7 +169,7 @@
         </van-col>
         <van-col span="8">
           <div class="arrow-box" @click="sorthangqing('baseVolume')">
-            <div>24H额 (¥)</div>
+            <div>24H额 ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -205,9 +205,9 @@
             </div>
             <div class="bicon-name-bottom hangqing">{{ item.marketPair }}</div>
           </van-col>
-          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.changeDaily) }}</van-col>
+          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.changeDaily*rateR) }}</van-col>
           <van-col span="6" style="text-align: right">
-            <div>{{ enNumUnti(item.baseVolume) }}</div>
+            <div>{{ enNumUnti(item.baseVolume*rateR) }}</div>
           </van-col>
           <van-col span="6" style="text-align: right">
             <div>{{ (item.marketScale*100).toFixed(2) }}%</div>
@@ -239,7 +239,7 @@
             <div class="bicon-name-bottom">{{ item.marketPair}}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <div>{{ enNumUnti(item.baseVolume) }}</div>
+            <div>{{ enNumUnti(item.baseVolume*rateR) }}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
             <div>{{ (item.marketScale*100).toFixed(2) }}%</div>
@@ -553,6 +553,7 @@ import mixin from '@/filters/mixin'
 import { rateList } from '@/api/common'
 import { symbolInfo, symbolKline, marketTicker, symbolDetail, symbolTeam, symbolEvent, symbolHolder, walletList } from '@/api/market'
 import * as echarts from 'echarts'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -589,7 +590,6 @@ export default {
       priceUsd: null,
       priceBtc: null,
       myChart: null,
-      rate: 'CNY', // 选择的汇率
       rateArr: [], // 汇率数组
       teamMoreShow: false, // 团队更多
       organizationShow: false, // 机构更多
@@ -608,7 +608,10 @@ export default {
       symbolEventList: [],
       symbolHolderObj: null,
       sortqianbaoFlag1: 0,
-      sortqianbaoFlag2: 0
+      sortqianbaoFlag2: 0,
+      rateR: 0,
+      rate: null,
+      rateCode: null
     }
   },
   filters: {
@@ -628,18 +631,25 @@ export default {
     }
   },
   mixins: [mixin],
+  computed: {
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
+  },
   mounted() {
     this.symbolId = this.$route.query.id
     // 获取币种详情
     this.symbolInfo()
-    // 获取汇率
-    this.rateList()
     this.myChart = echarts.init(document.getElementById('mychart'))
     this.initChart()
     // 获取K线
     this.symbolKline()
     // 获取行情列表
     this.marketTicker()
+    this.rateR = this.globalRate // 全局汇率,初始化赋值
+    this.rate = this.languageId // CNY
+    const obj = this.globalRateArr.filter(item => {
+      return item.rateC === this.rate
+    })
+    this.rateCode = obj[0].rateCode // $
   },
   methods: {
     // 去平台详情页
@@ -845,7 +855,9 @@ export default {
     },
     // 选择汇率
     selectRate(value) {
-      this.rate = value
+      this.rate = value.rateC
+      this.rateR = value.rateR
+      this.rateCode = value.rateCode
       this.$refs.item.toggle()
     },
     // 获取汇率列表
