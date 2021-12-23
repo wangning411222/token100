@@ -24,8 +24,7 @@ service.interceptors.request.use(
     if (token) {
       config.headers['userToken'] = token
     }
-    config.headers['languageId'] = store.getters.languageId
-    // config.data['languageId'] = store.getters.languageId
+    config.headers['languageId'] = store.getters.languageId === 'CNY' ? 'zh-CN' : 'en-US'
     if (config.ContentType) {
       config.headers['Content-Type'] = config.ContentType
     }

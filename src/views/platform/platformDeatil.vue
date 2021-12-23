@@ -417,10 +417,8 @@ export default {
     // 点击公告
     toRich(id) {
       this.$router.push({
-        name: 'richHtml',
-        params: {
-          id
-        }
+        path: '/detail',
+        query: { id }
       })
     },
     // 点击展开

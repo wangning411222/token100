@@ -31,7 +31,7 @@
           <div class="line-2">
             <span>≈$ {{ enNumUnti(symbolInfoObj.priceUsd) }}</span>
             <span
-:class="symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+:class="symbolInfoObj.priceChange1d&&symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
               >{{ symbolInfoObj.priceChange1d }}%</span
             >
           </div>
@@ -645,8 +645,8 @@ export default {
     // 去平台详情页
     toPlatformDetail(id) {
       this.$router.push({
-        name: 'platformDeatil',
-        params: {
+        path: '/platformDeatil',
+        query: {
           id
         }
       })

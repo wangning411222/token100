@@ -8,14 +8,23 @@
       </van-nav-bar>
     </van-sticky>
     <div class="page-content">
-      <van-form @submit="onSubmit">
+      <van-form @submit="login">
         <div class="phone">
-          <span>+86</span>
+          <span>+{{selectCOde}}</span>
+          <van-dropdown-menu>
+            <van-dropdown-item ref="item">
+              <div v-for="(item, index) in countryCode" :key="index" class="code-box"   @click="selectCode(item)">
+                <div class="code-left"> {{ item.countryPhoneCode }}</div>
+                <div class="code-right"> {{ item.countryName }}</div>
+
+              </div>
+            </van-dropdown-item>
+          </van-dropdown-menu>
           <van-field
             v-model="username"
             name="用户名"
             placeholder="请输入您的手机号"
-            :rules="[{ required: true, message: '请输入您的手机号' }]"
+
           />
         </div>
         <div class="password">
@@ -23,7 +32,7 @@
             v-model="password"
             :type="showPsd ? 'text' : 'password'"
             placeholder="请输入密码"
-            :rules="[{ required: true, message: '请输入密码' }]"
+
           />
           <van-image
             @click="showPassword"
@@ -32,35 +41,78 @@
         </div>
 
         <div class="button-box">
-          <van-button round block color="#ccc" :disabled="true" native-type="submit">登陆</van-button>
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">登陆</van-button>
         </div>
       </van-form>
       <div class="bttom-text">
         <router-link :to="{ name: 'findpassword' }">
           <div>忘记密码?</div>
         </router-link>
-         <router-link :to="{ name: 'register' }">
-        <div>注册</div>
-         </router-link>
+        <router-link :to="{ name: 'register' }">
+          <div>注册</div>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { getCountry, login } from '@/api/mine'
 export default {
   data() {
     return {
       username: '',
       password: '',
-      showPsd: false
+      showPsd: false,
+      countryCode: [],
+      selectCOde: '86'
+    }
+  },
+  mounted() {
+    this.getCountry()
+  },
+  computed: {
+    btnDisable() {
+      if (this.selectCOde !== '86') {
+        if (this.username && this.password) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        var reg = /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/
+        if (reg.test(this.username) && this.password) {
+          return true
+        } else {
+          return false
+        }
+      }
     }
   },
   methods: {
+    // 选择区号
+    selectCode(item) {
+      this.selectCOde = item.countryPhoneCode
+      this.$refs.item.toggle()
+    },
+    // 获取国家区号
+    getCountry() {
+      getCountry().then(res => {
+        this.countryCode = res
+      })
+    },
     // 密码显示于隐藏
     showPassword() {
       this.showPsd = !this.showPsd
     },
-    onSubmit(values) {
+    login(values) {
+      const data = {
+        phone: this.username,
+        userPassword: this.password,
+        code: this.selectCOde
+      }
+      login(data).then(res => {
+        console.log(res, 'res`````````')
+      })
       console.log('submit', values)
     },
     // 返回
@@ -87,7 +139,7 @@ export default {
       color: #666666;
     }
     /deep/.van-nav-bar__left {
-    /deep/  .van-icon-arrow-left {
+      /deep/ .van-icon-arrow-left {
         color: #666666;
       }
     }
@@ -95,9 +147,36 @@ export default {
 
   .page-content {
     margin: 64px 32px 0 29px;
+    /deep/ .van-dropdown-menu {
+      width: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-content: center;
+    }
+    /deep/ .van-dropdown-menu__item {
+      border: none;
+      justify-content: flex-end !important;
+    }
+    /deep/ .van-dropdown-menu__title{
+      color: #909090;
+    }
+    /deep/ .van-dropdown-menu__bar {
+      box-shadow: none;
+    }
     .phone {
       border-bottom: 1px solid #eeeeee;
       @include flexbox;
+      .code-box{
+        margin:0 30px;
+        padding:30px 60px;
+        border-bottom:1px solid rgb(204, 204, 204);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        color:#858585;
+      }
       span {
         font-size: 28px;
         color: #333333;

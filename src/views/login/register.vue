@@ -11,6 +11,15 @@
       <van-form>
         <div class="phone">
           <span>+86</span>
+            <van-dropdown-menu>
+            <van-dropdown-item ref="item">
+              <div v-for="(item, index) in countryCode" :key="index" class="code-box"   @click="selectCode(item)">
+                <div class="code-left"> {{ item.countryPhoneCode }}</div>
+                <div class="code-right"> {{ item.countryName }}</div>
+
+              </div>
+            </van-dropdown-item>
+          </van-dropdown-menu>
           <van-field
             v-model="username"
             name="用户名"
@@ -42,16 +51,28 @@
   </div>
 </template>
 <script>
+import { getCountry } from '@/api/mine'
 export default {
   data() {
     return {
       username: '',
       password: '',
       showPsd: false,
-      checked: false
+      checked: false,
+      countryCode: [],
+      selectCOde: '86'
     }
   },
+  mounted() {
+    this.getCountry()
+  },
   methods: {
+    // 获取国家区号
+    getCountry() {
+      getCountry().then(res => {
+        this.countryCode = res
+      })
+    },
     onSubmit(values) {
       this.$router.push({
         name: 'setPassword'
@@ -89,10 +110,37 @@ export default {
   }
 
   .page-content {
+    /deep/ .van-dropdown-menu {
+      width: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-content: center;
+    }
+    /deep/ .van-dropdown-menu__item {
+      border: none;
+      justify-content: flex-end !important;
+    }
+    /deep/ .van-dropdown-menu__title{
+      color: #909090;
+    }
+    /deep/ .van-dropdown-menu__bar {
+      box-shadow: none;
+    }
     margin: 64px 32px 0 29px;
     .phone {
       border-bottom: 1px solid #eeeeee;
       @include flexbox;
+      .code-box{
+        margin:0 30px;
+        padding:30px 60px;
+        border-bottom:1px solid rgb(204, 204, 204);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        color:#858585;
+      }
       span {
         font-size: 28px;
         color: #333333;
@@ -101,6 +149,7 @@ export default {
     .password {
       border-bottom: 1px solid #eeeeee;
       @include flexbox;
+
       .van-image {
         width: 38px;
         height: 29px;

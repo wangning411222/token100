@@ -68,7 +68,7 @@
             <van-col span="2">#</van-col>
             <van-col span="4">币种</van-col>
             <van-col span="6">
-              <div class="arrow-box" @click="sorthangqing('priceChange1d')">
+              <div class="arrow-box" @click="sorthangqing('marketValue')">
                 <div>市值 (¥)</div>
                 <div class="img-box">
                    <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
@@ -78,7 +78,7 @@
               </div>
             </van-col>
             <van-col span="6">
-              <div class="arrow-box" @click="sorthangqing('priceChange1d')">
+              <div class="arrow-box" @click="sorthangqing('currentPrice')">
                 <div>最新价 (¥)</div>
                 <div class="img-box">
                    <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
@@ -88,7 +88,7 @@
               </div>
             </van-col>
             <van-col span="6">
-              <div class="arrow-box" @click="sorthangqing('priceChange1d')">
+              <div class="arrow-box" @click="sorthangqing('changePercent')">
                 <div>24小时涨幅</div>
                 <div class="img-box">
                     <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
@@ -107,24 +107,27 @@
             type="flex"
             justify="space-between"
             cente="center"
-            @click="toDetail(item.id)"
+            @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index+1 }}</van-tag>
             </van-col>
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
-                <van-image width="18px" height="18px" :src="item.src"></van-image>
-                <span>{{ item.name }}</span>
+                <van-image width="18px" height="18px" :src="item.logo"></van-image>
+                <span class="base125">{{ item.name }}</span>
               </div>
-              <div class="bicon-name-bottom base125">Bitcoin</div>
+              <div class="bicon-name-bottom base125">{{item.code}}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.marketValue) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>5</div>
+              <div>{{enNumUnti(item.currentPrice.toFixed(4))}}</div>
             </van-col>
-            <van-col span="6" style="text-align: right">
-              <div>5</div>
+            <van-col span="6" style="text-align: right" :class="item.changePercent.toString().indexOf('-')>=0?'red':'green'">
+              <div>{{item.changePercent.toFixed(2)}}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -133,6 +136,7 @@
   </div>
 </template>
 <script>
+import mixin from '@/filters/mixin'
 import { rateList } from '@/api/common'
 import { symbolConcept } from '@/api/market'
 export default {
@@ -150,6 +154,7 @@ export default {
       hangqingList: []
     }
   },
+  mixins: [mixin],
   mounted() {
     // 获取汇率
     this.rateList()
@@ -159,35 +164,35 @@ export default {
   methods: {
     // 行情排序
     sorthangqing(key) {
-      if (key === 'price') {
+      if (key === 'marketValue') {
         this.sorthangqingFlag1++
         if (this.sorthangqingFlag1 === 1) {
           this.hangqingList.sort((a, b) => {
-            return a['price'] - b['price']
+            return a['marketValue'] - b['marketValue']
           })
         } else if (this.sorthangqingFlag1 === 2) {
           this.hangqingList.sort((a, b) => {
-            return b['price'] - a['price']
+            return b['marketValue'] - a['marketValue']
           })
         } else {
           this.hangqingList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sorthangqingFlag1 = 0
         }
-      } else if (key === '') {
+      } else if (key === 'currentPrice') {
         this.sorthangqingFlag2++
         if (this.sorthangqingFlag2 === 1) {
           this.hangqingList.sort((a, b) => {
-            return a['changePercent'] - b['changePercent']
+            return a['currentPrice'] - b['currentPrice']
           })
         } else if (this.sorthangqingFlag2 === 2) {
           this.hangqingList.sort((a, b) => {
-            return b['changePercent'] - a['changePercent']
+            return b['currentPrice'] - a['currentPrice']
           })
         } else {
           this.hangqingList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sorthangqingFlag2 = 0
         }
@@ -203,7 +208,7 @@ export default {
           })
         } else {
           this.hangqingList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sorthangqingFlag3 = 0
         }
@@ -252,6 +257,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .concept {
+   .red {
+    color: #e86d7c;
+  }
+  .gray {
+    color: #939ea9;
+  }
+  .green {
+    color: #00a287;
+  }
   .concept-head {
     margin: 24px 0 32px 28px;
     h3 {

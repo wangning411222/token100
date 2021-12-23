@@ -108,12 +108,15 @@ export default {
       // islogin: true, // 是否登陆
       wechat: `${this.$cdn}/wx/640.gif`,
       languageShow: false,
-      actions: [{ name: '中文', value: 'zh-CN' }, { name: '英文', value: 'en-uk' }],
+      actions: [
+        { name: '中文', value: 'CNY' },
+        { name: '英文', value: 'USD' }
+      ],
       language: '中文'
     }
   },
   computed: {
-    ...mapGetters(['userName', 'isLogin', 'languageId', 'globalRate'])
+    ...mapGetters(['userName', 'isLogin', 'languageId', 'globalRate', 'globalRateArr'])
   },
   mounted() {
     this.initData()
@@ -136,11 +139,10 @@ export default {
       this.languageShow = false
       this.language = item.name
       this.$store.dispatch('setLanguageId', item.value)
-      if (this.languageId === 'zh-CN') {
-        this.$store.dispatch('setRate', this.globalRate)
-      } else {
-        this.$store.dispatch('setRate', 1)
-      }
+      const obj = this.globalRateArr.filter(items => {
+        return items.rateC === item.value
+      })
+      this.$store.dispatch('setRate', obj[0].rateR)
     },
     // 切换中英文
     handlerLanguage() {

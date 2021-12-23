@@ -1,8 +1,10 @@
+import { rateList } from '@/api/common'
 const state = {
   userName: '',
   isLogin: false,
-  languageId: 'zh-CN',
-  globalRate: 0
+  languageId: 'CNY',
+  globalRate: 1,
+  rateArr: []
 }
 const mutations = {
   SET_USER_NAME(state, name) {
@@ -11,11 +13,17 @@ const mutations = {
   SET_USER_LOGIN(state, login) {
     state.isLogin = login
   },
+  // 当前语言版本 CNY中文 USD英文
   SET_USER_LANGUAGE(state, languageId) {
     state.languageId = languageId
   },
+  // 全局汇率
   SET_USER_RATE(state, globalRate) {
     state.globalRate = globalRate
+  },
+  // 汇率数组
+  SET_USER_RATEARR(state, arr) {
+    state.rateArr = arr
   }
 }
 const actions = {
@@ -31,6 +39,11 @@ const actions = {
   },
   setRate({ commit }, globalRate) {
     commit('SET_USER_RATE', globalRate)
+  },
+  getRateArr({ commit }, arr) {
+    rateList().then(res => {
+      commit('SET_USER_RATEARR', res)
+    })
   }
 }
 export default {

@@ -13,6 +13,11 @@
       </van-tabs>
     </van-sticky>
     <div class="tab-box">
+       <van-loading
+        v-show="loading"
+        style="width: 100%; height: 100%; position: absolute; top: 200px; text-align: center"
+        color="rgb(228, 188, 49)"
+      />
       <div class="flash-box" v-if="active === 0">
         <div class="date-box">
           <h3>今天 &nbsp;{{ month }}月{{ day }}日 &nbsp; {{ week }}</h3>
@@ -20,7 +25,7 @@
         <div class="step-box">
           <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
             <van-step v-for="(item,index) in stepList" :key="index">
-              <div class="step-item">
+              <div class="step-item"  @click="toRich(item.newsId)">
                 <div class="step-time">
                   <span>{{$moment(item.newsDateTime).format('hh:mm')}}</span>
                   <span>{{item.newsSourceName}}</span>
@@ -48,7 +53,7 @@
       </div>
       <div class="notice-box" v-if="active === 1">
         <van-list>
-          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
             <div class="notice-left">
               <van-image width="27px" height="25px" :src="item.newsSourceLogo"></van-image>
             </div>
@@ -62,43 +67,43 @@
       </div>
       <div class="news-box" v-if="active === 2">
         <van-list>
-          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
             <newItem :author="item.newsSourceName" :url="item.newsSourceImages" :time="$moment().startOf('hour').fromNow()" :info="item.newsTitle"></newItem>
           </div>
         </van-list>
       </div>
       <div class="news-box" v-if="active === 3">
         <van-list>
-          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
             <newItem :author="item.newsSourceName" :url="item.newsSourceLogo" :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')" :info="item.newsTitle"></newItem>
           </div>
         </van-list>
       </div>
       <div class="news-box" v-if="active === 4">
         <van-list>
-          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich">
+          <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
             <newItem :author="item.newsSourceName" :url="item.newsSourceLogo" :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')" :info="item.newsTitle"></newItem>
           </div>
         </van-list>
       </div>
       <div class="calendar-box" v-if="active === 5">
         <van-list>
-          <div class="calendar-item" v-for="(item, index) in stepList" :key="index">
-            <div class="time">十二月24日 &nbsp; 星期五</div>
+          <div class="calendar-item" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
+            <div class="time">{{$moment(item.newsDateTime).format('MM-DD')}} &nbsp;&nbsp; {{$moment(item.newsDateTime).format('dddd')}}</div>
             <div class="title">
               <van-image width="18px" height="18px" :src="item.newsSourceLogo"></van-image>
-              <div class="name1">{{item.newsSourceName}}</div>
-              <div class="name2">STX</div>
+              <div class="name1">{{item.newsTitle }}</div>
+              <div class="name2">{{item.newsSourceName}}</div>
             </div>
             <div class="star-box">
-              <van-rate v-model="item.star" allow-half void-icon="star" color="#FAD97E" void-color="#E8E8E8" />
+              <van-rate :count="3" v-model="item.newsStar" allow-half void-icon="star" color="#FAD97E" void-color="#E8E8E8" />
             </div>
             <div class="info-box">
-              <span :class="item.status === 1 ? 'yello' : 'green'">
-                {{ item.status === 1 ? '产品发布' : '会议/AMA' }}
+              <span :style="{background:newsTypeFiltercolor(item.newsType)}">
+                {{ item.newsType | newsTypeFilter }}
               </span>
               <span>
-              {{item.newsTitle}}
+              {{item.newsContent}}
               </span>
             </div>
           </div>
@@ -123,74 +128,38 @@ export default {
       week: null,
       bullishNum1: 0,
       bullishNum2: 0,
-      noticeList: [
-        {
-          url: require('../../assets/image/Nem_logotype_overunder_lightbg_WEB@2x.png'),
-          title: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,'
-        },
-        {
-          url: require('../../assets/image/Nem_logotype_overunder_lightbg_WEB@2x.png'),
-          title: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,'
-        },
-        {
-          url: require('../../assets/image/Nem_logotype_overunder_lightbg_WEB@2x.png'),
-          title: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,'
-        }
-      ],
-      newsList: [
-        {
-          url: require('../../assets/image/ChMkKWGhuiqILM4YAADhJ2YJs2EAAWBvgGNjaMAAOE_712@2x.png'),
-          author: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,'
-        },
-        {
-          url: require('../../assets/image/ChMkKWGhuiqILM4YAADhJ2YJs2EAAWBvgGNjaMAAOE_712@2x.png'),
-          author: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,'
-        },
-        {
-          url: require('../../assets/image/ChMkKWGhuiqILM4YAADhJ2YJs2EAAWBvgGNjaMAAOE_712@2x.png'),
-          author: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,'
-        }
-      ],
-      calendarList: [
-        {
-          url: require('../../assets/image/Nem_logotype_overunder_lightbg_WEB@2x.png'),
-          title: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,',
-          star: 1,
-          status: 1
-        },
-        {
-          url: require('../../assets/image/Nem_logotype_overunder_lightbg_WEB@2x.png'),
-          title: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,',
-          star: 2,
-          status: 2
-        },
-        {
-          url: require('../../assets/image/Nem_logotype_overunder_lightbg_WEB@2x.png'),
-          title: 'BitMart',
-          time: '1小时前',
-          info: '数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,数据显示，平台币24H涨幅靠前的币种有,',
-          star: 3,
-          status: 3
-        }
-      ],
-      stepList: []
+
+      stepList: [],
+      loading: false
     }
+  },
+  filters: {
+    newsTypeFilter(value) {
+      console.log(value, 'value')
+      switch (value) {
+        case 1:
+          return '上币'
+        case 2:
+          return '流动性挖矿'
+        case 3:
+          return 'NFT拍卖'
+        case 4:
+          return '公告/新闻'
+        case 5:
+          return '产品发布'
+        case 6:
+          return '空投/奖励'
+        case 7:
+          return '分叉/交换'
+        case 8:
+          return '令牌销毁/回购'
+        case 9:
+          return '会议/AMA'
+        case 10:
+          return '其他'
+      }
+    }
+
   },
   components: { banner, search, newItem },
   computed: {
@@ -203,11 +172,37 @@ export default {
     this.getNewsList()
   },
   methods: {
+    newsTypeFiltercolor(value) {
+      switch (value) {
+        case 1:
+          return '#F44336'
+        case 2:
+          return '#673AB7'
+        case 3:
+          return '#03A9F4'
+        case 4:
+          return '#4CAF50'
+        case 5:
+          return '#FFEB3B'
+        case 6:
+          return '#FF5722'
+        case 7:
+          return '#607D8B'
+        case 8:
+          return '#9C27B0'
+        case 9:
+          return '#AMA009688'
+        case 10:
+          return '#795548'
+      }
+    },
     // 获取新闻列表
     tabsClick(value) {
       this.getNewsList()
     },
     getNewsList() {
+      this.loading = true
+      this.stepList = []
       const data = {
         newsClassify: this.active + 1,
         current: 1,
@@ -215,12 +210,15 @@ export default {
       }
       newsList(data).then(res => {
         this.stepList = res.records
+        this.loading = false
       })
     },
     // 详情
-    toRich() {
+    toRich(id) {
+      console.log(id, 'id````````')
       this.$router.push({
-        name: 'richHtml'
+        path: '/detail',
+        query: { id }
       })
     },
     // 点击利好
@@ -247,6 +245,7 @@ export default {
   display: flex;
   flex-direction: column;
   .tab-box {
+    position: relative;
     flex-grow: 1;
     .flash-box {
       border-top: 1px solid #d8d8d8;
@@ -412,13 +411,8 @@ export default {
             font-weight: 500;
             color: #ffffff;
             text-align: center;
-          }
-
-          .green {
-            background-image: url('../../assets/image/矩形@2x(1).png');
-          }
-          .yello {
-            background-image: url('../../assets/image/矩形@2x.png');
+            border-top-left-radius:100px;
+             border-bottom-right-radius:100px;
           }
           p {
             display: inline-block;

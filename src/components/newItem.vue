@@ -1,5 +1,5 @@
 <template>
-  <div class="news-item" @click="toRich">
+  <div class="news-item">
     <div class="item-left">
       <div class="left-top">
         <h3 class="txt">{{ info }}</h3>
@@ -36,15 +36,8 @@ export default {
     }
   },
   methods: {
-    // 详情
-    toRich() {
-      this.$router.push({
-        name: 'richHtml'
-      })
-    }
   },
   mounted() {
-    console.log(this.info, 'infoinfoinfoinfoinfoinfo')
   }
 }
 </script>

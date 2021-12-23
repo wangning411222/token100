@@ -4,7 +4,6 @@
   </div>
 </template>
 <script>
-import { rateList } from '@/api/common'
 import { mapGetters } from 'vuex'
 export default {
   name: 'App',
@@ -14,26 +13,24 @@ export default {
     if (token) {
       this.$store.dispatch('setIsLogin', true)
     }
-    this.rateList()
+    this.$store.dispatch('getRateArr')
   },
   computed: {
-    ...mapGetters(['isLogin', 'languageId', 'globalRate'])
+    ...mapGetters(['isLogin', 'languageId', 'globalRate', 'globalRateArr'])
   },
   methods: {
-    rateList() {
-      rateList().then(res => {
-        if (this.languageId === 'zh-CN') {
-          const obj = res.filter(item => {
-            return item.rateC === 'CNY'
-          })
-          this.$store.dispatch('setRate', obj[0].rateR)
-        } else {
-          const obj = res.filter(item => {
-            return item.rateC === 'USD'
-          })
-          this.$store.dispatch('setRate', obj[0].rateR)
-        }
-      })
+    setGlobalRate() {
+      if (this.languageId === 'CNY') {
+        const obj = this.globalRateArr.filter(item => {
+          return item.rateC === 'CNY'
+        })
+        this.$store.dispatch('setRate', obj[0].rateR)
+      } else {
+        const obj = this.globalRateArr.filter(item => {
+          return item.rateC === 'USD'
+        })
+        this.$store.dispatch('setRate', obj[0].rateR)
+      }
     }
   }
 }

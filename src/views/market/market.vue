@@ -899,7 +899,7 @@ export default {
   mixins: [mixin],
   components: { banner, search, fire, greenprogress },
   computed: {
-    ...mapGetters(['userName', 'isLogin'])
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId'])
   },
   mounted() {
     // 获取汇率
@@ -909,6 +909,7 @@ export default {
     // 初始化页面汇率默认与语言版本有关.英文默认美元汇率,中文默认RMB汇率
     console.log(this.globalRate, 'this.globalRatethis.globalRate')
     this.rateR = this.globalRate
+    this.rate = this.languageId
   },
   methods: {
     // 概念排序
@@ -1383,7 +1384,7 @@ export default {
     align-items: center;
     .head-left {
       padding-right: 30px;
-      width: calc(100vw - 100px);
+      width: calc(100vw - 152px);
     }
     .head-right {
       height: 100%;
