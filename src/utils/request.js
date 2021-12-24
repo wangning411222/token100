@@ -49,7 +49,7 @@ service.interceptors.response.use(
       if (res.ok) {
         return Promise.resolve(res.data)
       } else {
-        return Promise.reject(res)
+        return Promise.resolve(res.ok)
       }
     }
   },

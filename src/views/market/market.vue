@@ -52,67 +52,65 @@
               <van-col span="2">#</van-col>
               <van-col span="4">币种</van-col>
               <van-col span="7">
-                <div class="arrow-box">
+                <div class="arrow-box" @click="sortguanzhu('symbolMarketCapUsd')">
                   <div>全球指数</div>
                   <div class="img-box">
-                    <van-image
-                      style="transform: rotate(180deg); margin-bottom: 2px"
-                      width="6px"
-                      height="3px"
-                      :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                    >
-                    </van-image>
-                    <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')">
-                    </van-image>
+                    <img v-if="sortguanzhuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                    <img v-else-if="sortguanzhuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                    <img v-else src="../../assets/icon/arrow_2.png" alt="" />
                   </div>
                 </div>
               </van-col>
               <van-col span="7">
-                <div class="arrow-box">
+                <div class="arrow-box" @click="sortguanzhu('priceChange1d')">
                   <div>24H涨幅</div>
                   <div class="img-box">
-                    <van-image
-                      style="transform: rotate(180deg); margin-bottom: 2px"
-                      width="6px"
-                      height="3px"
-                      :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                    >
-                    </van-image>
-                    <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')">
-                    </van-image>
+                    <img v-if="sortguanzhuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                    <img v-else-if="sortguanzhuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                    <img v-else src="../../assets/icon/arrow_2.png" alt="" />
                   </div>
                 </div>
               </van-col>
               <van-col span="4"> </van-col>
             </van-row>
           </div>
-          <van-list>
+          <div v-if="!guanzhuList.length">
+            <noData></noData>
+          </div>
+          <van-list v-else>
             <div class="list-box">
               <van-row
                 class="list-item"
-                v-for="(item, index) in erList"
+                v-for="(item, index) in guanzhuList"
                 :key="index"
                 type="flex"
                 justify="space-between"
                 cente="center"
               >
                 <van-col span="2">
-                  <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+                  <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{
+                    item.symbolRank
+                  }}</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{
+                    item.symbolRank
+                  }}</van-tag>
+                  <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
                 </van-col>
                 <van-col span="4" class="icon-name">
                   <div class="icon-name-top">
-                    <van-image width="18px" height="18px" :src="item.src"></van-image>
-                    <span>{{ item.name }}</span>
+                    <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
+                    <span class="base125">{{ item.symbolName }}</span>
                   </div>
-                  <div class="bicon-name-bottom">Bitcoin</div>
+                  <div class="bicon-name-bottom base125">{{item.symbolFullName}}</div>
                 </van-col>
-                <van-col span="7" style="text-align: right"> {{ item.money }}万亿 </van-col>
+                <van-col span="7" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd*rateR) }} </van-col>
                 <van-col span="7" style="text-align: right">
-                  <div>5</div>
+                  <div>{{(item.priceChange1d*100).toFixed(2)}}%</div>
                 </van-col>
                 <van-col span="4" style="text-align: right">
                   <van-image
-                    @click="starClick"
+                    @click="starClick(item.symbolId)"
                     width="15px"
                     height="14px"
                     :src="require('../../assets/image/星星2@2x.png')"
@@ -803,6 +801,7 @@
 import mixin from '@/filters/mixin'
 import banner from '@/components/banner'
 import search from '@/components/search'
+import noData from '@/components/noData'
 import greenprogress from '@/components/greenprogress'
 import {
   symbolRankPage,
@@ -813,7 +812,9 @@ import {
   symbolChangeList,
   symbolVolumeList,
   symbolNewsList,
-  symbolConceptList
+  symbolConceptList,
+  userSymbolPage,
+  userSymbol
 } from '@/api/market'
 import fire from '@/components/fire'
 import { mapGetters } from 'vuex'
@@ -823,50 +824,7 @@ export default {
       rateCode: null,
       active: 1,
       rate: 'CNY', // 选择的汇率
-      erList: [
-        {
-          index: 0,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 6
-        },
-        {
-          index: 1,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 4
-        },
-        {
-          index: 3,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 9
-        },
-        {
-          index: 4,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 1
-        },
-        {
-          index: 0,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 6
-        },
-        {
-          index: 0,
-          name: 'BTC',
-          src: require('../../assets/image/比特币@2x.png'),
-          money: 6.95,
-          num: 6
-        }
-      ],
+      guanzhuList: [],
       loading: false,
       shizhicurrent: 1,
       shizhisize: 100,
@@ -894,11 +852,13 @@ export default {
       sortxinbiFlag2: 0,
       sortxinbiFlag1: 0,
       sortgainianFlag1: 0,
-      rateR: 0 // 选择汇率数值
+      rateR: 0, // 选择汇率数值
+      sortguanzhuFlag1: 0,
+      sortguanzhuFlag2: 0
     }
   },
   mixins: [mixin],
-  components: { banner, search, fire, greenprogress },
+  components: { banner, search, fire, greenprogress, noData },
   computed: {
     ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
   },
@@ -906,8 +866,9 @@ export default {
     // 获取市值排名列表
     this.symbolRankPage()
     // 初始化页面汇率默认与语言版本有关.英文默认美元汇率,中文默认RMB汇率
-    console.log(this.globalRate, 'this.globalRatethis.globalRate')
-    // $
+    if (this.globalRateArr.length) {
+      this.fn()
+    }
   },
   watch: {
     globalRateArr: {
@@ -918,6 +879,52 @@ export default {
     }
   },
   methods: {
+    // 关注排序
+    sortguanzhu(key) {
+      if (key === 'symbolMarketCapUsd') {
+        this.sortguanzhuFlag1++
+        if (this.sortguanzhuFlag1 === 1) {
+          this.guanzhuList.sort((a, b) => {
+            return a['symbolMarketCapUsd'] - b['symbolMarketCapUsd']
+          })
+        } else if (this.sortguanzhuFlag1 === 2) {
+          this.guanzhuList.sort((a, b) => {
+            return b['symbolMarketCapUsd'] - a['symbolMarketCapUsd']
+          })
+        } else {
+          this.guanzhuList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortguanzhuFlag1 = 0
+        }
+      } else {
+        this.sortguanzhuFlag2++
+        if (this.sortguanzhuFlag2 === 1) {
+          this.guanzhuList.sort((a, b) => {
+            return a['priceChange1d'] - b['priceChange1d']
+          })
+        } else if (this.sortguanzhuFlag2 === 2) {
+          this.guanzhuList.sort((a, b) => {
+            return b['priceChange1d'] - a['priceChange1d']
+          })
+        } else {
+          this.guanzhuList.sort((a, b) => {
+            return a['symbolRank'] - b['symbolRank']
+          })
+          this.sortguanzhuFlag2 = 0
+        }
+      }
+    },
+    // 获取关注列表
+    userSymbolPage() {
+      const data = {
+        current: 1,
+        size: 100
+      }
+      userSymbolPage(data).then(res => {
+        this.guanzhuList = res.records
+      })
+    },
     fn() {
       this.rateR = this.globalRate // 全局汇率,初始化赋值
       this.rate = this.languageId // CNY
@@ -1289,6 +1296,8 @@ export default {
         this.symbolNewsList()
       } else if (value === 10) {
         this.symbolConceptList()
+      } else {
+        this.userSymbolPage()
       }
     },
     // 热搜榜list
@@ -1340,8 +1349,11 @@ export default {
       this.$refs.item.toggle()
     },
     // 关注点击小星星
-    starClick() {
-      this.$toast('已取消关注')
+    starClick(id) {
+      userSymbol(id).then(res => {
+        this.$toast('已取消关注')
+        this.userSymbolPage()
+      })
     },
     // 点击去登陆
     linkToLogin() {

@@ -4,11 +4,11 @@
       <div class="left">
         <div>
           <div class="label">总市值</div>
-          <div class="value">¥{{marketVolume}}</div>
+          <div class="value">{{rateCode}}{{marketVolume}}</div>
         </div>
         <div>
           <div class="label">24H额</div>
-          <div class="value">¥{{dayVolume}}</div>
+          <div class="value">{{rateCode}}{{dayVolume}}</div>
         </div>
       </div>
       <div class="right">
@@ -22,7 +22,7 @@
                     <span>{{codeTotal}}</span>
                   </div>
                   <div class="item-text">
-                    <span>总市值¥</span>
+                    <span>总市值{{rateCode}}</span>
                     <span>{{marketVolume}}</span>
                   </div>
                 </div>
@@ -32,7 +32,7 @@
                     <span>{{tokenTotal}}</span>
                   </div>
                   <div class="item-text">
-                    <span>24H成交额¥</span>
+                    <span>24H成交额{{rateCode}}</span>
                     <span>{{dayVolume}}</span>
                   </div>
                 </div>
@@ -63,6 +63,7 @@
 <script>
 import mixin from '@/filters/mixin'
 import { total } from '@/api/common'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -73,13 +74,39 @@ export default {
       marketTotal: 0,
       marketVolume: 0,
       riseNum: 0,
-      tokenTotal: 0
+      tokenTotal: 0,
+      rateR: null,
+      rateCode: null
     }
   },
   mixins: [
     mixin
   ],
+  computed: {
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
+  },
+  mounted() {
+    if (this.globalRateArr.length) {
+      this.fn()
+    }
+  },
+  watch: {
+    globalRateArr: {
+      handler(val) {
+        val.length && this.fn()
+      },
+      deep: true
+    }
+  },
   methods: {
+    fn() {
+      this.rateR = this.globalRate // 全局汇率,初始化赋值
+      this.rate = this.languageId // CNY
+      const obj = this.globalRateArr.filter(item => {
+        return item.rateC === this.rate
+      })
+      this.rateCode = obj[0].rateCode
+    },
     total() {
       total().then(res => {
         const {
@@ -91,13 +118,13 @@ export default {
           riseNum,
           tokenTotal
         } = res
-        this.codeTotal = this.enNumUnti(codeTotal)
-        this.dayVolume = this.enNumUnti(dayVolume)
-        this.fallNum = this.enNumUnti(fallNum)
-        this.marketTotal = this.enNumUnti(marketTotal)
-        this.marketVolume = this.enNumUnti(marketVolume)
-        this.riseNum = this.enNumUnti(riseNum)
-        this.tokenTotal = this.enNumUnti(tokenTotal)
+        this.codeTotal = codeTotal
+        this.dayVolume = this.enNumUnti(dayVolume * this.rateR)
+        this.fallNum = fallNum
+        this.marketTotal = marketTotal
+        this.marketVolume = this.enNumUnti(marketVolume * this.rateR)
+        this.riseNum = riseNum
+        this.tokenTotal = tokenTotal
       })
     }
   },

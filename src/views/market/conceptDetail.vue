@@ -51,10 +51,10 @@
                   <van-row>
                     <van-col
                       class="rate-item"
-                      v-for="(item, index) in rateArr"
+                      v-for="(item, index) in globalRateArr"
                       :key="index"
                       span="8"
-                      @click="selectRate( item.rateC)"
+                      @click="selectRate( item)"
                     >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                     >
                   </van-row>
@@ -69,7 +69,7 @@
             <van-col span="4">币种</van-col>
             <van-col span="6">
               <div class="arrow-box" @click="sorthangqing('marketValue')">
-                <div>市值 (¥)</div>
+                <div>市值 ({{rateCode}})</div>
                 <div class="img-box">
                    <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -79,7 +79,7 @@
             </van-col>
             <van-col span="6">
               <div class="arrow-box" @click="sorthangqing('currentPrice')">
-                <div>最新价 (¥)</div>
+                <div>最新价 ({{rateCode}})</div>
                 <div class="img-box">
                    <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -122,9 +122,9 @@
               </div>
               <div class="bicon-name-bottom base125">{{item.code}}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.marketValue) }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.marketValue*rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{enNumUnti(item.currentPrice.toFixed(4))}}</div>
+              <div>{{enNumUnti((item.currentPrice*rateR).toFixed(4))}}</div>
             </van-col>
             <van-col span="6" style="text-align: right" :class="item.changePercent.toString().indexOf('-')>=0?'red':'green'">
               <div>{{item.changePercent.toFixed(2)}}%</div>
@@ -137,31 +137,51 @@
 </template>
 <script>
 import mixin from '@/filters/mixin'
-import { rateList } from '@/api/common'
+import { mapGetters } from 'vuex'
 import { symbolConcept } from '@/api/market'
 export default {
   data() {
     return {
-      rateArr: [], // 汇率数组
-      rate: 'CNY',
-
       id: null,
       dataObj: null,
       sorthangqingFlag1: 0,
       sorthangqingFlag2: 0,
 
       sorthangqingFlag3: 0,
-      hangqingList: []
+      hangqingList: [],
+      rateR: null,
+      rate: null,
+      rateCode: null
     }
   },
   mixins: [mixin],
   mounted() {
-    // 获取汇率
-    this.rateList()
     this.id = this.$route.query.id
     this.symbolConcept()
+    if (this.globalRateArr.length) {
+      this.fn()
+    }
+  },
+  computed: {
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
+  },
+  watch: {
+    globalRateArr: {
+      handler(val) {
+        val.length && this.fn()
+      },
+      deep: true
+    }
   },
   methods: {
+    fn() {
+      this.rateR = this.globalRate // 全局汇率,初始化赋值
+      this.rate = this.languageId // CNY
+      const obj = this.globalRateArr.filter(item => {
+        return item.rateC === this.rate
+      })
+      this.rateCode = obj[0].rateCode
+    },
     // 行情排序
     sorthangqing(key) {
       if (key === 'marketValue') {
@@ -226,14 +246,10 @@ export default {
     },
     // 选择汇率
     selectRate(value) {
-      this.rate = value
+      this.rate = value.rateC
+      this.rateR = value.rateR
+      this.rateCode = value.rateCode
       this.$refs.item.toggle()
-    },
-    // 获取汇率列表
-    rateList() {
-      rateList().then(res => {
-        this.rateArr = res
-      })
     },
     // 详情页
     toDetail(id) {

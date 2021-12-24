@@ -15,7 +15,7 @@
         </div>
         <div class="head-right">
           <div v-if="isLogin">
-            <div class="right-t">158****6743</div>
+            <div class="right-t">{{userName}}</div>
             <div class="right-b">欢迎来到TOKEN100</div>
           </div>
           <div v-else>
@@ -52,7 +52,7 @@
               <span>注册时间</span>
             </div>
             <div class="li-r">
-              <span>2021-09-12 11:20</span>
+              <span>{{$moment(createTime).format('YYYY-MM-DD hh:mm')}}</span>
             </div>
           </li>
         </ul>
@@ -90,7 +90,7 @@
         </ul>
       </div>
       <div class="login-out" v-if="isLogin">
-        <van-button color="#fff" size="large">退出登陆</van-button>
+        <van-button color="#fff" size="large" @click="logout">退出登陆</van-button>
       </div>
     </div>
 
@@ -100,28 +100,53 @@
 
 <script>
 // 请求接口
-import { getUserInfo } from '@/api/home.js'
+import { getUser } from '@/api/mine.js'
 import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      // islogin: true, // 是否登陆
-      wechat: `${this.$cdn}/wx/640.gif`,
       languageShow: false,
       actions: [
         { name: '中文', value: 'CNY' },
-        { name: '英文', value: 'USD' }
+        { name: 'English', value: 'USD' }
       ],
-      language: '中文'
+      language: null,
+      userName: null,
+      createTime: null
     }
   },
   computed: {
-    ...mapGetters(['userName', 'isLogin', 'languageId', 'globalRate', 'globalRateArr'])
+    ...mapGetters(['isLogin', 'languageId', 'globalRate', 'globalRateArr'])
   },
   mounted() {
-    this.initData()
+    this.getUser()
+    this.language = this.languageId === 'CNY' ? '中文' : 'English'
   },
   methods: {
+    // 退出登陆
+    logout() {
+      this.$dialog.confirm({
+        title: '退出登陆',
+        message: '确认退出登陆?'
+      })
+        .then(() => {
+          this.$store.dispatch('setIsLogin', false)
+          localStorage.setItem('token', '')
+        }).catch(() => {
+          // on cancel
+        })
+    },
+    // 获取用户信息
+    getUser() {
+      getUser().then(res => {
+        const {
+          userName,
+          createTime
+        } = res
+        this.userName = userName
+        this.createTime = createTime
+      })
+    },
     // 联系我们
     connectus() {
       this.$router.push({
@@ -155,13 +180,17 @@ export default {
     // 修改密码
     changepassword() {
       this.$router.push({
-        name: 'findpassword'
+        name: 'findpassword',
+        params: { type: 2 }
       })
     },
     // 修改账号
     changePhone() {
       this.$router.push({
-        name: 'changePhone'
+        path: '/changePhone',
+        query: {
+          userName: this.userName
+        }
       })
     },
     // 搜索页面
@@ -169,21 +198,6 @@ export default {
       this.$router.push({
         name: 'search'
       })
-    },
-    // 请求数据案例
-    initData() {
-      // 请求接口数据，仅作为展示，需要配置src->config下环境文件
-      const params = { user: 'sunnie', age: 20 }
-      getUserInfo(params)
-        .then(() => {})
-        .catch(() => {})
-    },
-    // Action 通过 store.dispatch 方法触发
-    doDispatch() {
-      this.$store.dispatch('setUserName', '真乖，赶紧关注公众号，组织都在等你~')
-    },
-    goGithub(index) {
-      window.location.href = 'https://github.com/sunniejs/vue-h5-template'
     }
   }
 }

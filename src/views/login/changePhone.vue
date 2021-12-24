@@ -1,37 +1,33 @@
 <template>
+<!-- 登陆 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="修改手机号" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar title="修改账号" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
       </van-nav-bar>
     </van-sticky>
     <div class="page-content">
-      <van-form>
+      <van-form @submit="login">
         <div class="phone">
-          <span>+86</span>
-          <van-field
-            v-model="username"
-            name="用户名"
-            placeholder="请输入新手机号"
-            :rules="[{ required: true, message: '请输入新手机号' }]"
-          />
+           <van-field readonly  v-model="username" label="当前账号 :" />
         </div>
         <div class="password">
           <van-field
             v-model="password"
             :type="showPsd ? 'text' : 'password'"
-            placeholder="请输入验证码"
-            :rules="[{ required: true, message: '请输入验证码' }]"
-            ><template #button>
-              <span>发送验证码</span>
-            </template></van-field
-          >
+            placeholder="请输入密码"
+
+          />
+          <van-image
+            @click="showPassword"
+            :src="showPsd ? require('../../assets/icon/showpsd.png') : require('../../assets/icon/hiddenpsd.png')"
+          />
         </div>
 
-        <div class="button-box" @click="onSubmit">
-          <van-button round block color="#ccc" :disabled="true" native-type="submit">修改手机号</van-button>
+        <div class="button-box">
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">下一步</van-button>
         </div>
       </van-form>
     </div>
@@ -43,16 +39,33 @@ export default {
     return {
       username: '',
       password: '',
-      showPsd: false,
-      checked: false
+      showPsd: false
+    }
+  },
+  mounted() {
+    this.username = this.$route.query.userName
+  },
+  computed: {
+    btnDisable() {
+      if (this.password) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
-    onSubmit(values) {
+    // 密码显示于隐藏
+    showPassword() {
+      this.showPsd = !this.showPsd
+    },
+    login() {
       this.$router.push({
-        name: 'Mine'
+        path: '/changePhone2',
+        query: {
+          userPassword: this.password
+        }
       })
-      console.log('submit', values)
     },
     // 返回
     onClickLeft() {
@@ -72,13 +85,13 @@ export default {
 <style lang="scss" scoped>
 .page {
   background: #fff;
-  .van-nav-bar {
+  /deep/.van-nav-bar {
     background: #fff;
-    .van-icon {
+    /deep/.van-icon {
       color: #666666;
     }
-    .van-nav-bar__left {
-      .van-icon-arrow-left {
+    /deep/.van-nav-bar__left {
+      /deep/ .van-icon-arrow-left {
         color: #666666;
       }
     }
@@ -86,9 +99,36 @@ export default {
 
   .page-content {
     margin: 64px 32px 0 29px;
+    /deep/ .van-dropdown-menu {
+      width: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-content: center;
+    }
+    /deep/ .van-dropdown-menu__item {
+      border: none;
+      justify-content: flex-end !important;
+    }
+    /deep/ .van-dropdown-menu__title{
+      color: #909090;
+    }
+    /deep/ .van-dropdown-menu__bar {
+      box-shadow: none;
+    }
     .phone {
       border-bottom: 1px solid #eeeeee;
       @include flexbox;
+      .code-box{
+        margin:0 30px;
+        padding:30px 60px;
+        border-bottom:1px solid rgb(204, 204, 204);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        color:#858585;
+      }
       span {
         font-size: 28px;
         color: #333333;
@@ -108,21 +148,17 @@ export default {
         background: #ccc;
       }
     }
-    .bottom-t {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      margin-top: 44px;
-      span {
-          font-size:28px;
-          color:#999;
-        margin-left: 10px;
-        a {
-          color: #0d8dfb;
-          text-decoration: underline;
-        }
+    .bttom-text {
+      @include flexbox;
+      a {
+        color: #e4bc31;
       }
+      padding-top: 18px;
+      font-size: 28px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+
+      line-height: 40px;
     }
   }
 }

@@ -203,11 +203,11 @@
               <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
               <span class="base125">{{ item.marketName }}</span>
             </div>
-            <div class="bicon-name-bottom hangqing">{{ item.marketPair }}</div>
+            <div class="bicon-name-bottom hangqing">{{ item.symbolName }}/{{item.rateName}}</div>
           </van-col>
-          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.changeDaily*rateR) }}</van-col>
+          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.lastPrice*rateR) }}</van-col>
           <van-col span="6" style="text-align: right">
-            <div>{{ enNumUnti(item.baseVolume*rateR) }}</div>
+            <div>{{ enNumUnti(item.quoteVolume*rateR) }}</div>
           </van-col>
           <van-col span="6" style="text-align: right">
             <div>{{ (item.marketScale*100).toFixed(2) }}%</div>
@@ -236,13 +236,13 @@
               <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
               <span>{{ item.marketName }}</span>
             </div>
-            <div class="bicon-name-bottom">{{ item.marketPair}}</div>
+            <div class="bicon-name-bottom base185">{{ item.symbolName }}/{{item.rateName}}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <div>{{ enNumUnti(item.baseVolume*rateR) }}</div>
+            <div>{{ enNumUnti(item.lastPrice*rateR) }}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <div>{{ (item.marketScale*100).toFixed(2) }}%</div>
+            <div>{{ enNumUnti(item.quoteVolume*rateR) }}</div>
           </van-col>
         </van-row>
       </van-list>
@@ -262,7 +262,7 @@
         <div class="info-list">
           <div class="info-item">
             <div class="item-left">发行日期</div>
-            <div class="item-right">{{symbolDetailObj.symbolIssueDate}}</div>
+            <div class="item-right">{{$moment(symbolDetailObj.symbolIssueDate).format('YYYY-MM-DD hh:mm')}}</div>
           </div>
           <div class="info-item">
             <div class="item-left">历史最高价</div>
@@ -609,7 +609,7 @@ export default {
       symbolHolderObj: null,
       sortqianbaoFlag1: 0,
       sortqianbaoFlag2: 0,
-      rateR: 0,
+      rateR: null,
       rate: null,
       rateCode: null
     }
@@ -644,14 +644,27 @@ export default {
     this.symbolKline()
     // 获取行情列表
     this.marketTicker()
-    this.rateR = this.globalRate // 全局汇率,初始化赋值
-    this.rate = this.languageId // CNY
-    const obj = this.globalRateArr.filter(item => {
-      return item.rateC === this.rate
-    })
-    this.rateCode = obj[0].rateCode // $
+    if (this.globalRateArr.length) {
+      this.fn()
+    }
+  },
+  watch: {
+    globalRateArr: {
+      handler(val) {
+        val.length && this.fn()
+      },
+      deep: true
+    }
   },
   methods: {
+    fn() {
+      this.rateR = this.globalRate // 全局汇率,初始化赋值
+      this.rate = this.languageId // CNY
+      const obj = this.globalRateArr.filter(item => {
+        return item.rateC === this.rate
+      })
+      this.rateCode = obj[0].rateCode
+    },
     // 去平台详情页
     toPlatformDetail(id) {
       this.$router.push({
@@ -1330,6 +1343,9 @@ export default {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .base185{
+        max-width:185px;
       }
       .hangqing {
         max-width: 125px;

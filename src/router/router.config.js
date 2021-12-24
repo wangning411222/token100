@@ -6,7 +6,7 @@ export const constantRouterMap = [
   {
     path: '/',
     component: () => import('@/views/layouts/index'),
-    redirect: '/mine/index'
+    redirect: '/market/index'
   },
   {
     path: '/login',
@@ -21,9 +21,21 @@ export const constantRouterMap = [
     meta: { title: '注册', keepAlive: false }
   },
   {
+    path: '/PasswordUpdate',
+    name: 'PasswordUpdate',
+    component: () => import('@/views/login/PasswordUpdate'),
+    meta: { title: '注册', keepAlive: false }
+  },
+  {
     path: '/changePhone',
     name: 'changePhone',
     component: () => import('@/views/login/changePhone'),
+    meta: { title: '修改手机号', keepAlive: false }
+  },
+  {
+    path: '/changePhone2',
+    name: 'changePhone2',
+    component: () => import('@/views/login/changePhone2'),
     meta: { title: '修改手机号', keepAlive: false }
   },
   // 平台详情页
@@ -75,8 +87,14 @@ export const constantRouterMap = [
   {
     path: '/aboutus',
     name: 'aboutus',
-    component: () => import('@/views/login/aboutus'),
+    component: () => import('@/views/mine/aboutus'),
     meta: { title: '关于我们', keepAlive: false }
+  },
+  {
+    path: '/userAgreement',
+    name: 'userAgreement',
+    component: () => import('@/views/mine/userAgreement'),
+    meta: { title: '用户协议', keepAlive: false }
   },
   {
     path: '/findpassword',

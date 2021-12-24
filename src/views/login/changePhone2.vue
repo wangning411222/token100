@@ -1,9 +1,8 @@
-
 <template>
-<!-- 注册 -->
+<!-- 修改账号2 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="注册" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar title="修改手机号" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -43,13 +42,9 @@
         </div>
 
         <div class="button-box" @click="next">
-          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">下一步</van-button>
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">确认</van-button>
         </div>
       </van-form>
-      <div class="bottom-t">
-       <van-checkbox v-model="checked"></van-checkbox>
-        <span>我已阅读并同意<router-link :to="{ name: 'userAgreement' }">TOKREN用户协议</router-link></span>
-      </div>
     </div>
   </div>
 </template>
@@ -63,28 +58,33 @@ export default {
       showPsd: false,
       checked: false,
       countryCode: [],
-      selectCOde: '86',
+      selectCOde: 86,
       sedShow: true,
       count: '',
       timer: null,
-      rescode: null
+      rescode: null,
+      title: null,
+      userPassword: null
 
     }
   },
   mounted() {
     this.getCountry()
   },
+  created() {
+    this.userPassword = this.$route.query.userPassword
+  },
   computed: {
     btnDisable() {
-      if (this.selectCOde !== '86') {
-        if (this.username && this.password && this.checked) {
+      if (this.selectCOde !== 86) {
+        if (this.username && this.password) {
           return true
         } else {
           return false
         }
       } else {
         var reg = /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/
-        if (reg.test(this.username) && this.password && this.checked) {
+        if (reg.test(this.username) && this.password) {
           return true
         } else {
           return false
@@ -93,7 +93,7 @@ export default {
     },
     // 是否可以发送验证码
     codeDisable() {
-      if (this.selectCOde !== '86' && this.username) {
+      if (this.selectCOde !== 86 && this.username) {
         return true
       } else {
         var reg = /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/
@@ -137,13 +137,10 @@ export default {
     next() {
       if (this.btnDisable) {
         if (this.password.trim() === this.rescode) {
+          this.$store.dispatch('setIsLogin', false)
+          localStorage.setItem('token', '')
           this.$router.push({
-            path: '/setPassword',
-            query: {
-              code: this.selectCOde,
-              phone: this.username,
-              smsCode: this.rescode
-            }
+            path: '/login'
           })
         } else {
           this.$notify('验证码错误')

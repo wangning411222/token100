@@ -4,7 +4,8 @@ const state = {
   isLogin: false,
   languageId: 'CNY',
   globalRate: 1,
-  rateArr: []
+  rateArr: [],
+  isShow: true
 }
 const mutations = {
   SET_USER_NAME(state, name) {
@@ -24,9 +25,15 @@ const mutations = {
   // 汇率数组
   SET_USER_RATEARR(state, arr) {
     state.rateArr = arr
+  },
+  SET_USER_show(state, flag) {
+    state.isShow = flag
   }
 }
 const actions = {
+  setShow({ commit }, flag) {
+    commit('SET_USER_show', flag)
+  },
   // 设置name
   setUserName({ commit }, name) {
     commit('SET_USER_NAME', name)
@@ -44,14 +51,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       rateList().then(res => {
         resolve(res)
-        console.log(res, 'res````````')
         commit('SET_USER_RATEARR', res)
       })
     })
-
-    // rateList().then(res=>{
-    //
-    // })
   }
 }
 export default {

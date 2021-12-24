@@ -6,9 +6,9 @@
       </keep-alive>
       <router-view v-else></router-view>
     </div>
-    <div class="layout-footer" v-if="time">
+    <div class="layout-footer" v-if="isShow">
       <globalPreview v-if="!$route.meta.hidePreview"></globalPreview>
-      <TabBar :data="tabbars" @change="handleChange" />
+      <TabBar :data="tabbars"/>
     </div>
   </div>
 </template>
@@ -45,25 +45,24 @@ export default {
           },
           active: require('../../assets/icon/规则1@2x.png'),
           inactive: require('../../assets/icon/规则@2x.png')
-        },
-        {
-          title: '钱包',
-          to: {
-            name: 'Wallet'
-          },
-          active: require('../../assets/icon/卡券1@2x.png'),
-          inactive: require('../../assets/icon/卡券@2x.png')
-        },
-        {
-          title: '我的',
-          to: {
-            name: 'Mine'
-          },
-          active: require('../../assets/icon/我的1@2x.png'),
-          inactive: require('../../assets/icon/我的@2x.png')
         }
-      ],
-      time: true
+        // {
+        //   title: '钱包',
+        //   to: {
+        //     name: 'Wallet'
+        //   },
+        //   active: require('../../assets/icon/卡券1@2x.png'),
+        //   inactive: require('../../assets/icon/卡券@2x.png')
+        // },
+        // {
+        //   title: '我的',
+        //   to: {
+        //     name: 'Mine'
+        //   },
+        //   active: require('../../assets/icon/我的1@2x.png'),
+        //   inactive: require('../../assets/icon/我的@2x.png')
+        // }
+      ]
     }
   },
   components: {
@@ -71,17 +70,18 @@ export default {
     globalPreview
   },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['userName', 'isShow'])
   },
   methods: {
-    handleChange(v) {
-      console.log('tab value:', v)
-    }
+
   },
   created() {
-    const time = this.$moment().format('YYYY')
-    if (time - 0 === 2022) {
-      this.time = false
+    const newTime = new Date().getTime()
+    const time2 = new Date('2022-01-15').getTime()
+    if (newTime > time2) {
+      this.$store.dispatch('setShow', false)
+    } else {
+      this.$store.dispatch('setShow', true)
     }
   }
 }

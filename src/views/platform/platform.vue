@@ -21,10 +21,10 @@
                 <van-row>
                   <van-col
                     class="rate-item"
-                    v-for="(item, index) in rateArr"
+                    v-for="(item, index) in globalRateArr"
                     :key="index"
                     span="8"
-                    @click="selectRate(item.rateC)"
+                    @click="selectRate(item)"
                     >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                   >
                 </van-row>
@@ -40,9 +40,9 @@
           <van-col span="6">交易所</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sorterList">
-              <div>24H额(¥)</div>
+              <div>24H额({{ rateCode }})</div>
               <div class="img-box">
-                 <img v-if="sorterFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sorterFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorterFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -59,10 +59,10 @@
           <van-col span="2">#</van-col>
           <van-col span="6">交易所</van-col>
           <van-col span="8">
-            <div class="arrow-box"  @click="sortchiyouList">
-              <div>持有资产(฿)</div>
+            <div class="arrow-box" @click="sortchiyouList">
+              <div>持有资产({{ rateCode }})</div>
               <div class="img-box">
-                 <img v-if="sortchiyouFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sortchiyouFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortchiyouFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -89,9 +89,9 @@
           <van-col span="8">ER排名/交易平台</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sortotcList">
-              <div>24H额(¥)</div>
+              <div>24H额({{ rateCode }})</div>
               <div class="img-box">
-               <img v-if="sortotcFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sortotcFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortotcFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -109,9 +109,9 @@
           <van-col span="6">交易所</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sorthuoyueList">
-              <div>24H额(¥)</div>
+              <div>24H额({{ rateCode }})</div>
               <div class="img-box">
-                   <img v-if="sorthuoyueFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-if="sorthuoyueFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthuoyueFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
                 <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
@@ -122,22 +122,18 @@
           </van-col>
         </van-row>
       </div>
+      <!-- 关注列表 -->
       <div class="table-head" v-if="active === 5 && isLogin">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="6">交易所</van-col>
           <van-col span="6">
-            <div class="arrow-box">
-              <div>24H额(¥)</div>
+            <div class="arrow-box" @click="sortguanzhu">
+              <div>24H额({{ rateCode }})</div>
               <div class="img-box">
-                <van-image
-                  style="transform: rotate(180deg); margin-bottom: 2px"
-                  width="6px"
-                  height="3px"
-                  :src="require('../../assets/icon/上下箭头@2x(1).png')"
-                >
-                </van-image>
-                <van-image width="6px" height="3px" :src="require('../../assets/icon/上下箭头@2x(1).png')"> </van-image>
+                <img v-if="sortguanzhuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+                <img v-else-if="sortguanzhuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
               </div>
             </div>
           </van-col>
@@ -174,7 +170,7 @@
             <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
             <span>{{ item.marketName }}</span>
           </van-col>
-          <van-col span="8" style="text-align: right"> {{ enNumUnti(item.marketDayVolume) }} </van-col>
+          <van-col span="8" style="text-align: right"> {{ enNumUnti(item.marketDayVolume * rateR) }} </van-col>
           <van-col span="8" style="text-align: right">
             <div>
               <myprogress :num="item.marketRankEx"></myprogress>
@@ -190,12 +186,12 @@
           v-for="(item, index) in chiyouLists"
           :key="index"
           type="flex"
-           @click="toDetail(item.marketId)"
+          @click="toDetail(item.marketId)"
           justify="space-between"
           cente="center"
         >
           <van-col span="2">
-           <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
@@ -204,7 +200,7 @@
             <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
             <span>{{ item.marketName }}</span>
           </van-col>
-          <van-col span="8" style="text-align: right"> {{ enNumUnti(item.marketDayVolume) }} </van-col>
+          <van-col span="8" style="text-align: right"> {{ enNumUnti(Number(item.marketDayVolume) * rateR) }} </van-col>
           <van-col span="8" style="text-align: right">
             <div>
               <myprogress :num="item.marketRankEx"></myprogress>
@@ -219,12 +215,12 @@
           v-for="(item, index) in heyueLists"
           :key="index"
           type="flex"
-           @click="toDetail(item.marketId)"
+          @click="toDetail(item.marketId)"
           justify="space-between"
           cente="center"
         >
           <van-col span="8" class="heyue-box">
-           <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
@@ -248,21 +244,21 @@
           v-for="(item, index) in otcLists"
           :key="index"
           type="flex"
-           @click="toDetail(item.marketId)"
+          @click="toDetail(item.marketId)"
           justify="space-between"
           cente="center"
         >
           <van-col span="8" class="heyue-box">
-           <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
             <div class="icon-name margin-left">
               <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
-              <span>{{ item.marketName	 }}</span>
+              <span>{{ item.marketName }}</span>
             </div>
           </van-col>
-          <van-col span="8" style="text-align: right"> {{ enNumUnti(item.marketDayVolume) }} </van-col>
+          <van-col span="8" style="text-align: right"> {{ enNumUnti(Number(item.marketDayVolume) * rateR) }} </van-col>
           <van-col span="8" style="text-align: right">
             <div>
               <myprogress :num="item.marketRankEx"></myprogress>
@@ -277,12 +273,12 @@
           v-for="(item, index) in huoyueLists"
           :key="index"
           type="flex"
-           @click="toDetail(item.marketId)"
+          @click="toDetail(item.marketId)"
           justify="space-between"
           cente="center"
         >
           <van-col span="2">
-             <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
             <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
@@ -291,7 +287,7 @@
             <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
             <span>{{ item.marketName }}</span>
           </van-col>
-          <van-col span="8" style="text-align: right"> {{ enNumUnti(item.marketDayVolume) }}</van-col>
+          <van-col span="8" style="text-align: right"> {{ enNumUnti(item.marketDayVolume * rateR) }}</van-col>
           <van-col span="8" style="text-align: right">
             <div>
               <myprogress :num="item.marketRankEx"></myprogress>
@@ -307,28 +303,38 @@
           <van-button color="#E4BC31" @click="linkToLogin">立即登陆</van-button>
         </div>
         <div v-else>
-          <van-list>
+          <div v-if="!guanzhuList.length">
+            <noData></noData>
+          </div>
+          <van-list v-else>
             <van-row
               class="list-item"
-              v-for="(item, index) in erList"
+              v-for="(item, index) in guanzhuList"
               :key="index"
               type="flex"
               justify="space-between"
               cente="center"
             >
               <van-col span="2">
-                <van-tag color="#E4BC31">{{ item.index }}</van-tag>
+                <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
+                <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{
+                  item.marketRank
+                }}</van-tag>
+                <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{
+                  item.marketRank
+                }}</van-tag>
+                <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
               </van-col>
               <van-col span="6" class="icon-name">
-                <van-image width="18px" height="18px" :src="item.src"></van-image>
-                <span>{{ item.name }}</span>
+                <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
+                <span>{{ item.marketName }}</span>
               </van-col>
-              <van-col span="6" style="text-align: right"> {{ item.money }}万亿 </van-col>
+              <van-col span="6" style="text-align: right"> {{ enNumUnti(item.marketDayVolume * rateR) }} </van-col>
               <van-col span="10">
                 <div class="guanzhu-start">
-                  <myprogress :num="item.num"></myprogress>
+                  <myprogress :num="item.marketRankEx"></myprogress>
                   <van-image
-                    @click="starClick"
+                    @click="starClick(item.marketId)"
                     width="15px"
                     height="14px"
                     :src="require('../../assets/image/星星2@2x.png')"
@@ -345,19 +351,24 @@
 
 <script>
 import mixin from '@/filters/mixin'
-import { rateList } from '@/api/common'
-import { marketChangePage, marketHoldPage, marketContractPage, marketOtcPage, marketActivePage } from '@/api/platform'
+import {
+  marketChangePage,
+  marketHoldPage,
+  marketContractPage,
+  marketOtcPage,
+  marketActivePage,
+  userMarketPage,
+  userMarket
+} from '@/api/platform'
 import banner from '@/components/banner'
 import search from '@/components/search'
+import noData from '@/components/noData'
 import myprogress from '@/components/myprogress'
 import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
       active: 0,
-      rate: 'CNY', // 选择的汇率
-      rateArr: [], // 汇率数组
-      erList: [],
       ercurrent: 1,
       erLists: [],
       sorterFlag1: 0,
@@ -368,22 +379,72 @@ export default {
       otcLists: [],
       sortotcFlag1: 0,
       huoyueLists: [],
-      sorthuoyueFlag1: 0
+      sorthuoyueFlag1: 0,
+      rateR: null,
+      rate: null,
+      rateCode: null,
+      guanzhuList: [],
+      sortguanzhuFlag1: 0
     }
   },
   mixins: [mixin],
   // eslint-disable-next-line vue/no-unused-components
-  components: { banner, search, myprogress },
+  components: { banner, search, myprogress, noData },
   computed: {
-    ...mapGetters(['userName', 'isLogin'])
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
   },
   mounted() {
-    // 获取汇率
-    this.rateList()
     // 获取ER排行
     this.marketChangePage()
+    if (this.globalRateArr.length) {
+      this.fn()
+    }
+  },
+  watch: {
+    globalRateArr: {
+      handler(val) {
+        val.length && this.fn()
+      },
+      deep: true
+    }
   },
   methods: {
+    // 关注排序
+    sortguanzhu() {
+      this.sortguanzhuFlag1++
+      if (this.sortguanzhuFlag1 === 1) {
+        this.guanzhuLists.sort((a, b) => {
+          return a['marketDayVolume'] - b['marketDayVolume']
+        })
+      } else if (this.sortguanzhuFlag1 === 2) {
+        this.guanzhuLists.sort((a, b) => {
+          return b['marketDayVolume'] - a['marketDayVolume']
+        })
+      } else {
+        this.guanzhuLists.sort((a, b) => {
+          return a['marketRank'] - b['marketRank']
+        })
+        this.sortguanzhuFlag1 = 0
+      }
+    },
+    // 获取关注列表
+    userMarketPage() {
+      const data = {
+        current: 1,
+        size: 100
+      }
+      userMarketPage(data).then(res => {
+        this.guanzhuList = res.records
+      })
+    },
+    fn() {
+      this.rateR = this.globalRate // 全局汇率,初始化赋值
+      this.rate = this.languageId // CNY
+      const obj = this.globalRateArr.filter(item => {
+        return item.rateC === this.rate
+      })
+      this.rateCode = obj[0].rateCode
+    },
     // 活跃平台排序
     sorthuoyueList() {
       this.sorthuoyueFlag1++
@@ -497,6 +558,8 @@ export default {
         case 4:
           this.marketActivePage()
           break
+        case 5:
+          this.userMarketPage()
       }
     },
     // 持有资产列表
@@ -509,7 +572,6 @@ export default {
       marketHoldPage(data).then(res => {
         this.chiyouLists = res.records
         this.loading = false
-        console.log(res, 'eres')
       })
     },
     // ER排序
@@ -544,15 +606,12 @@ export default {
     },
     // 选择汇率
     selectRate(value) {
-      this.rate = value
+      this.rate = value.rateC
+      this.rateR = value.rateR
+      this.rateCode = value.rateCode
       this.$refs.item.toggle()
     },
-    // 获取汇率列表
-    rateList() {
-      rateList().then(res => {
-        this.rateArr = res
-      })
-    },
+
     // 去登陆页
     linkToLogin() {
       this.$router.push({
@@ -567,8 +626,11 @@ export default {
       })
     },
     // 关注列表点击星星
-    starClick() {
-      this.$toast('已取消关注')
+    starClick(id) {
+      userMarket(id).then(res => {
+        this.$toast('已取消关注')
+        this.userMarketPage()
+      })
     }
   }
 }
@@ -576,7 +638,7 @@ export default {
 <style lang="scss" scoped>
 .about-container {
   .head {
-     background:#fff;
+    background: #fff;
     z-index: 10000;
     display: flex;
     flex-direction: row;
@@ -609,7 +671,7 @@ export default {
     }
   }
   .table-head {
-    background:#fff;
+    background: #fff;
     z-index: 10000;
     color: #999;
     font-size: 22px;
@@ -633,9 +695,9 @@ export default {
   }
   .list-box {
     padding: 0 28px;
-     margin-bottom: 30px;
-     position:relative;
-      .list-more {
+    margin-bottom: 30px;
+    position: relative;
+    .list-more {
       font-size: 26px;
       text-align: center;
       color: rgb(228, 188, 49);

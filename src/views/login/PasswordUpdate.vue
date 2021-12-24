@@ -1,5 +1,5 @@
 <template>
-<!-- 注册设置密码 -->
+<!-- 忘记密码设置密码 -->
   <div class="page">
     <van-sticky>
       <van-nav-bar title="设置新密码" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { register } from '@/api/mine'
+import { userPasswordUpdate } from '@/api/mine'
 export default {
   data() {
     return {
@@ -75,12 +75,10 @@ export default {
     onSubmit(values) {
       if (this.password1 === this.password2) {
         const data = {
-          code: this.code,
-          phone: this.phone,
           smsCode: this.smsCode,
           userPassword: this.password1
         }
-        register(data).then(res => {
+        userPasswordUpdate(data).then(res => {
           this.$router.push({
             name: 'Login'
           })
@@ -103,8 +101,6 @@ export default {
     }
   },
   created() {
-    this.code = this.$route.query.code
-    this.phone = this.$route.query.phone
     this.smsCode = this.$route.query.smsCode
   }
 }

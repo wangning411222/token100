@@ -1,7 +1,8 @@
 <template>
+<!-- 找回密码 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="找回密码" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="title" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -10,48 +11,154 @@
     <div class="page-content">
       <van-form>
         <div class="phone">
-          <span>+86</span>
+          <span>+{{selectCOde}}</span>
+            <van-dropdown-menu>
+            <van-dropdown-item ref="item">
+              <div v-for="(item, index) in countryCode" :key="index" class="code-box"   @click="selectCode(item)">
+                <div class="code-left"> {{ item.countryPhoneCode }}</div>
+                <div class="code-right"> {{ item.countryName }}</div>
+
+              </div>
+            </van-dropdown-item>
+          </van-dropdown-menu>
           <van-field
             v-model="username"
             name="用户名"
             placeholder="请输入您的手机号"
-            :rules="[{ required: true, message: '请输入您的手机号' }]"
+
           />
         </div>
         <div class="password">
           <van-field
             v-model="password"
-            :type="showPsd ? 'text' : 'password'"
             placeholder="请输入验证码"
-            :rules="[{ required: true, message: '请输入验证码' }]"
+
             ><template #button>
-              <span>发送验证码</span>
+              <!-- <span>发送验证码</span> -->
+              <van-button color="#e4bc31" v-show="sedShow" :disabled="!codeDisable" @click="smsSend">发送验证码</van-button>
+              <van-button color="#e4bc31" v-show="!sedShow" >{{count}}</van-button>
             </template></van-field
           >
         </div>
 
-        <div class="button-box" @click="onSubmit">
-          <van-button round block color="#ccc" :disabled="true" native-type="submit">下一步</van-button>
+        <div class="button-box" @click="next">
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">下一步</van-button>
         </div>
       </van-form>
     </div>
   </div>
 </template>
 <script>
+import { getCountry, smsSend } from '@/api/mine'
 export default {
   data() {
     return {
       username: '',
       password: '',
-      showPsd: false
+      showPsd: false,
+      checked: false,
+      countryCode: [],
+      selectCOde: '86',
+      sedShow: true,
+      count: '',
+      timer: null,
+      rescode: null,
+      title: null
+
+    }
+  },
+  mounted() {
+    this.getCountry()
+  },
+  created() {
+    const type = this.$route.params.type
+    this.title = type === 1 ? '忘记密码' : '修改密码'
+  },
+  computed: {
+    btnDisable() {
+      if (this.selectCOde !== '86') {
+        if (this.username && this.password) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        var reg = /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/
+        if (reg.test(this.username) && this.password) {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+    // 是否可以发送验证码
+    codeDisable() {
+      if (this.selectCOde !== '86' && this.username) {
+        return true
+      } else {
+        var reg = /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/
+        if (reg.test(this.username)) {
+          return true
+        } else {
+          return false
+        }
+      }
     }
   },
   methods: {
-    onSubmit(values) {
-      this.$router.push({
-        name: 'setPassword'
+    getCode() {
+      const TIME_COUNT = 60
+      if (!this.timer) {
+        this.count = TIME_COUNT
+        this.sedShow = false
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--
+          } else {
+            this.sedShow = true
+            clearInterval(this.timer)
+            this.timer = null
+          }
+        }, 1000)
+      }
+    },
+    // 发送验证码
+    smsSend() {
+      this.getCode()
+      const data = {
+        phone: this.username,
+        code: this.selectCOde
+      }
+      smsSend(data).then(res => {
+        this.rescode = res
       })
-      console.log('submit', values)
+    },
+    // 下一步
+    next() {
+      if (this.btnDisable) {
+        if (this.password.trim() === this.rescode) {
+          this.$router.push({
+            path: '/PasswordUpdate',
+            query: {
+              smsCode: this.rescode
+            }
+          })
+        } else {
+          this.$notify('验证码错误')
+        }
+      }
+    },
+    // 选择区号
+    selectCode(item) {
+      this.username = ''
+      this.selectCOde = item.countryPhoneCode
+      this.$refs.item.toggle()
+    },
+    // 获取国家区号
+    getCountry() {
+      getCountry().then(res => {
+        this.countryCode = res
+      })
     },
     // 返回
     onClickLeft() {
@@ -84,10 +191,37 @@ export default {
   }
 
   .page-content {
+    /deep/ .van-dropdown-menu {
+      width: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-content: center;
+    }
+    /deep/ .van-dropdown-menu__item {
+      border: none;
+      justify-content: flex-end !important;
+    }
+    /deep/ .van-dropdown-menu__title{
+      color: #909090;
+    }
+    /deep/ .van-dropdown-menu__bar {
+      box-shadow: none;
+    }
     margin: 64px 32px 0 29px;
     .phone {
       border-bottom: 1px solid #eeeeee;
       @include flexbox;
+      .code-box{
+        margin:0 30px;
+        padding:30px 60px;
+        border-bottom:1px solid rgb(204, 204, 204);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        color:#858585;
+      }
       span {
         font-size: 28px;
         color: #333333;
@@ -96,6 +230,7 @@ export default {
     .password {
       border-bottom: 1px solid #eeeeee;
       @include flexbox;
+
       .van-image {
         width: 38px;
         height: 29px;
@@ -105,6 +240,25 @@ export default {
       margin-top: 154px;
       .van-botton {
         background: #ccc;
+      }
+    }
+    .bottom-t {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 44px;
+      /deep/ .van-icon{
+        color:#fff;
+      }
+      span {
+          font-size:28px;
+          color:#999;
+        margin-left: 10px;
+        a {
+          color: #0d8dfb;
+          text-decoration: underline;
+        }
       }
     }
   }

@@ -135,7 +135,6 @@ export default {
   },
   filters: {
     newsTypeFilter(value) {
-      console.log(value, 'value')
       switch (value) {
         case 1:
           return '上币'
@@ -215,7 +214,6 @@ export default {
     },
     // 详情
     toRich(id) {
-      console.log(id, 'id````````')
       this.$router.push({
         path: '/detail',
         query: { id }

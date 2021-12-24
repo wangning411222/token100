@@ -171,4 +171,24 @@ export function walletList(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
+// 关注列表
+
+export function userSymbolPage(data) {
+  return request({
+    url: '/appSymbol/userSymbolPage',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+
+// 关注取消关注
+export function userSymbol(data) {
+  return request({
+    url: `/appSymbol/userSymbol?symbolId=${data}`,
+    method: 'post',
+    data: {},
+    hideloading: true // 隐藏 loading 组件
+  })
+}
 

@@ -9,6 +9,16 @@ export function marketInfo(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
+// 关注/取消关注
+export function userMarket(data) {
+  return request({
+    url: `/appMarket/userMarket?marketId=${data}`,
+    method: 'post',
+    data: {},
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+
 // ER全球交易所排行
 export function marketChangePage(data) {
   return request({
@@ -81,3 +91,13 @@ export function marketNews(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
+// 关注列表
+export function userMarketPage(data) {
+  return request({
+    url: '/appMarket/userMarketPage',
+    method: 'post',
+    data: data,
+    hideloading: true // 隐藏 loading 组件
+  })
+}
+

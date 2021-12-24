@@ -24,7 +24,7 @@
             </div>
             <van-image
               @click="collect"
-              v-if="isLogin"
+              v-if="isLogin&&detailObj.attention"
               width="16px"
               height="15px"
               :src="require('../../assets/image/星星2@2x.png')"
@@ -93,10 +93,10 @@
               <van-row>
                 <van-col
                   class="rate-item"
-                  v-for="(item, index) in rateArr"
+                  v-for="(item, index) in globalRateArr"
                   :key="index"
                   span="8"
-                 @click="selectRate( item.rateC)"
+                 @click="selectRate( item)"
                     >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                 >
               </van-row>
@@ -160,14 +160,14 @@
           </van-col>
           <van-col span="4" class="icon-name">
             <div class="icon-name-top">
-              <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
-              <span>{{ item.marketName }}</span>
+              <van-image width="18px" height="18px" :src="item.symbolLogo"></van-image>
+              <span>{{ item.symbolName }}</span>
             </div>
-            <div class="bicon-name-bottom base125">{{item.marketPair}}</div>
+            <div class="bicon-name-bottom base125">{{item.marketName}}/{{item.rateName}}</div>
           </van-col>
-          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.changeDaily) }} </van-col>
+          <van-col span="6" style="text-align: right">{{enNumUnti(item.lastPrice*rateR) }} </van-col>
           <van-col span="6" style="text-align: right">
-            <div>{{ cnNumUnti(item.changeDaily) }}</div>
+            <div> {{ enNumUnti(item.lastPrice) }}</div>
           </van-col>
           <van-col span="6" style="text-align: right">
             <div>{{item.marketScale&&(item.marketScale*100).toFixed(2)}}%</div>
@@ -237,17 +237,14 @@ span="18"
   </div>
 </template>
 <script>
-import { rateList } from '@/api/common'
 import mixin from '@/filters/mixin'
-import { marketInfo, marketKline, marketTickerPage, marketNews } from '@/api/platform'
+import { marketInfo, marketKline, marketTickerPage, marketNews, userMarket } from '@/api/platform'
 import * as echarts from 'echarts'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
       active: 0,
-      isLogin: false,
-      rate: 'CNY', // 选择的汇率
-      rateArr: [], // 汇率数组
       result: [], // chart 数据
       chartTime: null, // 点击显示的时间
       chartNum: null, // 点击显示的金钱
@@ -279,26 +276,47 @@ export default {
       sorthangqingFlag1: 0,
       sorthangqingFlag2: 0,
       sorthangqingFlag3: 0,
-      hangqingList: []
+      hangqingList: [],
+      rateR: null,
+      rate: null,
+      rateCode: null
     }
+  },
+  computed: {
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
   },
   mixins: [mixin],
   mounted() {
     this.myChart = echarts.init(document.getElementById('mychart'))
-
-    // 获取汇率
-    this.rateList()
     // 获取id
     this.marketId = this.$route.query.id
-    console.log(this.marketId, 'marketIdmarketId')
     // 获取交易所详情
     this.marketInfo()
     // 获取K线数据
     this.marketKline()
-    // 获取行情
     this.marketTickerPage()
+    // 获取行情
+    if (this.globalRateArr.length) {
+      this.fn()
+    }
+  },
+  watch: {
+    globalRateArr: {
+      handler(val) {
+        val.length && this.fn()
+      },
+      deep: true
+    }
   },
   methods: {
+    fn() {
+      this.rateR = this.globalRate // 全局汇率,初始化赋值
+      this.rate = this.languageId // CNY
+      const obj = this.globalRateArr.filter(item => {
+        return item.rateC === this.rate
+      })
+      this.rateCode = obj[0].rateCode
+    },
     // tab点击事件
     tabsClick(value) {
       if (value === 0) {
@@ -400,15 +418,12 @@ export default {
     },
     // 选择汇率
     selectRate(value) {
-      this.rate = value
+      this.rate = value.rateC
+      this.rateR = value.rateR
+      this.rateCode = value.rateCode
       this.$refs.item.toggle()
     },
-    // 获取汇率列表
-    rateList() {
-      rateList().then(res => {
-        this.rateArr = res
-      })
-    },
+
     // 点击chart时间选择
     selectTime(value) {
       this.chartActive = value
@@ -579,7 +594,10 @@ export default {
     // 点击小星星
     collect() {
       if (this.isLogin) {
-        this.$toast.success('收藏成功')
+        userMarket(this.marketId).then(res => {
+          this.detailObj.attention = true
+          this.$toast.success('收藏成功')
+        })
       } else {
         this.$toast('请先登录')
       }

@@ -1,4 +1,5 @@
 <template>
+<!-- 登陆 -->
   <div class="page">
     <van-sticky>
       <van-nav-bar title="登陆" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
@@ -45,7 +46,7 @@
         </div>
       </van-form>
       <div class="bttom-text">
-        <router-link :to="{ name: 'findpassword' }">
+        <router-link :to="{ name: 'findpassword',params:{type:1} }">
           <div>忘记密码?</div>
         </router-link>
         <router-link :to="{ name: 'register' }">
@@ -104,16 +105,24 @@ export default {
     showPassword() {
       this.showPsd = !this.showPsd
     },
-    login(values) {
+    login() {
       const data = {
         phone: this.username,
         userPassword: this.password,
         code: this.selectCOde
       }
       login(data).then(res => {
-        console.log(res, 'res`````````')
+        if (res) {
+          const token = res.userToken
+          localStorage.setItem('token', token)
+          this.$store.dispatch('setIsLogin', true)
+          this.$router.push({
+            name: 'Mine'
+          })
+        } else {
+          this.$notify('密码错误')
+        }
       })
-      console.log('submit', values)
     },
     // 返回
     onClickLeft() {

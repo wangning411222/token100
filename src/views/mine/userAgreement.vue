@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="联系我们" left-arrow @click-left="onClickLeft"> </van-nav-bar>
+      <van-nav-bar title="注册协议" left-arrow @click-left="onClickLeft"> </van-nav-bar>
     </van-sticky>
     <div v-html="content">
 
@@ -23,7 +23,7 @@ export default {
     // 获取关于我们
     getSetting() {
       const data = {
-        settingTitle: '联系我们'
+        settingTitle: '注册协议'
       }
       getSetting(data).then(res => {
         this.content = res.settingContent

@@ -14,11 +14,18 @@ export default {
       this.$store.dispatch('setIsLogin', true)
     }
     const arr = await this.$store.dispatch('getRateArr')
-    console.log(arr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     this.setGlobalRate(arr)
   },
   computed: {
     ...mapGetters(['isLogin', 'languageId', 'globalRate', 'globalRateArr'])
+  },
+  watch: {
+    globalRateArr: {
+      handler(val) {
+        val.length && this.setGlobalRate(val)
+      },
+      deep: true
+    }
   },
   methods: {
     setGlobalRate(arr) {
