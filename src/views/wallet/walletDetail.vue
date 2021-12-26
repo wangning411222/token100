@@ -119,8 +119,13 @@ export default {
   data() {
     return {
       star: 2,
-      isShow: false
+      isShow: false,
+      id: null
     }
+  },
+  mounted() {
+    this.id = this.$route.query.id
+    console.log(this.id, 'this.id``````````')
   },
   methods: {
     //   展开折叠

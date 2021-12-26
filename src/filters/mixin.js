@@ -7,15 +7,15 @@ export default {
       if (Number(nums) >= 1000000000000) {
         return (nums / 1000000000000).toFixed(2) + '万亿'
       } else if (Number(nums) >= 100000000) {
-        return (num / 100000000).toFixed(2) + '亿'
+        return (nums / 100000000).toFixed(2) + '亿'
       } else if (Number(nums) >= 10000) {
         return (nums / 10000).toFixed(2) + '万'
-      } else if (nums < 1) {
-        return (nums - 0).toFixed(8)
       } else if (nums >= 1) {
-        return (nums - 0).toFixed(4)
-      } else {
-        return (nums - 0).toFixed(8)
+        return nums.toFixed(2) + '元'
+      } else if (num < 1) {
+        return num.toFixed(6) + '元'
+      } else if (nums === 0) {
+        return '--'
       }
     },
     enNumUnti(num) {
@@ -25,12 +25,12 @@ export default {
         return (num / 100000000).toFixed(2) + '亿'
       } else if (Number(num) >= 10000) {
         return (num / 10000).toFixed(2) + '万'
-      } else if (num < 1) {
-        return (num - 0).toFixed(8)
       } else if (num >= 1) {
-        return (num - 0).toFixed(4)
-      } else {
-        return (num - 0).toFixed(8)
+        return num.toFixed(2) + '元'
+      } else if (num < 1) {
+        return num.toFixed(6) + '元'
+      } else if (num === 0) {
+        return '--'
       }
     }
 

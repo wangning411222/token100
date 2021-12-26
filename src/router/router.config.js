@@ -129,6 +129,18 @@ export const constantRouterMap = [
         name: 'Wallet',
         component: () => import('@/views/wallet/wallet'),
         meta: { title: '钱包', keepAlive: false }
+      },
+      {
+        path: '1',
+        name: 'Wallet1',
+        component: () => import('@/views/wallet/wallet1'),
+        meta: { title: '钱包', keepAlive: false }
+      },
+      {
+        path: '1',
+        name: 'Wallet2',
+        component: () => import('@/views/wallet/wallet1'),
+        meta: { title: '钱包', keepAlive: false }
       }
     ]
   },

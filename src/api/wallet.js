@@ -1,21 +1,22 @@
+
 import qs from 'qs'
 import request from '@/utils/request'
-// 交易所详情
-export function searchHotList() {
+// 市值排名
+export function walletClassify(data) {
   return request({
-    url: `/appSymbol/searchHotList`,
+    url: '/appWallet/walletClassify',
     method: 'post',
     data: {},
     hideloading: true // 隐藏 loading 组件
   })
 }
-// 搜索接口
-export function searchPage(data) {
+
+// 钱包列表
+export function walletList(data) {
   return request({
-    url: `/appSymbol/searchPage`,
+    url: '/appWallet/walletList',
     method: 'post',
     data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
-

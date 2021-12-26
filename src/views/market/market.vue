@@ -88,25 +88,21 @@
                 cente="center"
               >
                 <van-col span="2">
-                  <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-                  <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{
-                    item.symbolRank
-                  }}</van-tag>
-                  <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{
-                    item.symbolRank
-                  }}</van-tag>
-                  <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+                  <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+                  <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
                 </van-col>
                 <van-col span="4" class="icon-name">
                   <div class="icon-name-top">
                     <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                    <span class="base125">{{ item.symbolName }}</span>
+                    <span class="base125">{{ item.symbolCode }}</span>
                   </div>
-                  <div class="bicon-name-bottom base125">{{item.symbolFullName}}</div>
+                  <div class="bicon-name-bottom base125">{{ item.symbolFullName }}</div>
                 </van-col>
-                <van-col span="7" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd*rateR) }} </van-col>
+                <van-col span="7" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd * rateR) }} </van-col>
                 <van-col span="7" style="text-align: right">
-                  <div>{{(item.priceChange1d*100).toFixed(2)}}%</div>
+                  <div>{{ (item.priceChange1d * 100).toFixed(2) }}%</div>
                 </van-col>
                 <van-col span="4" style="text-align: right">
                   <van-image
@@ -411,17 +407,17 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="6" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
                 <span>{{ item.symbolCode }}</span>
               </div>
-              <div class="bicon-name-bottom">{{ item.symbolName }}</div>
+              <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="4" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd * rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
@@ -432,7 +428,7 @@
               style="text-align: right"
               :class="item.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
             >
-              <div>{{ item.priceChange1d }}%</div>
+              <div>{{ item.priceChange1d.toFixed(2) }}%</div>
             </van-col>
           </van-row>
           <div class="list-more" v-if="shizhiList.length" @click="listMore(active)">点击加载更多</div>
@@ -452,15 +448,17 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="9" offset="1" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span>{{ item.symbolName }}</span>
+                <span
+                  >{{ item.symbolCode }}/<span style="color: #92959c">{{ item.market }}</span></span
+                >
               </div>
               <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
@@ -472,7 +470,7 @@
               style="text-align: right"
               :class="item.percentChange.toString().indexOf('-') >= 0 ? 'red' : 'green'"
             >
-              <div>{{ item.percentChange }}%</div>
+              <div>{{ item.percentChange.toFixed(2) }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -491,20 +489,20 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="3">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="8" offset="1" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span class="base218">{{ item.symbolName }}</span>
+                <span class="base218">{{ item.symbolCode }}</span>
               </div>
               <div class="bicon-name-bottom resou">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ item.currentPriceUsd * rateR }}</div>
+              <div>{{ enNumUnti(item.currentPriceUsd * rateR) }}</div>
             </van-col>
             <van-col span="6">
               <fire :num="item.starLevel"></fire>
@@ -526,28 +524,28 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span class="base125">{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolCode }}</span>
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
             <van-col span="6" style="text-align: right"> {{ enNumUnti(item.priceUsd * rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.highPriceAll % rateR) }}</div>
+              <div>{{ enNumUnti(item.highPriceAll * rateR) }}</div>
             </van-col>
             <van-col
               span="6"
               style="text-align: right"
               :class="item.quoteChange && item.quoteChange.toString().indexOf('-') >= 0 ? 'red' : 'green'"
             >
-              <div>{{ item.quoteChange }}</div>
+              <div>{{ (item.quoteChange * 100).toFixed(2) }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -566,19 +564,19 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span class="base125">{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolCode }}</span>
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.price * rateR }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.price * rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
               <div>{{ enNumUnti(item.volume * rateR) }}</div>
             </van-col>
@@ -587,7 +585,7 @@
               style="text-align: right"
               :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
             >
-              <div>{{ item.changePercent }}%</div>
+              <div>+{{ item.changePercent.toFixed(2) }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -606,19 +604,19 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span class="base125">{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolCode }}</span>
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.price * rateR }} </van-col>
+            <van-col span="6" style="text-align: right"> {{ enNumUnti(item.price * rateR) }} </van-col>
             <van-col span="6" style="text-align: right">
               <div>{{ enNumUnti(item.volume * rateR) }}</div>
             </van-col>
@@ -627,7 +625,7 @@
               style="text-align: right"
               :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
             >
-              <div>{{ item.changePercent }}%</div>
+              <div>{{ item.changePercent.toFixed(2) }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -645,15 +643,15 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span class="base125">{{ item.symbolName }}</span>
+                <span class="base125">{{ item.symbolCode }}</span>
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
@@ -662,7 +660,7 @@
               <div>{{ enNumUnti(item.volume * rateR) }}</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ item.turnoverPercent }}%</div>
+              <div>{{ item.turnoverPercent.toFixed(2) }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -681,15 +679,15 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="6" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span class="base185">{{ item.symbolName }}</span>
+                <span class="base185">{{ item.symbolCode }}</span>
               </div>
               <div class="bicon-name-bottom huanshou">{{ item.symbolFullName }}</div>
             </van-col>
@@ -719,15 +717,15 @@
             @click="toDetail(item.symbolId)"
           >
             <van-col span="2">
-              <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{ item.symbolRank }}</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+              <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+              <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.symbolLogoUrl"></van-image>
-                <span class="base100">{{ item.symbolName }}</span>
+                <span class="base100">{{ item.symbolCode }}</span>
               </div>
               <div class="bicon-name-bottom xinbi-bottom">{{ item.symbolFullName }}</div>
             </van-col>
@@ -740,13 +738,16 @@
               style="text-align: right"
               :class="item.changePercent && item.changePercent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
             >
-              <div>{{ item.changePercent }}%</div>
+              <div>{{ item.changePercent.toFixed(2) }}%</div>
             </van-col>
             <van-col v-else span="6" style="text-align: right" class="gray">
-              <div>{{ item.changePercent }}%</div>
+              <div>{{ item.changePercent.toFixed(2) }}%</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ item.day === 0 ? '今天' : item.day + '天前' }}</div>
+              <div v-if="item.day === 0">今天</div>
+              <div v-else-if="item.day === 1">昨天</div>
+              <div v-else-if="item.day === 2">前天</div>
+              <div v-else>{{ item.day + '天前' }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -768,7 +769,7 @@
               <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
               <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
               <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
-              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index + 1 }}</van-tag>
+              <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             </van-col>
             <van-col span="10">
               <div>{{ item.name }}</div>
@@ -776,11 +777,11 @@
             <van-col span="6" style="text-align: left">
               <div class="gainian">
                 <span>{{ item.best }}</span>
-                <span class="green">{{ item.best_percent }}%</span>
+                <span class="green">{{ item.best_percent.toFixed(2) }}%</span>
               </div>
               <div class="gainian">
                 <span>{{ item.worst }}</span>
-                <span class="red">{{ item.worst_percent }}%</span>
+                <span class="red">{{ item.worst_percent.toFixed(2) }}%</span>
               </div>
             </van-col>
             <van-col
@@ -788,7 +789,7 @@
               style="text-align: right"
               :class="item.change_percent && item.change_percent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
             >
-              <div>{{ item.change_percent }}%</div>
+              <div>{{ item.change_percent.toFixed(2) }}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -893,7 +894,7 @@ export default {
           })
         } else {
           this.guanzhuList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortguanzhuFlag1 = 0
         }
@@ -909,7 +910,7 @@ export default {
           })
         } else {
           this.guanzhuList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortguanzhuFlag2 = 0
         }
@@ -965,7 +966,7 @@ export default {
           })
         } else {
           this.xinbiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortxinbiFlag1 = 0
         }
@@ -981,7 +982,7 @@ export default {
           })
         } else {
           this.xinbiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortxinbiFlag2 = 0
         }
@@ -1000,7 +1001,7 @@ export default {
         })
       } else {
         this.chengjiaoeList.sort((a, b) => {
-          return a['symbolRank'] - b['symbolRank']
+          return a - b
         })
         this.sortchengjiaoeFlag1 = 0
       }
@@ -1019,7 +1020,7 @@ export default {
           })
         } else {
           this.zhangfuList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortzhangfuFlag1 = 0
         }
@@ -1035,7 +1036,7 @@ export default {
           })
         } else {
           this.zhangfuList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortzhangfuFlag2 = 0
         }
@@ -1055,7 +1056,7 @@ export default {
           })
         } else {
           this.lishigaoweiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortlishiFlag1 = 0
         }
@@ -1071,7 +1072,7 @@ export default {
           })
         } else {
           this.lishigaoweiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortlishiFlag2 = 0
         }
@@ -1087,7 +1088,7 @@ export default {
           })
         } else {
           this.lishigaoweiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortlishiFlag3 = 0
         }
@@ -1106,7 +1107,7 @@ export default {
         })
       } else {
         this.resouList.sort((a, b) => {
-          return a['symbolRank'] - b['symbolRank']
+          return a - b
         })
         this.sortresouFlag1 = 0
       }
@@ -1126,7 +1127,7 @@ export default {
           })
         } else {
           this.shizhiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortshizhiFlag1 = 0
         }
@@ -1142,7 +1143,7 @@ export default {
           })
         } else {
           this.shizhiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortshizhiFlag2 = 0
         }
@@ -1158,7 +1159,7 @@ export default {
           })
         } else {
           this.shizhiList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortshizhiFlag3 = 0
         }
@@ -1178,7 +1179,7 @@ export default {
           })
         } else {
           this.qihuoList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortqihuoFlag2 = 0
         }
@@ -1194,7 +1195,7 @@ export default {
           })
         } else {
           this.qihuoList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.sortqihuoFlag1 = 0
         }

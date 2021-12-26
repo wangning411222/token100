@@ -23,7 +23,7 @@ export function getUser(data) {
   return request({
     url: `/appUser/getUser`,
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }

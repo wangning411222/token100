@@ -5,7 +5,7 @@ export function symbolRankPage(data) {
   return request({
     url: '/appSymbol/symbolRankPage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -14,7 +14,7 @@ export function symbolFuturesPage(data) {
   return request({
     url: '/appSymbol/symbolFuturesPage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -24,7 +24,7 @@ export function symbolHotList(data) {
   return request({
     url: '/appSymbol/symbolHotList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -33,7 +33,7 @@ export function symbolHignList(data) {
   return request({
     url: '/appSymbol/symbolHignList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -43,7 +43,7 @@ export function symbolSortList(data) {
   return request({
     url: '/appSymbol/symbolSortList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -53,7 +53,7 @@ export function symbolChangeList(data) {
   return request({
     url: '/appSymbol/symbolChangeList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -63,7 +63,7 @@ export function symbolVolumeList(data) {
   return request({
     url: '/appSymbol/symbolVolumeList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -73,7 +73,7 @@ export function symbolNewsList(data) {
   return request({
     url: '/appSymbol/symbolNewsList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -83,7 +83,7 @@ export function symbolConceptList(data) {
   return request({
     url: '/appSymbol/symbolConceptList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -131,7 +131,7 @@ export function symbolDetail(data) {
   return request({
     url: '/appSymbol/symbolDetail',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -140,7 +140,7 @@ export function symbolTeam(data) {
   return request({
     url: '/appSymbol/symbolTeam',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -149,7 +149,7 @@ export function symbolEvent(data) {
   return request({
     url: '/appSymbol/symbolEvent',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -158,7 +158,7 @@ export function symbolHolder(data) {
   return request({
     url: '/appSymbol/symbolHolder',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -167,7 +167,7 @@ export function walletList(data) {
   return request({
     url: '/appSymbol/walletList',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -177,7 +177,7 @@ export function userSymbolPage(data) {
   return request({
     url: '/appSymbol/userSymbolPage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }

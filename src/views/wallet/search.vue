@@ -138,14 +138,10 @@
               @click="toDetailbizhong(item.symbolId)"
             >
               <van-col span="2">
-                <van-tag color="#E4BC31" v-if="item.symbolRank === 1">{{ item.symbolRank }}</van-tag>
-                <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.symbolRank === 2">{{
-                  item.symbolRank
-                }}</van-tag>
-                <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.symbolRank === 3">{{
-                  item.symbolRank
-                }}</van-tag>
-                <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.symbolRank }}</van-tag>
+                <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+                  <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
               </van-col>
               <van-col span="4" class="icon-name">
                 <div class="icon-name-top">
@@ -167,6 +163,14 @@
               </van-col>
               <van-col span="1">
                 <van-image
+                v-if="item.attention"
+                  @click.stop="starClickbizhong(item.symbolId)"
+                  width="16px"
+                  height="15px"
+                  :src="require('../../assets/image/星星2@2x.png')"
+                ></van-image>
+                <van-image
+                v-else
                   @click.stop="starClickbizhong(item.symbolId)"
                   width="16px"
                   height="15px"
@@ -189,14 +193,10 @@
               @click="toDetailpingtai(item.marketId)"
             >
               <van-col span="2">
-                <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
-                <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{
-                  item.marketRank
-                }}</van-tag>
-                <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{
-                  item.marketRank
-                }}</van-tag>
-                <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
+               <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+                  <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+                  <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
               </van-col>
               <van-col span="6" class="icon-name1">
                 <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
@@ -211,6 +211,14 @@
               <van-col span="2" offset="1">
 
                 <van-image
+                v-if="item.attention"
+                  @click.stop="starClickpingtai(item.marketId)"
+                  width="16px"
+                  height="15px"
+                  :src="require('../../assets/image/星星2@2x.png')"
+                ></van-image>
+                 <van-image
+                 v-else
                   @click.stop="starClickpingtai(item.marketId)"
                   width="16px"
                   height="15px"
@@ -449,7 +457,7 @@ export default {
         })
       } else {
         this.pingtaiList.sort((a, b) => {
-          return a['marketRank'] - b['marketRank']
+          return a - b
         })
         this.sortpingtaiFlag1 = 0
       }
@@ -482,7 +490,7 @@ export default {
           })
         } else {
           this.bizhongList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.bizhongFlag1 = 0
         }
@@ -498,7 +506,7 @@ export default {
           })
         } else {
           this.bizhongList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.bizhongFlag2 = 0
         }
@@ -514,7 +522,7 @@ export default {
           })
         } else {
           this.bizhongList.sort((a, b) => {
-            return a['symbolRank'] - b['symbolRank']
+            return a - b
           })
           this.bizhongFlag3 = 0
         }

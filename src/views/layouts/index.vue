@@ -6,7 +6,7 @@
       </keep-alive>
       <router-view v-else></router-view>
     </div>
-    <div class="layout-footer" v-if="isShow">
+    <div class="layout-footer">
       <globalPreview v-if="!$route.meta.hidePreview"></globalPreview>
       <TabBar :data="tabbars"/>
     </div>
@@ -46,6 +46,22 @@ export default {
           active: require('../../assets/icon/规则1@2x.png'),
           inactive: require('../../assets/icon/规则@2x.png')
         },
+        // {
+        //   title: '钱包',
+        //   to: {
+        //     name: 'Wallet1'
+        //   },
+        //   active: require('../../assets/icon/卡券1@2x.png'),
+        //   inactive: require('../../assets/icon/卡券@2x.png')
+        // },
+        // {
+        //   title: '我的',
+        //   to: {
+        //     name: 'Wallet1'
+        //   },
+        //   active: require('../../assets/icon/我的1@2x.png'),
+        //   inactive: require('../../assets/icon/我的@2x.png')
+        // }
         {
           title: '钱包',
           to: {

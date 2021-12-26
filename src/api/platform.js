@@ -24,7 +24,7 @@ export function marketChangePage(data) {
   return request({
     url: '/appMarket/marketChangePage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -33,7 +33,7 @@ export function marketHoldPage(data) {
   return request({
     url: '/appMarket/marketHoldPage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -42,7 +42,7 @@ export function marketContractPage(data) {
   return request({
     url: '/appMarket/marketContractPage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -51,7 +51,7 @@ export function marketOtcPage(data) {
   return request({
     url: '/appMarket/marketOtcPage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -60,7 +60,7 @@ export function marketActivePage(data) {
   return request({
     url: '/appMarket/marketActivePage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }
@@ -96,7 +96,7 @@ export function userMarketPage(data) {
   return request({
     url: '/appMarket/userMarketPage',
     method: 'post',
-    data: data,
+    data: qs.stringify(data),
     hideloading: true // 隐藏 loading 组件
   })
 }

@@ -1,9 +1,9 @@
 <template>
   <div class="lin-box">
     <span class="max">
-      <span class="num" :style="{width:num*100+'%'}"></span>
+      <span class="num" :style="{width:num*100+'%','background':num===1?'rgb(228, 188, 49)':'#50B264'}"></span>
     </span>
-    <span class="num-text">{{num*100}}%</span>
+    <span class="num-text" >{{num*100}}%</span>
   </div>
 </template>
 <script>
@@ -37,7 +37,6 @@ export default {
     width: 90%;
     display: inline-block;
     border-radius:8px;
-    background:#50B264;
   }
   .num-text{
     color: #999999;

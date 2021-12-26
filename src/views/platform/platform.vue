@@ -161,10 +161,10 @@
           @click="toDetail(item.marketId)"
         >
           <van-col span="2">
-            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
           </van-col>
           <van-col span="6" class="icon-name">
             <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
@@ -191,10 +191,10 @@
           cente="center"
         >
           <van-col span="2">
-            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
           </van-col>
           <van-col span="6" class="icon-name">
             <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
@@ -220,10 +220,10 @@
           cente="center"
         >
           <van-col span="8" class="heyue-box">
-            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             <div class="icon-name margin-left">
               <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
               <span>{{ item.marketName }}</span>
@@ -249,10 +249,10 @@
           cente="center"
         >
           <van-col span="8" class="heyue-box">
-            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
             <div class="icon-name margin-left">
               <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
               <span>{{ item.marketName }}</span>
@@ -278,10 +278,10 @@
           cente="center"
         >
           <van-col span="2">
-            <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{ item.marketRank }}</van-tag>
-            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+            <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
           </van-col>
           <van-col span="6" class="icon-name">
             <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
@@ -316,14 +316,10 @@
               cente="center"
             >
               <van-col span="2">
-                <van-tag color="#E4BC31" v-if="item.marketRank === 1">{{ item.marketRank }}</van-tag>
-                <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="item.marketRank === 2">{{
-                  item.marketRank
-                }}</van-tag>
-                <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="item.marketRank === 3">{{
-                  item.marketRank
-                }}</van-tag>
-                <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ item.marketRank }}</van-tag>
+                <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+                <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
+                <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
+                <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index }}</van-tag>
               </van-col>
               <van-col span="6" class="icon-name">
                 <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
@@ -422,7 +418,7 @@ export default {
         })
       } else {
         this.guanzhuLists.sort((a, b) => {
-          return a['marketRank'] - b['marketRank']
+          return a - b
         })
         this.sortguanzhuFlag1 = 0
       }
@@ -458,7 +454,7 @@ export default {
         })
       } else {
         this.huoyueLists.sort((a, b) => {
-          return a['marketRank'] - b['marketRank']
+          return a - b
         })
         this.sorthuoyueFlag1 = 0
       }
@@ -488,7 +484,7 @@ export default {
         })
       } else {
         this.otcLists.sort((a, b) => {
-          return a['marketRank'] - b['marketRank']
+          return a - b
         })
         this.sortotcFlag1 = 0
       }
@@ -530,7 +526,7 @@ export default {
         })
       } else {
         this.chiyouLists.sort((a, b) => {
-          return a['marketRank'] - b['marketRank']
+          return a - b
         })
         this.sortchiyouFlag1 = 0
       }
@@ -587,7 +583,7 @@ export default {
         })
       } else {
         this.erLists.sort((a, b) => {
-          return a['marketRank'] - b['marketRank']
+          return a - b
         })
         this.sorterFlag1 = 0
       }
