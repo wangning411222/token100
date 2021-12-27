@@ -12,7 +12,7 @@ export const constantRouterMap = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/login'),
-    meta: { title: '登陆', keepAlive: false }
+    meta: { title: 'login', keepAlive: false }
   },
   {
     path: '/register',

@@ -6,12 +6,12 @@
       <div class="head">
         <div class="head-left">
           <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" @click="tabsClick">
-            <van-tab title="ER全球交易所排行 "> </van-tab>
-            <van-tab title="持有资产排行"> </van-tab>
-            <van-tab title="合约平台"> </van-tab>
+            <van-tab :title="$t('plantform.ERGlobalExchangerankings') "> </van-tab>
+            <van-tab :title="$t('plantform.Holdingsranking')"> </van-tab>
+            <van-tab :title="$t('plantform.Contractplatform')"> </van-tab>
             <van-tab title="OTC"> </van-tab>
-            <van-tab title="活跃平台"> </van-tab>
-            <van-tab title="关注"> </van-tab>
+            <van-tab :title="$t('plantform.Activeplatform')"> </van-tab>
+            <van-tab :title="$t('market.follow')"> </van-tab>
           </van-tabs>
         </div>
         <div class="head-right">
@@ -37,10 +37,10 @@
       <div class="table-head" v-if="active === 0">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">交易所</van-col>
+          <van-col span="6">{{$t('plantform.bourse')}}</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sorterList">
-              <div>24H额({{ rateCode }})</div>
+              <div>{{$t('market.forehead24h')}}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sorterFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorterFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -57,10 +57,10 @@
       <div class="table-head" v-if="active === 1">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">交易所</van-col>
+          <van-col span="6">{{$t('plantform.bourse')}}</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sortchiyouList">
-              <div>持有资产({{ rateCode }})</div>
+              <div>{{$t('plantform.Assetsheld')}}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortchiyouFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortchiyouFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -76,8 +76,8 @@
       <!-- 合约平台 -->
       <div class="table-head" v-if="active === 2">
         <van-row type="flex" justify="space-between" align="center">
-          <van-col span="8">ER排名/交易平台</van-col>
-          <van-col span="8" style="text-align: right"> 合约交易数量 </van-col>
+          <van-col span="8">{{$t('plantform.ERranking')}}/{{$t('plantform.tradingplatform')}}</van-col>
+          <van-col span="8" style="text-align: right"> {{$t('plantform.Contracttransactionquantity')}} </van-col>
           <van-col span="8" style="text-align: right">
             <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
           </van-col>
@@ -86,10 +86,10 @@
       <!-- OTC -->
       <div class="table-head" v-if="active === 3">
         <van-row type="flex" justify="space-between" align="center">
-          <van-col span="8">ER排名/交易平台</van-col>
+          <van-col span="8">{{$t('plantform.ERranking')}}/{{$t('plantform.tradingplatform')}}</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sortotcList">
-              <div>24H额({{ rateCode }})</div>
+              <div>{{$t('market.forehead24h')}}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortotcFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortotcFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -106,10 +106,10 @@
       <div class="table-head" v-if="active === 4">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">交易所</van-col>
+          <van-col span="6">{{$t('plantform.bourse')}}</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sorthuoyueList">
-              <div>24H额({{ rateCode }})</div>
+              <div>{{$t('market.forehead24h')}}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sorthuoyueFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthuoyueFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -126,10 +126,10 @@
       <div class="table-head" v-if="active === 5 && isLogin">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">交易所</van-col>
+          <van-col span="6">{{$t('plantform.bourse')}}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortguanzhu">
-              <div>24H额({{ rateCode }})</div>
+              <div>{{$t('market.forehead24h')}}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortguanzhuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortguanzhuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -177,7 +177,7 @@
             </div>
           </van-col>
         </van-row>
-        <div class="list-more" v-if="erLists.length" @click="listMore(active)">点击加载更多</div>
+        <div class="list-more" v-if="erLists.length" @click="listMore(active)">{{$t('market.clickmore')}}</div>
       </van-list>
       <!-- 持有资产 -->
       <van-list v-if="active === 1">
@@ -299,8 +299,8 @@
       <div v-if="active === 5">
         <div class="login-box" v-if="!isLogin">
           <van-image width="140px" height="169px" :src="require('../../assets/image/空@2x.png')"></van-image>
-          <span>登陆查看更多</span>
-          <van-button color="#E4BC31" @click="linkToLogin">立即登陆</van-button>
+          <span>{{$t('market.logintoseemore')}}</span>
+          <van-button color="#E4BC31" @click="linkToLogin">{{$t('market.loginnow')}}</van-button>
         </div>
         <div v-else>
           <div v-if="!guanzhuList.length">
@@ -624,7 +624,7 @@ export default {
     // 关注列表点击星星
     starClick(id) {
       userMarket(id).then(res => {
-        this.$toast('已取消关注')
+        this.$toast(this.$t('market.unfollowed'))
         this.userMarketPage()
       })
     }

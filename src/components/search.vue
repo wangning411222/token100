@@ -4,7 +4,7 @@
       <div class="search-img"></div>
       <div class="search-shape" @click="linkToSearch">
         <van-image :src="require('../assets/image/形状@2x.png')"></van-image>
-        <div>搜索币种/钱包/平台</div>
+        <div>{{$t('wallet.searchall')}}</div>
       </div>
     </div>
 </template>

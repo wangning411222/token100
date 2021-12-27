@@ -23,25 +23,25 @@
             </div>
           </div>
           <div class="item-right">
-            <div class="right-txt">安全性:中等</div>
+            <div class="right-txt">{{$t('market.security')}}:中等</div>
             <van-rate v-model="star" :size="12" gutter="3px" color="#FAD97E" void-icon="star" void-color="#eee" />
           </div>
         </div>
         <div class="line-2">
           <div class="line-item">
-            <div class="item-top">验证方式</div>
+            <div class="item-top">{{$t('wallet.verificationmode')}}</div>
             <div class="item-bottom">SPV</div>
           </div>
           <div class="line-item">
-            <div class="item-top">匿名程度</div>
+            <div class="item-top">{{$t('wallet.degreeofanonymity')}}</div>
             <div class="item-bottom">中</div>
           </div>
           <div class="line-item">
-            <div class="item-top">易用性</div>
+            <div class="item-top">{{$t('wallet.easeofuse')}}</div>
             <div class="item-bottom">较易</div>
           </div>
           <div class="line-item">
-            <div class="item-top">其他服务</div>
+            <div class="item-top">{{$t('wallet.Otherservices')}}</div>
             <div class="item-bottom">
               <div class="bottom-txt">其他</div>
               <div class="bottom-img">
@@ -58,28 +58,28 @@
           <div class="line-3-right">
             <div>
               <div class="txt">
-                <span>多重认证</span>
+                <span>{{$t('wallet.Multipleauthentication')}}</span>
                 <van-image width="13px" height="9px" :src="require('../../assets/icon/路径@2x.png')"></van-image>
               </div>
               <div>
-                <span>多重签名</span>
+                <span>{{$t('wallet.Multiplesignature')}}</span>
                 <van-image width="13px" height="9px" :src="require('../../assets/icon/路径@2x.png')"></van-image>
               </div>
             </div>
             <div class="text-right">
               <div class="txt">
-                <span>是否开源</span>
+                <span>{{$t('wallet.Whetheropensource')}}</span>
                 <van-image width="13px" height="9px" :src="require('../../assets/icon/路径@2x.png')"></van-image>
               </div>
               <div>
-                <span>2FA认证</span>
+                <span>{{$t('wallet.certification2FA')}}</span>
                 <van-image width="10px" height="10px" :src="require('../../assets/icon/关闭@2x.png')"></van-image>
               </div>
             </div>
           </div>
         </div>
         <div class="line-4">
-          <h3>支持币种</h3>
+          <h3>{{$t('wallet.supportcurrency')}}</h3>
           <div>
             <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
             <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
@@ -100,13 +100,13 @@
             <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
           </div>
           <div class="toogle" @click="toogle">
-              <span>{{isShow?'收起':"展开"}}</span>
+              <span>{{isShow?$t('plantform.putaway'):$t('plantform.unfold')}}</span>
               <van-icon :name="isShow?'arrow-up':'arrow-down'" />
           </div>
         </div>
         <div class="line-5"></div>
         <div class="line-6">
-            <h3>基本信息</h3>
+            <h3>{{$t('wallet.basicinformation')}}</h3>
             <p>imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，</p>
         </div>
         <div class="line-7"></div>
@@ -125,7 +125,6 @@ export default {
   },
   mounted() {
     this.id = this.$route.query.id
-    console.log(this.id, 'this.id``````````')
   },
   methods: {
     //   展开折叠

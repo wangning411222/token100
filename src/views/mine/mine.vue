@@ -2,7 +2,7 @@
 <template>
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="我的" right-text="按钮" @click-right="onClickRight">
+      <van-nav-bar :title="$t('mine.mine')" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -16,12 +16,12 @@
         <div class="head-right">
           <div v-if="isLogin">
             <div class="right-t">{{userName}}</div>
-            <div class="right-b">欢迎来到TOKEN100</div>
+            <div class="right-b">{{$t('mine.welcome')}}TOKEN100</div>
           </div>
           <div v-else>
             <router-link :to="{ name: 'Login' }">
-              <div class="right-t">欢迎登录TOKREN100</div>
-              <div class="right-b">专注数字货币大数据分析</div>
+              <div class="right-t">{{$t('mine.welcomelogin')}}TOKREN100</div>
+              <div class="right-b">{{$t('mine.welcometxt')}}</div>
             </router-link>
           </div>
         </div>
@@ -31,7 +31,7 @@
           <li @click="changePhone">
             <div class="li-l">
               <van-image :src="require('../../assets/icon/zhanghao-icon.png')"></van-image>
-              <span>修改账号</span>
+              <span>{{$t('mine.changephone')}}</span>
             </div>
             <div class="li-r">
               <van-icon name="arrow" />
@@ -40,7 +40,7 @@
           <li @click="changepassword">
             <div class="li-l">
               <van-image :src="require('../../assets/icon/mima-icon.png')"></van-image>
-              <span>修改密码</span>
+              <span>{{$t('mine.changepwd')}}</span>
             </div>
             <div class="li-r">
               <van-icon name="arrow" />
@@ -49,7 +49,7 @@
           <li>
             <div class="li-l">
               <van-image :src="require('../../assets/icon/shijian-icon.png')"></van-image>
-              <span>注册时间</span>
+              <span>{{$t('mine.registtime')}}</span>
             </div>
             <div class="li-r">
               <span>{{$moment(createTime).format('YYYY-MM-DD hh:mm')}}</span>
@@ -62,7 +62,7 @@
           <li @click="handlerLanguage">
             <div class="li-l">
               <van-image :src="require('../../assets/icon/yuyan-icon.png')"></van-image>
-              <span>语言</span>
+              <span>{{$t('mine.language')}}</span>
             </div>
             <div class="li-r">
               <span>{{ language }}</span>
@@ -72,7 +72,7 @@
           <li @click="toAboutus">
             <div class="li-l">
               <van-image :src="require('../../assets/icon/guanyuwomen-icon.png')"></van-image>
-              <span>关于我们</span>
+              <span>{{$t('mine.aboutus')}}</span>
             </div>
             <div class="li-r">
               <van-icon name="arrow" />
@@ -81,7 +81,7 @@
           <li @click="connectus">
             <div class="li-l">
               <van-image :src="require('../../assets/icon/lianxi-icon.png')"></van-image>
-              <span>联系我们</span>
+              <span>{{$t('mine.connectus')}}</span>
             </div>
             <div class="li-r">
               <van-icon name="arrow" />
@@ -90,7 +90,7 @@
         </ul>
       </div>
       <div class="login-out" v-if="isLogin">
-        <van-button color="#fff" size="large" @click="logout">退出登陆</van-button>
+        <van-button color="#fff" size="large" @click="logout">{{$t('mine.logout')}}</van-button>
       </div>
     </div>
 
@@ -107,8 +107,8 @@ export default {
     return {
       languageShow: false,
       actions: [
-        { name: '中文', value: 'CNY' },
-        { name: 'English', value: 'USD' }
+        { name: this.$t('language.languagezn'), value: 'CNY' },
+        { name: this.$t('language.languageen'), value: 'USD' }
       ],
       language: null,
       userName: null,
@@ -126,8 +126,8 @@ export default {
     // 退出登陆
     logout() {
       this.$dialog.confirm({
-        title: '退出登陆',
-        message: '确认退出登陆?'
+        title: this.$t('mine.logout'),
+        message: this.$t('mine.logoutmsg')
       })
         .then(() => {
           this.$store.dispatch('setIsLogin', false)
@@ -168,6 +168,8 @@ export default {
         return items.rateC === item.value
       })
       this.$store.dispatch('setRate', obj[0].rateR)
+      this.$i18n.locale === 'zh' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'zh' // 设置中英文模式
+      localStorage.setItem('languageSet', this.$i18n.locale)
     },
     // 切换中英文
     handlerLanguage() {

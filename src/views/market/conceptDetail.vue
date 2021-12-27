@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-sticky>
-      <van-nav-bar title="概念详情" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="$t('market.conceptofdetails')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -12,38 +12,38 @@
         <h3>{{dataObj.name}}</h3>
         <div class="num-box">
           <div class="concept-num">
-            <div class="num-top">平均涨跌幅</div>
+            <div class="num-top">{{$t('market.averageriseorfall')}}</div>
             <div class="font-big font-green">{{dataObj.averagePercent.toFixed(2)}}%</div>
           </div>
           <div class="concept-num">
-            <div class="num-top">上涨</div>
+            <div class="num-top">{{$t('market.goup')}}</div>
             <div class="num-bottom font-red">{{dataObj.riseCount}}</div>
           </div>
           <div class="concept-num">
-            <div class="num-top">下跌</div>
+            <div class="num-top">{{$t('market.godown')}}</div>
             <div class="num-bottom font-green">{{dataObj.dropCount}}</div>
           </div>
           <div class="concept-num">
-            <div class="num-top">币种总数</div>
+            <div class="num-top">{{$t('market.totalnumberofcurrencies')}}</div>
             <div class="num-bottom">{{dataObj.totalCoin}}</div>
           </div>
         </div>
         <div class="bar">
           <span class="rise"></span>
           <span class="text_rise">
-            领涨{{dataObj.best}}
+            {{$t('market.leading')}}{{dataObj.best}}
             <span class="textGreen">+{{dataObj.bestPercent.toFixed(2)}}%</span></span
           >
           <span class="text_drop">
             <span class="textGreen">-{{dataObj.worstPercent.toFixed(2)}}%</span>
-            领跌{{dataObj.worst}}
+            {{$t('market.ledby')}}{{dataObj.worst}}
           </span>
         </div>
       </div>
       <div class="line-gray"></div>
       <div class="concept-list">
         <div class="list-head">
-          <h3>全球交易所行情</h3>
+          <h3>{{$t('market.globalexchangequotation0')}}</h3>
           <div class="head-right">
             <van-dropdown-menu>
               <van-dropdown-item :title="rate" v-model="rate" ref="item">
@@ -66,10 +66,10 @@
         <div class="table-head">
           <van-row type="flex" justify="space-between" cente="center">
             <van-col span="2">#</van-col>
-            <van-col span="4">币种</van-col>
+            <van-col span="4">{{$t('market.currency')}}</van-col>
             <van-col span="6">
               <div class="arrow-box" @click="sorthangqing('marketValue')">
-                <div>市值 ({{rateCode}})</div>
+                <div>{{$t('market.marketvalue')}} ({{rateCode}})</div>
                 <div class="img-box">
                    <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -79,7 +79,7 @@
             </van-col>
             <van-col span="6">
               <div class="arrow-box" @click="sorthangqing('currentPrice')">
-                <div>最新价 ({{rateCode}})</div>
+                <div>{{$t('market.latestprice')}} ({{rateCode}})</div>
                 <div class="img-box">
                    <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -89,7 +89,7 @@
             </van-col>
             <van-col span="6">
               <div class="arrow-box" @click="sorthangqing('changePercent')">
-                <div>24小时涨幅</div>
+                <div>24H{{$t('market.amountofincrease')}}</div>
                 <div class="img-box">
                     <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />

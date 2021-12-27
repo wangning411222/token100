@@ -42,7 +42,7 @@
               <van-image width="11px" height="10px" :src="require('../../assets/image/灯泡@2x.png')"></van-image>
               <div>NO.{{detailObj.marketRank}}</div>
             </div>
-            <div>24H平台交易额</div>
+            <div>24H{{$t('plantform.Platformtransactionvolume')}}</div>
             <div>¥{{cnNumUnti(detailObj.marketDayVolume)}}</div>
           </div>
         </div>
@@ -56,7 +56,7 @@
         <div class="center-right">-0.32%</div>
       </div> -->
       <div class="chart-select">
-        <div class="chart-title">成交额走势</div>
+        <div class="chart-title">{{$t('plantform.Turnovertrend')}}</div>
         <div>
           <ul>
             <li
@@ -73,7 +73,7 @@
       <div class="chart-box">
         <div class="tip" v-show="tipShow">
           <div>{{ chartTime }} 00:00</div>
-          <div>成交额:${{ chartNum }}亿</div>
+          <div>{{$t('plantform.volumetransaction')}}:${{ chartNum }}</div>
         </div>
         <div id="mychart"></div>
       </div>
@@ -81,9 +81,9 @@
     <div class="head">
       <div class="head-left">
         <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" @click="tabsClick">
-          <van-tab title="行情"> </van-tab>
-          <van-tab title="简况"> </van-tab>
-          <van-tab title="公告"> </van-tab>
+          <van-tab :title="$t('market.market')"> </van-tab>
+          <van-tab :title="$t('market.briefing')"> </van-tab>
+          <van-tab :title="$t('plantform.announcement')"> </van-tab>
         </van-tabs>
       </div>
       <div class="head-right">
@@ -108,10 +108,10 @@
     <div class="table-head" v-if="active === 0">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="4">交易对</van-col>
+        <van-col span="4">{{$t('market.tradingon')}}</van-col>
         <van-col span="6">
           <div class="arrow-box"  @click="sorthangqingList('changeDaily')">
-            <div>平台价</div>
+            <div>{{$t('plantform.platformprice')}}</div>
             <div class="img-box">
                 <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -121,7 +121,7 @@
         </van-col>
         <van-col span="6">
           <div class="arrow-box"  @click="sorthangqingList('changeDaily1')">
-            <div>最新价</div>
+            <div>{{$t('market.latestprice')}}</div>
             <div class="img-box">
                 <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -131,7 +131,7 @@
         </van-col>
         <van-col span="6">
           <div class="arrow-box"  @click="sorthangqingList('marketScale')">
-            <div>占比</div>
+            <div>{{$t('plantform.proportion')}}</div>
             <div class="img-box">
                 <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -177,25 +177,25 @@
       <van-list v-if="active === 1">
         <div class="profiles-box" v-if="detailObj">
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left">国家/地区</van-col>
+            <van-col span="6" class="profiles-left">{{$t('plantform.country')}}/{{$t('plantform.region')}}</van-col>
             <van-col span="18" class="profiles-right">{{detailObj.marketCountry}}</van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left">交易支持</van-col>
+            <van-col span="6" class="profiles-left">{{$t('plantform.Transactionsupport')}}</van-col>
             <van-col span="18" class="profiles-right">{{detailObj.marketSupport}}</van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left"> 交易对</van-col>
+            <van-col span="6" class="profiles-left"> {{$t('market.tradingon')}}</van-col>
             <van-col span="18" class="profiles-right">{{enNumUnti(detailObj.marketExpectedVolume)}}个 </van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left"> 交易区</van-col>
+            <van-col span="6" class="profiles-left"> {{$t('plantform.Tradesector')}}</van-col>
             <van-col span="18" class="profiles-right">
              {{detailObj.marketDescName}}</van-col
             >
           </van-row>
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left"> 简介</van-col>
+            <van-col span="6" class="profiles-left"> {{$t('plantform.synopsis')}}</van-col>
             <van-col
 class="profiles-right unfold"
 span="18"
@@ -204,21 +204,21 @@ span="18"
               <p :class="!unfoldTxt ? 'p2-show' : ''">
               {{detailObj.marketContent}}
               </p>
-              <span @click="unfoldClick">{{ unfoldTxt ? '展开' : '收起' }}</span>
+              <span @click="unfoldClick">{{ unfoldTxt ? $t('plantform.unfold') : $t('plantform.putaway') }}</span>
             </van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left">相关链接</van-col>
+            <van-col span="6" class="profiles-left">{{$t('market.relatedlinks')}}</van-col>
             <van-col span="18" class="profiles-right link-box">
               <div>{{detailObj.marketWebsiteUrl}}</div>
               <div>
-                <span v-for="(item,index) in detailObj.marketLinks.split(',')" :key="index"><a :href="item">备用地址{{index+1}}</a></span>
+                <span v-for="(item,index) in detailObj.marketLinks.split(',')" :key="index"><a :href="item">{{$t('plantform.standbyaddress')}}{{index+1}}</a></span>
 
               </div>
               <div>
                 <span> <a href="https://www.facebook.com/binanceexchange">Facebook</a>  </span>
                 <span><a href="https://twitter.com/binance">Twitter</a> </span>
-                <span> 微博 </span>
+                <span> {{$t('plantform.microblog')}} </span>
               </div></van-col
             >
           </van-row>
@@ -253,19 +253,19 @@ export default {
       chartActive: 0,
       timeArr: [
         {
-          label: '所有',
+          label: this.$t('market.all'),
           value: 0
         },
         {
-          label: '7天',
+          label: this.$t('plantform.day7'),
           value: 1
         },
         {
-          label: '30天',
+          label: this.$t('plantform.day30'),
           value: 2
         },
         {
-          label: '1年',
+          label: this.$t('market.year'),
           value: 3
         }
       ],
@@ -528,9 +528,9 @@ export default {
             fontSize: 10,
             formatter: function(value) {
               if (value >= 100000000) {
-                return Math.round(value / 100000000) + '亿'
+                return Math.round(value / 100000000) + that.$t('market.million')
               } else if (value >= 10000) {
-                return Math.round(value / 10000) + '万'
+                return Math.round(value / 10000) + that.$t('market.thousand')
               } else {
                 return Math.round(value)
               }
@@ -596,10 +596,10 @@ export default {
       if (this.isLogin) {
         userMarket(this.marketId).then(res => {
           this.detailObj.attention = true
-          this.$toast.success('收藏成功')
+          this.$toast.success(this.$t('plantform.Collectionsuccess'))
         })
       } else {
-        this.$toast('请先登录')
+        this.$toast(this.$t('plantform.placelogin'))
       }
     },
     // 返回

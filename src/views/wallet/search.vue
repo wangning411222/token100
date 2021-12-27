@@ -4,9 +4,9 @@
       <div class="head-left">
         <van-icon name="arrow-left" color="#666" @click="back" />
       </div>
-      <van-search v-model="searchValue" show-action clearable placeholder="搜索币种/钱包/平台" @clear="clear">
+      <van-search v-model="searchValue" show-action clearable :placeholder="$t('wallet.searchall')" @clear="clear">
         <template #action>
-          <div @click="onSearch" class="search-text">搜索</div>
+          <div @click="onSearch" class="search-text">{{$t('wallet.search')}}</div>
         </template></van-search
       >
     </div>
@@ -14,9 +14,9 @@
       <div class="head">
         <div class="head-left">
           <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31">
-            <van-tab title="币种 "> </van-tab>
-            <van-tab title="交易平台"> </van-tab>
-            <van-tab title="钱包"> </van-tab>
+            <van-tab :title="$t('market.currency') "> </van-tab>
+            <van-tab :title="$t('plantform.tradingplatform')"> </van-tab>
+            <van-tab :title="$t('market.wallet')"> </van-tab>
           </van-tabs>
         </div>
         <div class="head-right">
@@ -42,10 +42,10 @@
       <div class="table-head" v-if="active === 0">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="4">币种</van-col>
+          <van-col span="4">{{$t('market.currency')}}</van-col>
           <van-col span="5">
             <div class="arrow-box" @click="bizhongSort('symbolMarketCapUsd')">
-              <div>市值({{ rateCode }})</div>
+              <div>{{$t('market.marketvalue')}}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="bizhongFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="bizhongFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -55,7 +55,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="bizhongSort('priceUsd')">
-              <div>最新价 ({{ rateCode }})</div>
+              <div>{{$t('market.latestprice')}} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="bizhongFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="bizhongFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -65,7 +65,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box">
-              <div>24小时涨幅</div>
+              <div>24H{{$t('market.amountofincrease')}}</div>
               <div class="img-box" @click="bizhongSort('priceChange1d')">
                 <img v-if="bizhongFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="bizhongFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -80,10 +80,10 @@
       <div class="table-head" v-if="active === 1">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">交易所</van-col>
+          <van-col span="6">{{$t('plantform.bourse')}}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortpingtaiList">
-              <div>领涨/领跌</div>
+              <div>{{$t('market.leading')}}/{{$t('market.ledby')}}</div>
               <div class="img-box">
                 <img v-if="sortpingtaiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortpingtaiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -101,10 +101,10 @@
       <div class="table-head" v-if="active === 2">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="8">名称</van-col>
+          <van-col span="8">{{$t('wallet.name')}}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortqianbaoList('walletSecurity')">
-              <div>安全性</div>
+              <div>{{$t('market.security')}}</div>
               <div class="img-box">
                 <img v-if="sortqianbaoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortqianbaoFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -114,7 +114,7 @@
           </van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sortqianbaoList('walletStar')">
-              <div>星级</div>
+              <div>{{$t('market.starlevel')}}</div>
               <div class="img-box">
                 <img v-if="sortqianbaoFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortqianbaoFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -270,7 +270,7 @@
                   void-icon="star"
                   void-color="#eee"
                 />
-                <div class="right-txt">安全性:{{ item.walletSecurity | walletSecurity }}</div>
+                <div class="right-txt">{{$t('market.security')}}:{{walletSecurity(item.walletSecurity) }}</div>
               </div>
             </van-cell>
           </van-list>
@@ -278,7 +278,7 @@
       </div>
     </div>
     <div class="search-content" v-else>
-      <h3>热门搜索</h3>
+      <h3>{{$t('wallet.hotsearch')}}</h3>
       <div>
         <van-tag
           v-for="(item, index) in hostList"
@@ -321,22 +321,7 @@ export default {
       sortqianbaoFlag1: 0
     }
   },
-  filters: {
-    walletSecurity(value) {
-      switch (value) {
-        case 1:
-          return '低'
-        case 2:
-          return '较低'
-        case 3:
-          return '中等'
-        case 4:
-          return '较高'
-        case 5:
-          return '高'
-      }
-    }
-  },
+
   mixins: [mixin],
   // eslint-disable-next-line vue/no-unused-components
   components: { myprogress, noData },
@@ -360,6 +345,20 @@ export default {
     }
   },
   methods: {
+    walletSecurity(value) {
+      switch (value) {
+        case 1:
+          return this.$t('market.low')
+        case 2:
+          return this.$t('market.lower')
+        case 3:
+          return this.$t('market.medium')
+        case 4:
+          return this.$t('market.higher')
+        case 5:
+          return this.$t('market.high')
+      }
+    },
     // 钱包详情页
     toWalletDetail(id) {
       this.$router.push({
@@ -387,21 +386,21 @@ export default {
     starClickpingtai(id) {
       if (this.isLogin) {
         userMarket(id).then(res => {
-          this.$toast('已取消关注')
+          this.$toast(this.$t('market.unfollowed'))
           this.userMarketPage()
         })
       } else {
-        this.$toast('请先登录')
+        this.$toast(this.$t('plantform.placelogin'))
       }
     },
     // 币种关注
     starClickbizhong(id) {
       if (this.isLogin) {
         userSymbol(id).then(res => {
-          this.$toast('已关注')
+          this.$toast(this.$t('market.unfollowed'))
         })
       } else {
-        this.$toast('请先登录')
+        this.$toast(this.$t('plantform.placelogin'))
       }
     },
     // 点击清除

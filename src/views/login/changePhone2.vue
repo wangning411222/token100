@@ -2,7 +2,7 @@
 <!-- 修改账号2 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="修改手机号" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="$t('mine.changephone')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -23,26 +23,26 @@
           </van-dropdown-menu>
           <van-field
             v-model="username"
-            name="用户名"
-            placeholder="请输入您的手机号"
+            :name="$t('mine.username')"
+            :placeholder="$t('mine.phoneplaceholder')"
 
           />
         </div>
         <div class="password">
           <van-field
             v-model="password"
-            placeholder="请输入验证码"
+            :placeholder="$t('mine.codeplaceholder')"
 
             ><template #button>
               <!-- <span>发送验证码</span> -->
-              <van-button color="#e4bc31" v-show="sedShow" :disabled="!codeDisable" @click="smsSend">发送验证码</van-button>
+              <van-button color="#e4bc31" v-show="sedShow" :disabled="!codeDisable" @click="smsSend">{{$t('mine.sendcode')}}</van-button>
               <van-button color="#e4bc31" v-show="!sedShow" >{{count}}</van-button>
             </template></van-field
           >
         </div>
 
         <div class="button-box" @click="next">
-          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">确认</van-button>
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">{{$t('mine.confirm')}}</van-button>
         </div>
       </van-form>
     </div>
@@ -143,7 +143,7 @@ export default {
             path: '/login'
           })
         } else {
-          this.$notify('验证码错误')
+          this.$notify(this.$t('mine.wrongcode'))
         }
       }
     },

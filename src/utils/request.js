@@ -3,11 +3,10 @@ import store from '@/store'
 import { Toast } from 'vant'
 // 根据环境不同引入不同api地址
 const baseURL = process.env.VUE_APP_BASE_API
-// const baseURL = 'http://api.token100.net'
 // create an axios instance
 const service = axios.create({
   baseURL: baseURL, // url = base api url + request url
-  withCredentials: true, // send cookies when cross-domain requests
+  // withCredentials: true, // send cookies when cross-domain requests
   timeout: 10000 // request timeout
 })
 

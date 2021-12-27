@@ -12,11 +12,11 @@
       <div class="tab-head">
         <div class="head-left">
           <div class="t-1">#</div>
-          <div class="t-2">币种</div>
+          <div class="t-2">{{$t('market.currency')}}</div>
         </div>
         <div class="head-right">
           <div class="t-3" @click="sortqianbao('walletSecurity')">
-            <div>安全性</div>
+            <div>{{$t('market.security')}}</div>
             <div class="img-box">
               <img v-if="sortqianbaoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sortqianbaoFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="t-4" @click="sortqianbao('walletStar')">
-            <div>星级</div>
+            <div>{{$t('market.starlevel')}}</div>
             <div class="img-box">
               <img v-if="sortqianbaoFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sortqianbaoFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -75,7 +75,7 @@
               void-icon="star"
               void-color="#eee"
             />
-            <div class="right-txt">安全性:{{ item.walletSecurity | walletSecurity }}</div>
+            <div class="right-txt">{{$t('market.security')}}:{{ walletSecurity(item.walletSecurity) }}</div>
           </div>
         </van-cell>
       </van-list>
@@ -100,22 +100,7 @@ export default {
       classifyCode: null
     }
   },
-  filters: {
-    walletSecurity(value) {
-      switch (value) {
-        case 1:
-          return '低'
-        case 2:
-          return '较低'
-        case 3:
-          return '中等'
-        case 4:
-          return '较高'
-        case 5:
-          return '高'
-      }
-    }
-  },
+
   components: { banner, search },
   computed: {
     ...mapGetters(['userName'])
@@ -125,6 +110,20 @@ export default {
     this.walletList()
   },
   methods: {
+    walletSecurity(value) {
+      switch (value) {
+        case 1:
+          return this.$t('market.low')
+        case 2:
+          return this.$t('market.lower')
+        case 3:
+          return this.$t('market.medium')
+        case 4:
+          return this.$t('market.higher')
+        case 5:
+          return this.$t('market.high')
+      }
+    },
     // 钱包详情
     toWalletDetail(id) {
       this.$router.push({
@@ -199,15 +198,6 @@ export default {
       this.$router.push({
         name: 'walletDetail'
       })
-    },
-    // 点击安全性排序
-    safety(value) {
-      // true正序 false反序
-      console.log(value, '安全性')
-    },
-    // 点击星级排序
-    start(value) {
-      console.log(value, '星级')
     }
   }
 }

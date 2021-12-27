@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-sticky>
-      <van-nav-bar title="详情" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="$t('market.details')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -36,24 +36,24 @@
             >
           </div>
           <div class="line-3">
-            <span>市值</span>
+            <span>{{$t('market.marketvalue')}}</span>
             <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
           </div>
         </div>
         <div class="head-bottom-right">
           <div class="column-left">
-            <span>最高 </span>
-            <span>最低</span>
-            <span>24H量 </span>
-            <span>24H额</span>
-            <span>24H换</span>
+            <span>{{$t('market.highest')}} </span>
+            <span>{{$t('market.lowest')}}</span>
+            <span>{{$t('market.amount24h')}} </span>
+            <span>{{$t('market.forehead24h')}}</span>
+            <span>{{$t('market.hand24h')}}</span>
           </div>
           <div class="column-right">
             <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
             <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
             <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
             <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.volumeDay) }}</span>
-            <span>{{ enNumUnti(symbolInfoObj.volumeRate) }}%</span>
+            <span>{{(symbolInfoObj.volumeRate*100).toFixed(2) }}%</span>
           </div>
         </div>
       </div>
@@ -77,9 +77,9 @@
         <div class="tip" v-show="tipShow">
           <div>{{ chartTime }} 00:00</div>
           <div>
-            <span>美元价格:${{ priceUsd }}&nbsp;&nbsp;</span>
-            <span>人民币价格:{{rateCode}}{{ priceCN }}&nbsp;&nbsp;</span>
-            <span>BTC价格:${{ priceBtc }}&nbsp;&nbsp;</span>
+            <span>{{$t('market.priceofUSdollar')}}:${{ priceUsd }}&nbsp;&nbsp;</span>
+            <span>{{$t('market.RMBprice')}}:{{rateCode}}{{ priceCN }}&nbsp;&nbsp;</span>
+            <span>BTC{{$t('market.price')}}:${{ priceBtc }}&nbsp;&nbsp;</span>
           </div>
         </div>
         <div id="mychart"></div>
@@ -89,11 +89,11 @@
     <div class="head">
       <div class="head-left">
         <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" :ellipsis="false" @click="clickTab">
-          <van-tab title="行情 "> </van-tab>
-          <van-tab title="期货合约"> </van-tab>
-          <van-tab title="简况"> </van-tab>
-          <van-tab title="持币"> </van-tab>
-          <van-tab title="钱包"> </van-tab>
+          <van-tab :title="$t('market.market')"> </van-tab>
+          <van-tab :title="$t('market.futurescontract')"> </van-tab>
+          <van-tab :title="$t('market.briefing')"> </van-tab>
+          <van-tab :title="$t('market.moneyholder')"> </van-tab>
+          <van-tab :title="$t('market.wallet')"> </van-tab>
         </van-tabs>
       </div>
       <div class="head-right">
@@ -119,10 +119,10 @@
     <div class="table-head" v-if="active === 0">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="4">交易对</van-col>
+        <van-col span="4">{{$t('market.tradingon')}}</van-col>
         <van-col span="6">
           <div class="arrow-box" @click="sorthangqing('changeDaily')">
-            <div>最新价 ({{rateCode}})</div>
+            <div>{{$t('market.latestprice')}} ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -132,7 +132,7 @@
         </van-col>
         <van-col span="6">
           <div class="arrow-box" @click="sorthangqing('baseVolume')">
-            <div>24H额 ({{rateCode}})</div>
+            <div>{{$t('market.forehead24h')}} ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -142,7 +142,7 @@
         </van-col>
         <van-col span="6">
           <div class="arrow-box" @click="sorthangqing('marketScale')">
-            <div>成交额占比</div>
+            <div>{{$t('market.percentageturnover')}}</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -156,10 +156,10 @@
     <div class="table-head" v-if="active === 1">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="6">交易对</van-col>
+        <van-col span="6">{{$t('market.tradingon')}}</van-col>
         <van-col span="8">
           <div class="arrow-box" @click="sorthangqing('changeDaily')">
-            <div>最新价 ({{rateCode}})</div>
+            <div>{{$t('market.latestprice')}} ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -169,7 +169,7 @@
         </van-col>
         <van-col span="8">
           <div class="arrow-box" @click="sorthangqing('baseVolume')">
-            <div>24H额 ({{rateCode}})</div>
+            <div>{{$t('market.forehead24h')}} ({{rateCode}})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -251,75 +251,75 @@
     <div class="info-box" v-if="active === 2">
       <div v-if="symbolDetailObj">
         <div class="info-txt">
-          <h3>持币情况</h3>
+          <h3>{{$t('market.cashsituation')}}</h3>
           <div>
             <p>
               {{symbolDetailObj.symbolDetails}}
             </p>
-            <span><a :href="symbolDetailObj.symbolExplorerUrls">查看更多</a></span>
+            <span><a :href="symbolDetailObj.symbolExplorerUrls">{{$t('market.lookmore')}}</a></span>
           </div>
         </div>
         <div class="info-list">
           <div class="info-item">
-            <div class="item-left">发行日期</div>
+            <div class="item-left">{{$t('market.dateofissue')}}</div>
             <div class="item-right">{{$moment(symbolDetailObj.symbolIssueDate).format('YYYY-MM-DD hh:mm')}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">历史最高价</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMax)}}</div>
+            <div class="item-left">{{$t('market.alltimehigh')}}</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMax-0)}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">历史最低价</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMin)}}</div>
+            <div class="item-left">{{$t('market.alltimelow')}}</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMin-0)}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">流通市值</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMarketCapUsd)}}</div>
+            <div class="item-left">{{$t('market.circulationmarketvalue')}}</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMarketCapUsd-0)}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">排名</div>
+            <div class="item-left">{{$t('market.ranking')}}</div>
             <div class="item-right">{{symbolDetailObj.symbolRank}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">全球总市值占比</div>
+            <div class="item-left">{{$t('market.shareglobalmarketcapitalization')}}</div>
             <div class="item-right">{{symbolDetailObj.symbolMarketValue}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">最大供应量</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMaxSupply)}}</div>
+            <div class="item-left">{{$t('market.maximumsupply')}}</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMaxSupply-0)}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">总供应量</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolTotalSupply)}}</div>
+            <div class="item-left">{{$t('market.totalsupply')}}</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolTotalSupply-0)}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">流通总量</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolAvailableSupply)}}</div>
+            <div class="item-left">{{$t('market.totalcirculation')}}</div>
+            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolAvailableSupply-0)}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">流通率</div>
-            <div class="item-right">{{symbolDetailObj.symbolAvailableSupply/symbolDetailObj.symbolMaxSupply}}%</div>
+            <div class="item-left">{{$t('market.flowrate')}}</div>
+            <div class="item-right">{{symbolDetailObj.symbolAvailableSupply-0/symbolDetailObj.symbolMaxSupply-0}}%</div>
           </div>
           <div class="info-item">
-            <div class="item-left">核心算法</div>
+            <div class="item-left">{{$t('market.corealgorithm')}}</div>
             <div class="item-right">{{symbolDetailObj.symbolAlgorithm}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">共识机制</div>
+            <div class="item-left">{{$t('market.consensusmechanism')}}</div>
             <div class="item-right">{{symbolDetailObj.symbolConsensusMechanism}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">上架交易所</div>
+            <div class="item-left">{{$t('market.listingexchange')}}</div>
             <div class="item-right">{{symbolDetailObj.symbolMarketNum}}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">持币地址数</div>
+            <div class="item-left">{{$t('market.numbercoinholdingaddresses')}}</div>
             <div class="item-right">{{symbolDetailObj.symbolAddress}}</div>
           </div>
         </div>
         <!-- 团队信息 -->
         <div class="team-info" v-if="symbolTeamObj">
-          <h3>团队信息</h3>
+          <h3>{{$t('market.teaminformation')}}</h3>
           <div class="team-list" v-for="(item,index) in (teamMoreShow?symbolTeamObj.team:symbolTeamObj.team.slice(0,5))" :key="index">
             <div class="team-left">
               <van-image width="39px" height="37px" :src="item.logo"></van-image>
@@ -342,11 +342,11 @@
               </div>
             </div>
           </div>
-          <div class="more" v-if="!teamMoreShow" @click="teamMore">查看更多</div>
+          <div class="more" v-if="!teamMoreShow" @click="teamMore">{{$t('market.lookmore')}}</div>
         </div>
         <!-- 投资机构 -->
         <div class="organization-info" v-if="symbolTeamObj">
-          <h3>投资机构</h3>
+          <h3>{{$t('market.institutionalinvestor')}}</h3>
           <div class="b-p"></div>
           <div class="organization-list" v-for="(item,index) in (organizationShow?symbolTeamObj.agency:symbolTeamObj.agency.slice(0,5))" :key="index">
             <div class="icon-box">
@@ -356,11 +356,11 @@
              {{item.intro}}
             </p>
           </div>
-          <div class="more" v-if="!organizationShow" @click="organizationMore">查看更多</div>
+          <div class="more" v-if="!organizationShow" @click="organizationMore">{{$t('market.lookmore')}}</div>
         </div>
         <!--路线 -->
         <div class="steps-box">
-          <h3>发展路程和路线</h3>
+          <h3>{{$t('market.developmentpathroute')}}</h3>
           <div class="step-box">
             <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
               <van-step v-for="(item,index) in symbolEventList" :key="index">
@@ -378,15 +378,15 @@
         </div>
         <!-- 相关链接 -->
         <div class="link-box">
-          <h3>相关链接</h3>
+          <h3>{{$t('market.relatedlinks')}}</h3>
           <div class="link-item">
             <a class="link" href="https://bitcoin.org">
               <van-image width="21px" height="21px" :src="require('../../assets/image/首页@2x.png')"></van-image>
-              <span>官网</span>
+              <span>{{$t('market.officialwebsite')}}</span>
             </a>
             <a class="link" href="http://www.bitcoin.org/bitcoin.pdf">
               <van-image width="18px" height="22px" :src="require('../../assets/image/指标白皮书@2x.png')"></van-image>
-              <span>白皮书</span>
+              <span>{{$t('market.whitebook')}}</span>
             </a>
             <a class="link" href="https://www.facebook.com/buy.bitcoin.news">
               <van-image width="13px" height="22px" :src="require('../../assets/image/facebook@2x.png')"></van-image>
@@ -405,7 +405,7 @@ https://btc.com/en"
                 height="21px"
                 :src="require('../../assets/image/bg-ie-browser@2x.png')"
               ></van-image>
-              <span>区块链</span>
+              <span>{{$t('market.blockchain')}}</span>
             </a>
             <a class="link" href="https://www.reddit.com/r/Bitcoin">
               <van-image width="25px" height="21px" :src="require('../../assets/image/reddit@2x.png')"></van-image>
@@ -419,7 +419,7 @@ https://btc.com/en"
         </div>
         <!-- 声明 -->
         <div class="shengming">
-          [免责声明]Token100所提供信息之目的在于方便用户操作，而非用户进行交易决策或交易相关操作之依据。用户应对独立作出交易或与交易相关操作的决策，Token100对于声明称依据上述信息所做交易以及交易相关的其他操作之决策导致的损失均不会以任何形式承担任何责任。简况信息如有缺失或错误，欢迎联系我们修正。
+         {{$t('market.token100disclaimer')}}
         </div>
       </div>
     </div>
@@ -427,47 +427,47 @@ https://btc.com/en"
     <div class="cash-box" v-if="active === 3">
       <div v-if="symbolHolderObj">
         <div class="cash-num">
-        <h3>持币情况</h3>
+        <h3>{{$t('market.cashsituation')}}</h3>
         <div class="line-1">
           <div class="txt-left">
-            <span>持币地址数</span>
+            <span>{{$t('market.numbercoinholdingaddresses')}}</span>
             <span>{{symbolHolderObj.totalHolders}}</span>
           </div>
           <div class="txt-right">{{symbolHolderObj.updateTime}}</div>
         </div>
         <div class="line-2">
           <div class="txt-left">
-            <span>持币前10名</span>
+            <span>{{$t('market.Top10coinholders')}}</span>
             <span>{{symbolHolderObj.percentageTop10}}</span>
           </div>
           <div class="txt-right">
-            <span>持币前20名</span>
+            <span>{{$t('market.Top20coinholders')}}</span>
             <span>{{symbolHolderObj.percentageTop20}}</span>
           </div>
         </div>
         <div class="line-2">
           <div class="txt-left">
-            <span>持币前50名</span>
+            <span>{{$t('market.Top50coinholders')}}</span>
             <span>{{symbolHolderObj.percentageTop50}}</span>
           </div>
           <div class="txt-right">
-            <span>持币前100名</span>
+            <span>{{$t('market.Top100coinholders')}}</span>
             <span>{{symbolHolderObj.percentageTop100}}</span>
           </div>
         </div>
       </div>
       <div class="line-gray"></div>
       <div class="cash-30">
-        <h3>BTC前30名持币明细</h3>
+        <h3>{{$t('MARKET.Top30BTCcurrencyholders')}}</h3>
         <div class="table-head">
           <van-row type="flex" justify="space-between" cente="center">
             <van-col span="2">#</van-col>
-            <van-col span="6">持仓占比</van-col>
+            <van-col span="6">{{$t("market.positionof")}}</van-col>
             <van-col span="6">
-              <div style="text-align: right">持仓数量</div>
+              <div style="text-align: right">{{$t('market.positionthenumber')}}</div>
             </van-col>
             <van-col span="10">
-              <div style="text-align: right; padding-left: 30px">钱包地址</div>
+              <div style="text-align: right; padding-left: 30px">{{$t('market.walletaddress')}}</div>
             </van-col>
           </van-row>
         </div>
@@ -499,11 +499,11 @@ https://btc.com/en"
       <div class="tab-head">
         <div class="head-left">
           <div class="t-1">#</div>
-          <div class="t-2">币种</div>
+          <div class="t-2">{{$t('market.currency')}}</div>
         </div>
         <div class="head-right">
           <div class="t-3" @click="sortqianbao('walletSecurity')">
-            <div>安全性</div>
+            <div>{{$t('market.security')}}</div>
             <div class="img-box">
              <img v-if="sortqianbaoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sortqianbaoFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -511,7 +511,7 @@ https://btc.com/en"
             </div>
           </div>
           <div class="t-4" @click="sortqianbao('walletStar')">
-            <div>星级</div>
+            <div>{{$t('market.starlevel')}}</div>
             <div class="img-box">
            <img v-if="sortqianbaoFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sortqianbaoFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -541,7 +541,7 @@ https://btc.com/en"
           </div>
           <div class="item-right">
             <van-rate v-model="item.walletStar" :size="18" gutter="3px" color="#FAD97E" void-icon="star" void-color="#eee" />
-            <div class="right-txt">安全性:{{item.walletSecurity |walletSecurity}}</div>
+            <div class="right-txt">{{$t('market.security')}}:{{walletSecurity(item.walletSecurity )}}</div>
           </div>
         </van-cell>
       </van-list>
@@ -560,7 +560,7 @@ export default {
       active: 0,
       timeArr: [
         {
-          label: '所有',
+          label: this.$t('market.all'),
           value: 0
         },
         {
@@ -568,19 +568,19 @@ export default {
           value: 1
         },
         {
-          label: '1周',
+          label: this.$t('market.aweek'),
           value: 2
         },
         {
-          label: '3月',
+          label: this.$t('market.months3'),
           value: 3
         },
         {
-          label: '今年',
+          label: this.$t('market.thisyear'),
           value: 4
         },
         {
-          label: '一年',
+          label: this.$t('market.year'),
           value: 5
         }
       ],
@@ -614,22 +614,7 @@ export default {
       rateCode: null
     }
   },
-  filters: {
-    walletSecurity(value) {
-      switch (value) {
-        case 1:
-          return '低'
-        case 2:
-          return '较低'
-        case 3:
-          return '中等'
-        case 4:
-          return '较高'
-        case 5:
-          return '高'
-      }
-    }
-  },
+
   mixins: [mixin],
   computed: {
     ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
@@ -657,6 +642,20 @@ export default {
     }
   },
   methods: {
+    walletSecurity(value) {
+      switch (value) {
+        case 1:
+          return this.$t('market.low')
+        case 2:
+          return this.$t('market.lower')
+        case 3:
+          return this.$t('market.medium')
+        case 4:
+          return this.$t('market.higher')
+        case 5:
+          return this.$t('market.high')
+      }
+    },
     fn() {
       this.rateR = this.globalRate // 全局汇率,初始化赋值
       this.rate = this.languageId // CNY
@@ -985,9 +984,9 @@ export default {
             fontSize: 10,
             formatter: function(value) {
               if (value >= 100000000) {
-                return Math.round(value / 100000000) + '亿'
+                return Math.round(value / 100000000) + that.$t('market.million')
               } else if (value >= 10000) {
-                return Math.round(value / 10000) + '万'
+                return Math.round(value / 10000) + that.$t('mamrket.thousand')
               } else {
                 return Math.round(value)
               }

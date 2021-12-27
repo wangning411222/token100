@@ -3,11 +3,11 @@
     <div class="preview-box">
       <div class="left">
         <div>
-          <div class="label">总市值</div>
+          <div class="label">{{$t('global.totalvalue')}}</div>
           <div class="value">{{rateCode}}{{marketVolume}}</div>
         </div>
         <div>
-          <div class="label">24H额</div>
+          <div class="label">{{$t('market.forehead24h')}}</div>
           <div class="value">{{rateCode}}{{dayVolume}}</div>
         </div>
       </div>
@@ -18,36 +18,36 @@
               <div class="pop-content">
                 <div class="content-item">
                   <div class="item-text">
-                    <span>虚拟币</span>
+                    <span>{{$t('global.virtualcurrency')}}</span>
                     <span>{{codeTotal}}</span>
                   </div>
                   <div class="item-text">
-                    <span>总市值{{rateCode}}</span>
+                    <span>{{$t('global.totalvalue')}}{{rateCode}}</span>
                     <span>{{marketVolume}}</span>
                   </div>
                 </div>
                 <div class="content-item">
                   <div class="item-text">
-                    <span>代币</span>
+                    <span>{{$t('global.token')}}</span>
                     <span>{{tokenTotal}}</span>
                   </div>
                   <div class="item-text">
-                    <span>24H成交额{{rateCode}}</span>
+                    <span>24H{{$t('plantform.volumetransaction')}}{{rateCode}}</span>
                     <span>{{dayVolume}}</span>
                   </div>
                 </div>
                 <div class="content-item">
                   <div class="item-text">
-                    <span>交易平台</span>
+                    <span>{{$t('plantform.tradingplatform')}}</span>
                     <span>{{marketTotal}}</span>
                   </div>
                   <div class="item-shape">
                     <div class="shape-left">
-                      <span>上涨</span>
+                      <span>{{$t('market.goup')}}</span>
                       <span>{{riseNum}}</span>
                     </div>
                     <div class="shape-right">
-                      <span>下跌</span>
+                      <span>{{$t('market.godown')}}</span>
                       <span>{{fallNum}}</span>
                     </div>
                   </div>

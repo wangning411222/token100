@@ -72,7 +72,7 @@ export default {
   },
   created() {
     const type = this.$route.params.type
-    this.title = type === 1 ? '忘记密码' : '修改密码'
+    this.title = type === 1 ? this.$t('mine.forgetpsd') : this.$t('mine.changepwd')
   },
   computed: {
     btnDisable() {
@@ -144,7 +144,7 @@ export default {
             }
           })
         } else {
-          this.$notify('验证码错误')
+          this.$notify(this.$t('mine.wrongcode'))
         }
       }
     },

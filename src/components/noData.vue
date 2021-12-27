@@ -1,7 +1,7 @@
 <template>
   <div class="no-data">
     <img src="../assets/image/空@2x.png" alt="" />
-    <span>暂无数据</span>
+    <span>{{$t('wallet.nodata')}}</span>
   </div>
 </template>
 <style lang="scss" scoped>

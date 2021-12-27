@@ -4,12 +4,12 @@
     <van-sticky>
       <search></search>
       <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" @click="tabsClick">
-        <van-tab title="快讯"> </van-tab>
-        <van-tab title="平台公告"> </van-tab>
-        <van-tab title="新闻"> </van-tab>
-        <van-tab title="活动"> </van-tab>
-        <van-tab title="小白教程"> </van-tab>
-        <van-tab title="日历"> </van-tab>
+        <van-tab :title="$t('information.newflash')"> </van-tab>
+        <van-tab :title="$t('information.Platformannouncement')"> </van-tab>
+        <van-tab :title="$t('information.news')"> </van-tab>
+        <van-tab :title="$t('information.activity')"> </van-tab>
+        <van-tab :title="$t('information.tutorial')"> </van-tab>
+        <van-tab :title="$t('information.calendar')"> </van-tab>
       </van-tabs>
     </van-sticky>
     <div class="tab-box">
@@ -20,7 +20,7 @@
       />
       <div class="flash-box" v-if="active === 0">
         <div class="date-box">
-          <h3>今天 &nbsp;{{ month }}月{{ day }}日 &nbsp; {{ week }}</h3>
+          <h3>{{$t('market.today')}} &nbsp;{{ month }}{{$t('information.month')}}{{ day }}{{$t('information.day')}} &nbsp; {{ week }}</h3>
         </div>
         <div class="step-box">
           <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
@@ -37,12 +37,12 @@
                 <div class="btn-box">
                   <div class="btn" @click="bullishUp">
                     <van-icon name="down" style="transform: rotate(180deg)"></van-icon>
-                    <div>利好</div>
+                    <div>{{$t('information.bull')}}</div>
                     <div>{{ bullishNum1 }}</div>
                   </div>
                   <div class="btn" @click="bullishDown">
                     <van-icon name="down"></van-icon>
-                    <div>利空</div>
+                    <div>{{$t('information.bear')}}</div>
                     <div>{{ bullishNum2 }}</div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@
             </div>
             <div class="info-box">
               <span :style="{background:newsTypeFiltercolor(item.newsType)}">
-                {{ item.newsType | newsTypeFilter }}
+                {{ newsTypeFilter(item.newsType) }}
               </span>
               <span>
               {{item.newsContent}}
@@ -133,33 +133,6 @@ export default {
       loading: false
     }
   },
-  filters: {
-    newsTypeFilter(value) {
-      switch (value) {
-        case 1:
-          return '上币'
-        case 2:
-          return '流动性挖矿'
-        case 3:
-          return 'NFT拍卖'
-        case 4:
-          return '公告/新闻'
-        case 5:
-          return '产品发布'
-        case 6:
-          return '空投/奖励'
-        case 7:
-          return '分叉/交换'
-        case 8:
-          return '令牌销毁/回购'
-        case 9:
-          return '会议/AMA'
-        case 10:
-          return '其他'
-      }
-    }
-
-  },
   components: { banner, search, newItem },
   computed: {
     ...mapGetters(['userName'])
@@ -171,6 +144,30 @@ export default {
     this.getNewsList()
   },
   methods: {
+    newsTypeFilter(value) {
+      switch (value) {
+        case 1:
+          return this.$t('information.Onthecurrency')
+        case 2:
+          return this.$t('information.Flowmining')
+        case 3:
+          return this.$t('information.NFTauction')
+        case 4:
+          return this.$t('information.AnnouncementsNews')
+        case 5:
+          return this.$t('information.productrelease')
+        case 6:
+          return this.$t('information.Airdropreward')
+        case 7:
+          return this.$t('information.Forkswap')
+        case 8:
+          return this.$t('information.Tokendestructionrepurchase')
+        case 9:
+          return this.$t('information.meetingAMA')
+        case 10:
+          return this.$t('information.rests')
+      }
+    },
     newsTypeFiltercolor(value) {
       switch (value) {
         case 1:

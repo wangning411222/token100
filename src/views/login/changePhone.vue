@@ -2,7 +2,7 @@
 <!-- 登陆 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="修改账号" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="$t('mine.changephone')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -11,13 +11,13 @@
     <div class="page-content">
       <van-form @submit="login">
         <div class="phone">
-           <van-field readonly  v-model="username" label="当前账号 :" />
+           <van-field readonly  v-model="username" :label="$t('mine.currentaccount')" />
         </div>
         <div class="password">
           <van-field
             v-model="password"
             :type="showPsd ? 'text' : 'password'"
-            placeholder="请输入密码"
+            :placeholder="$t('mine.psdplaceholder')"
 
           />
           <van-image
@@ -27,7 +27,7 @@
         </div>
 
         <div class="button-box">
-          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">下一步</van-button>
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">{{$t('mine.next')}}</van-button>
         </div>
       </van-form>
     </div>

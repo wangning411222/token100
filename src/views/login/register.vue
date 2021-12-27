@@ -3,7 +3,7 @@
 <!-- 注册 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="注册" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="$t('mine.register')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -24,31 +24,31 @@
           </van-dropdown-menu>
           <van-field
             v-model="username"
-            name="用户名"
-            placeholder="请输入您的手机号"
+            :name="$t('mine.username')"
+            :placeholder="$t('mine.phoneplaceholder')"
 
           />
         </div>
         <div class="password">
           <van-field
             v-model="password"
-            placeholder="请输入验证码"
+            :placeholder="$t('mine.codeplaceholder')"
 
             ><template #button>
               <!-- <span>发送验证码</span> -->
-              <van-button color="#e4bc31" v-show="sedShow" :disabled="!codeDisable" @click="smsSend">发送验证码</van-button>
+              <van-button color="#e4bc31" v-show="sedShow" :disabled="!codeDisable" @click="smsSend">{{$t('mine.sendcode')}}</van-button>
               <van-button color="#e4bc31" v-show="!sedShow" >{{count}}</van-button>
             </template></van-field
           >
         </div>
 
         <div class="button-box" @click="next">
-          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">下一步</van-button>
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">{{$t('mine.next')}}</van-button>
         </div>
       </van-form>
       <div class="bottom-t">
        <van-checkbox v-model="checked"></van-checkbox>
-        <span>我已阅读并同意<router-link :to="{ name: 'userAgreement' }">TOKREN用户协议</router-link></span>
+        <span>{{$t('mine.iagree')}}<router-link :to="{ name: 'userAgreement' }">TOKREN{{$t('mine.useragreement')}}</router-link></span>
       </div>
     </div>
   </div>
@@ -146,7 +146,7 @@ export default {
             }
           })
         } else {
-          this.$notify('验证码错误')
+          this.$notify(this.$t('mine.wrongcode'))
         }
       }
     },

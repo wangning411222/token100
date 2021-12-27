@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="关于我们" left-arrow @click-left="onClickLeft"> </van-nav-bar>
+      <van-nav-bar :title="$t('mine.aboutus')" left-arrow @click-left="onClickLeft"> </van-nav-bar>
     </van-sticky>
     <div v-html="content">
 

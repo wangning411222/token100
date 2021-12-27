@@ -23,7 +23,7 @@ export default {
     return {
       tabbars: [
         {
-          title: '行情',
+          title: this.$t('market.market'),
           to: {
             name: 'Market'
           },
@@ -31,7 +31,7 @@ export default {
           inactive: require('../../assets/icon/数据@2x1.png')
         },
         {
-          title: '平台',
+          title: this.$t('plantform.plantform'),
           to: {
             name: 'Platform'
           },
@@ -39,7 +39,7 @@ export default {
           inactive: require('../../assets/icon/模块@2x.png')
         },
         {
-          title: '资讯',
+          title: this.$t('information.information'),
           to: {
             name: 'Information'
           },
@@ -63,7 +63,7 @@ export default {
         //   inactive: require('../../assets/icon/我的@2x.png')
         // }
         {
-          title: '钱包',
+          title: this.$t('market.wallet'),
           to: {
             name: 'Wallet'
           },
@@ -71,7 +71,7 @@ export default {
           inactive: require('../../assets/icon/卡券@2x.png')
         },
         {
-          title: '我的',
+          title: this.$t('mine.mine'),
           to: {
             name: 'Mine'
           },

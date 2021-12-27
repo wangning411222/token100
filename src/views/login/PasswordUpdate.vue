@@ -2,7 +2,7 @@
 <!-- 忘记密码设置密码 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="设置新密码" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="$t('mine.setnewpsd')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -14,7 +14,7 @@
           <van-field
             v-model="password1"
             :type="showPsd1 ? 'text' : 'password'"
-            placeholder="请输入您密码"
+            :placeholder="$t('mine.psdplaceholder')"
           />
           <van-image
             @click="showPassword1"
@@ -25,7 +25,7 @@
           <van-field
             v-model="password2"
             :type="showPsd2 ? 'text' : 'password'"
-            placeholder="再次输入您的密码"
+            :placeholder="$t('mine.psdplaceholderagain')"
           />
           <van-image
             @click="showPassword2"
@@ -34,7 +34,7 @@
         </div>
 
         <div class="button-box"  @click="onSubmit">
-          <van-button round block color="#E4BC31"  :disabled="!submitDisable" native-type="submit">确定</van-button>
+          <van-button round block color="#E4BC31"  :disabled="!submitDisable" native-type="submit">{{$t('mine.confirm')}}</van-button>
         </div>
       </van-form>
     </div>
@@ -84,7 +84,7 @@ export default {
           })
         })
       } else {
-        this.$notify('两次密码不一致')
+        this.$notify(this.$t('mine.passwordsdiffer'))
       }
     },
     // 返回

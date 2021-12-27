@@ -2,7 +2,7 @@
 <!-- 登陆 -->
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="登陆" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
+      <van-nav-bar :title="$t('mine.login')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
           <van-icon name="search" size="18" />
         </template>
@@ -23,8 +23,7 @@
           </van-dropdown-menu>
           <van-field
             v-model="username"
-            name="用户名"
-            placeholder="请输入您的手机号"
+            :placeholder="$t('mine.phoneplaceholder')"
 
           />
         </div>
@@ -32,7 +31,7 @@
           <van-field
             v-model="password"
             :type="showPsd ? 'text' : 'password'"
-            placeholder="请输入密码"
+            :placeholder="$t('mine.psdplaceholder')"
 
           />
           <van-image
@@ -42,15 +41,15 @@
         </div>
 
         <div class="button-box">
-          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">登陆</van-button>
+          <van-button round block color="#e4bc31" :disabled="!btnDisable" native-type="submit">{{$t('mine.login')}}</van-button>
         </div>
       </van-form>
       <div class="bttom-text">
         <router-link :to="{ name: 'findpassword',params:{type:1} }">
-          <div>忘记密码?</div>
+          <div>{{$t('mine.forgetpsd')}}?</div>
         </router-link>
         <router-link :to="{ name: 'register' }">
-          <div>注册</div>
+          <div>{{$t('mine.register')}}</div>
         </router-link>
       </div>
     </div>
@@ -120,7 +119,7 @@ export default {
             name: 'Mine'
           })
         } else {
-          this.$notify('密码错误')
+          this.$notify(this.$t('mine.wrongpassword'))
         }
       })
     },

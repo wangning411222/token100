@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <van-sticky>
-      <van-nav-bar title="注册协议" left-arrow @click-left="onClickLeft"> </van-nav-bar>
+      <van-nav-bar :title="$t('mine.useragreement')" left-arrow @click-left="onClickLeft"> </van-nav-bar>
     </van-sticky>
     <div v-html="content">
 
