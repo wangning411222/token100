@@ -799,6 +799,7 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import mixin from '@/filters/mixin'
 import banner from '@/components/banner'
 import search from '@/components/search'
@@ -855,7 +856,8 @@ export default {
       sortgainianFlag1: 0,
       rateR: 0, // 选择汇率数值
       sortguanzhuFlag1: 0,
-      sortguanzhuFlag2: 0
+      sortguanzhuFlag2: 0,
+      socket: null
     }
   },
   mixins: [mixin],
@@ -870,6 +872,7 @@ export default {
     if (this.globalRateArr.length) {
       this.fn()
     }
+    // this.initSocket()
   },
   watch: {
     globalRateArr: {
@@ -880,6 +883,29 @@ export default {
     }
   },
   methods: {
+    initSocket() {
+      const that = this
+      var opts = {}
+      opts.transports = ['websocket']
+      this.socket = io.connect('http://43.252.160.205:9092?languageId=zh-CN&current=1&size=100', opts)
+      this.socket.on('connect', function() {
+        console.log('connectconnectconnectconnectect')
+      })
+      this.socket.on('symbol', function(data) {
+        const sockData = JSON.parse(data)
+        if (that.shizhiList.length) {
+          if (JSON.stringify(that.shizhiList) === JSON.stringify(sockData)) {
+            console.log('1111111111111111')
+          } else {
+            console.log(sockData, 'sockDatasockData')
+          }
+        }
+      })
+      this.socket.on('disconnect', function() {
+        console.log('disconnectdisconnectdisconnectdisconnect')
+      })
+    },
+
     // 关注排序
     sortguanzhu(key) {
       if (key === 'symbolMarketCapUsd') {

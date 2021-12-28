@@ -20,6 +20,7 @@ export default {
     }
   },
   methods: {
+
     //   获取新闻详情
     newsGet() {
       const data = {
