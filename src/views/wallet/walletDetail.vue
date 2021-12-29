@@ -7,107 +7,201 @@
         </template>
       </van-nav-bar>
     </van-sticky>
-    <div class="content">
+    <div class="content" v-if="walletobj">
       <div class="content-top">
         <div class="line-1">
           <div class="item-left">
             <div class="info-box">
-              <van-image class="info-logo" :src="require('../../assets/image/比特币@2x.png')" />
+              <van-image class="info-logo" :src="walletobj.walletLogo" />
               <div class="info">
-                <div class="info-txt">BTC</div>
+                <div class="info-txt">{{ walletobj.walletName }}</div>
                 <div class="info-img">
-                  <van-image class="p" :src="require('../../assets/image/手机@2x.png')" />
-                  <van-image class="c" :src="require('../../assets/image/芯片@2x.png')" />
+                  <van-image
+                    class="p"
+                    v-if="walletobj.walletTypes.indexOf('app') >= 0"
+                    :src="require('../../assets/image/手机@2x.png')"
+                  />
+                  <van-image
+                    class="c"
+                    v-if="walletobj.walletTypes.indexOf('hardware') >= 0"
+                    :src="require('../../assets/image/芯片@2x.png')"
+                  />
+                  <van-image
+                    class="p"
+                    v-if="walletobj.walletTypes.indexOf('pc') >= 0"
+                    :src="require('../../assets/image/pc.png')"
+                  />
                 </div>
               </div>
             </div>
           </div>
           <div class="item-right">
-            <div class="right-txt">{{$t('market.security')}}:中等</div>
-            <van-rate v-model="star" :size="12" gutter="3px" color="#FAD97E" void-icon="star" void-color="#eee" />
+            <div class="right-txt">{{ $t('market.security') }}:{{ walletSecurity(walletobj.walletSecurity) }}</div>
+            <van-rate
+              v-model="walletobj.walletStar"
+              :size="12"
+              gutter="3px"
+              color="#FAD97E"
+              void-icon="star"
+              void-color="#eee"
+            />
           </div>
         </div>
         <div class="line-2">
           <div class="line-item">
-            <div class="item-top">{{$t('wallet.verificationmode')}}</div>
-            <div class="item-bottom">SPV</div>
+            <div class="item-top">{{ $t('wallet.verificationmode') }}</div>
+            <div class="item-bottom">{{ walletCheckType(walletobj.walletCheckType) }}</div>
           </div>
           <div class="line-item">
-            <div class="item-top">{{$t('wallet.degreeofanonymity')}}</div>
-            <div class="item-bottom">中</div>
+            <div class="item-top">{{ $t('wallet.degreeofanonymity') }}</div>
+            <div class="item-bottom">{{ walletAnonymous(walletobj.walletAnonymous) }}</div>
           </div>
           <div class="line-item">
-            <div class="item-top">{{$t('wallet.easeofuse')}}</div>
-            <div class="item-bottom">较易</div>
+            <div class="item-top">{{ $t('wallet.easeofuse') }}</div>
+            <div class="item-bottom">{{ walletEasy2use(walletobj.walletEasy2use) }}</div>
           </div>
           <div class="line-item">
-            <div class="item-top">{{$t('wallet.Otherservices')}}</div>
+            <div class="item-top">{{ $t('wallet.Otherservices') }}</div>
             <div class="item-bottom">
-              <div class="bottom-txt">其他</div>
+              <div class="bottom-txt">{{ walletOtherService(walletobj.walletOtherService) }}</div>
               <div class="bottom-img">
-                <van-image class="img-1" :src="require('../../assets/icon/邮件详情-来往邮件@2x.png')"></van-image>
-                <van-image class="img-2" :src="require('../../assets/icon/购物车满@2x.png')"></van-image>
+                <van-image
+                  v-if="walletobj.walletOtherService === 2"
+                  class="img-1"
+                  :src="require('../../assets/icon/邮件详情-来往邮件@2x.png')"
+                ></van-image>
+                <van-image
+                  v-if="walletobj.walletOtherService === 3"
+                  class="img-2"
+                  :src="require('../../assets/icon/购物车满@2x.png')"
+                ></van-image>
               </div>
             </div>
           </div>
         </div>
-        <div class="line-3">
-          <div class="line-3-left">
-            <van-image :src="require('../../assets/icon/安全@2x.png')"></van-image>
+        <div
+          class="line-3"
+
+        >
+          <div
+class="line-3-left"
+:class="
+            walletobj.walletFactorAuth === 1 ||
+            walletobj.walletOpenSource === 1 ||
+            walletobj.walletMultiSignature === 1 ||
+            walletobj.walletFactorAuth === 1
+              ? 'safety1'
+              : 'danger1'
+          ">
+            <van-image
+              v-if="
+                walletobj.walletFactorAuth === 1 ||
+                walletobj.walletOpenSource === 1 ||
+                walletobj.walletMultiSignature === 1 ||
+                walletobj.walletFactorAuth === 1
+              "
+              :src="require('../../assets/icon/安全@2x.png')"
+            ></van-image>
+            <van-image v-else :src="require('../../assets/icon/danger.png')"></van-image>
           </div>
-          <div class="line-3-right">
+          <div
+class="line-3-right"
+:class="
+            walletobj.walletFactorAuth === 1 ||
+            walletobj.walletOpenSource === 1 ||
+            walletobj.walletMultiSignature === 1 ||
+            walletobj.walletFactorAuth === 1
+              ? 'safety2'
+              : 'danger2'
+          ">
             <div>
               <div class="txt">
-                <span>{{$t('wallet.Multipleauthentication')}}</span>
-                <van-image width="13px" height="9px" :src="require('../../assets/icon/路径@2x.png')"></van-image>
+                <span>{{ $t('wallet.Multipleauthentication') }}</span>
+                <van-image
+                  v-if="walletobj.walletFactorAuth === 1"
+                  width="13px"
+                  height="9px"
+                  :src="require('../../assets/icon/路径@2x.png')"
+                ></van-image>
+                <van-image
+                  v-else
+                  width="10px"
+                  height="10px"
+                  :src="require('../../assets/icon/关闭@2x.png')"
+                ></van-image>
               </div>
               <div>
-                <span>{{$t('wallet.Multiplesignature')}}</span>
-                <van-image width="13px" height="9px" :src="require('../../assets/icon/路径@2x.png')"></van-image>
+                <span>{{ $t('wallet.Multiplesignature') }}</span>
+                <van-image
+                  v-if="walletobj.walletOpenSource === 1"
+                  width="13px"
+                  height="9px"
+                  :src="require('../../assets/icon/路径@2x.png')"
+                ></van-image>
+                <van-image
+                  v-else
+                  width="10px"
+                  height="10px"
+                  :src="require('../../assets/icon/关闭@2x.png')"
+                ></van-image>
               </div>
             </div>
             <div class="text-right">
               <div class="txt">
-                <span>{{$t('wallet.Whetheropensource')}}</span>
-                <van-image width="13px" height="9px" :src="require('../../assets/icon/路径@2x.png')"></van-image>
+                <span>{{ $t('wallet.Whetheropensource') }}</span>
+                <van-image
+                  v-if="walletobj.walletMultiSignature === 1"
+                  width="13px"
+                  height="9px"
+                  :src="require('../../assets/icon/路径@2x.png')"
+                ></van-image>
+                <van-image
+                  v-else
+                  width="10px"
+                  height="10px"
+                  :src="require('../../assets/icon/关闭@2x.png')"
+                ></van-image>
               </div>
               <div>
-                <span>{{$t('wallet.certification2FA')}}</span>
-                <van-image width="10px" height="10px" :src="require('../../assets/icon/关闭@2x.png')"></van-image>
+                <span>{{ $t('wallet.certification2FA') }}</span>
+                <van-image
+                  v-if="walletobj.walletFactorAuth === 1"
+                  width="10px"
+                  height="10px"
+                  :src="require('../../assets/icon/关闭@2x.png')"
+                ></van-image>
+                <van-image
+                  v-else
+                  width="10px"
+                  height="10px"
+                  :src="require('../../assets/icon/关闭@2x.png')"
+                ></van-image>
               </div>
             </div>
           </div>
         </div>
         <div class="line-4">
-          <h3>{{$t('wallet.supportcurrency')}}</h3>
-          <div>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-          </div>
-          <div v-show="isShow">
-               <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
-            <van-tag color="#F9F9F8" text-color="#9B9B9B" size="large">BTC</van-tag>
+          <h3>{{ $t('wallet.supportcurrency') }}</h3>
+          <div :class="!isShow ? 'clim-2' : ''">
+            <van-tag
+              v-for="(item, index) in walletobj.walletChains.split(',')"
+              :key="index"
+              @click="tocoin(index)"
+              color="#F9F9F8"
+              text-color="#9B9B9B"
+              size="large"
+              >{{ item }}</van-tag
+            >
           </div>
           <div class="toogle" @click="toogle">
-              <span>{{isShow?$t('plantform.putaway'):$t('plantform.unfold')}}</span>
-              <van-icon :name="isShow?'arrow-up':'arrow-down'" />
+            <span>{{ isShow ? $t('plantform.putaway') : $t('plantform.unfold') }}</span>
+            <van-icon :name="isShow ? 'arrow-up' : 'arrow-down'" />
           </div>
         </div>
         <div class="line-5"></div>
         <div class="line-6">
-            <h3>{{$t('wallet.basicinformation')}}</h3>
-            <p>imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，imToken是一款移动端轻钱包App，</p>
+          <h3>{{ $t('wallet.basicinformation') }}</h3>
+          <p>{{ walletobj.walletIntro }}</p>
         </div>
         <div class="line-7"></div>
       </div>
@@ -115,18 +209,110 @@
   </div>
 </template>
 <script>
+import { walletDetail } from '@/api/wallet'
 export default {
   data() {
     return {
       star: 2,
       isShow: false,
-      id: null
+      id: null,
+      walletobj: null
     }
   },
   mounted() {
     this.id = this.$route.query.id
+    this.walletDetail()
   },
   methods: {
+    // 点击币种
+    tocoin(index) {
+      const id = this.walletobj.walletChainIds.split(',')[index]
+      this.$router.push({
+        path: '/marketDetail',
+        query: {
+          id
+        }
+      })
+    },
+    // 其他服务
+    walletOtherService(val) {
+      switch (val) {
+        case 0:
+          return this.$t('wallet.unknown')
+        case 1:
+          return this.$t('information.rests')
+        case 2:
+          return this.$t('wallet.transition')
+        case 3:
+          return this.$t('wallet.shop')
+        case '':
+          return ''
+      }
+    },
+    // 验证方式
+    walletCheckType(val) {
+      switch (val) {
+        case 0:
+          return this.$t('wallet.unknown')
+        case 1:
+          return 'SPV'
+      }
+    },
+    // 易用性
+    walletEasy2use(val) {
+      switch (val) {
+        case 1:
+          return this.$t('wallet.harder')
+        case 2:
+          return this.$t('wallet.hard')
+        case 3:
+          return this.$t('market.medium')
+        case 4:
+          return this.$t('wallet.easily')
+        case 5:
+          return this.$t('wallet.easy')
+      }
+    },
+    // 匿名程度
+    walletAnonymous(val) {
+      switch (val) {
+        case 0:
+          return this.$t('wallet.unknown')
+        case 1:
+          return this.$t('market.low')
+        case 2:
+          return this.$t('market.lower')
+        case 3:
+          return this.$t('market.high')
+      }
+    },
+    // 安全性
+    walletSecurity(value) {
+      switch (value) {
+        case 0:
+          return this.$t('wallet.unknown')
+        case 1:
+          return this.$t('market.low')
+        case 2:
+          return this.$t('market.lower')
+        case 3:
+          return this.$t('market.medium')
+        case 4:
+          return this.$t('market.higher')
+        case 5:
+          return this.$t('market.high')
+      }
+    },
+    // 获取钱包详情
+    walletDetail() {
+      const data = {
+        walletId: this.id
+      }
+      walletDetail(data).then(res => {
+        this.walletobj = res
+        console.log(res, 'res```````````````````')
+      })
+    },
     //   展开折叠
     toogle() {
       this.isShow = !this.isShow
@@ -146,7 +332,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page {
-    background:#fff;
+  background: #fff;
   .van-nav-bar {
     background: #ecedee;
     /deep/.van-icon {
@@ -275,6 +461,7 @@ export default {
           border-right: none;
         }
       }
+
       .line-3 {
         height: 100px;
         display: flex;
@@ -282,7 +469,6 @@ export default {
         .line-3-left {
           width: 123px;
           height: 100%;
-          background: #f1f7ea;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -291,9 +477,21 @@ export default {
             height: 53px;
           }
         }
+        .safety1 {
+          background: #f1f7ea;
+        }
+        .danger1 {
+          background: #ffe0e0;
+        }
+        .safety2 {
+          background: #fafff6;
+        }
+        .danger2 {
+          background: #fff0f0;
+        }
         .line-3-right {
           padding-left: 36px;
-          background: #fafff6;
+
           flex-grow: 1;
           display: flex;
           flex-direction: row;
@@ -311,7 +509,12 @@ export default {
         }
       }
       .line-4 {
-
+        .clim-2 {
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
         margin: 30px 24px;
         h3 {
           font-size: 30px;
@@ -320,34 +523,34 @@ export default {
         .van-tag {
           margin-right: 22px;
         }
-        .toogle{
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            color:#979797;
-            margin:24px 0;
+        .toogle {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          color: #979797;
+          margin: 24px 0;
         }
       }
-      .line-5{
-          background:#F3F3F3;
-          height:42px;
+      .line-5 {
+        background: #f3f3f3;
+        height: 42px;
       }
-      .line-6{
-          margin:25px 24px;
-          h3{
-              color:#333;
-              font-size:32px;
-          }
-          p{
-              font-size:28px;
-              color:#4A4A4A;
-              line-height:46px;
-          }
+      .line-6 {
+        margin: 25px 24px;
+        h3 {
+          color: #333;
+          font-size: 32px;
+        }
+        p {
+          font-size: 28px;
+          color: #4a4a4a;
+          line-height: 46px;
+        }
       }
-       .line-7{
-          background:#F3F3F3;
-          height:69px;
+      .line-7 {
+        background: #f3f3f3;
+        height: 69px;
       }
     }
   }

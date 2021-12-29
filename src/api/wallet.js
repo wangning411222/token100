@@ -20,3 +20,13 @@ export function walletList(data) {
     hideloading: true // 隐藏 loading 组件
   })
 }
+// 钱包详情
+
+export function walletDetail(data) {
+  return request({
+    url: '/appWallet/walletDetail',
+    method: 'post',
+    data: qs.stringify(data),
+    hideloading: true // 隐藏 loading 组件
+  })
+}

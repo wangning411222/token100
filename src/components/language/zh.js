@@ -208,7 +208,15 @@ module.exports = {
     searchall: '搜索币种/钱包/平台',
     name: '名称',
     hotsearch: '热门搜索',
-    nodata: '暂无数据'
+    nodata: '暂无数据',
+    harder: '难',
+    Hard: '较难',
+    easily: '较易',
+    easy: '易',
+    unknown: '未知',
+    transition: '转换',
+    shop: '购物'
+
   },
   global: {
     totalvalue: '总市值',

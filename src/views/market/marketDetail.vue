@@ -26,10 +26,10 @@
         <div class="head-bottom-left">
           <div class="line-1">
             <span>{{rateCode}}</span>
-            <span>{{ cnNumUnti(symbolInfoObj.priceUsd) }}</span>
+            <span>{{symbolInfoObj.priceUsd&& cnNumUnti(symbolInfoObj.priceUsd) }}</span>
           </div>
           <div class="line-2">
-            <span>≈$ {{ enNumUnti(symbolInfoObj.priceUsd) }}</span>
+            <span>≈$ {{symbolInfoObj.priceUsd&& enNumUnti(symbolInfoObj.priceUsd) }}</span>
             <span
 :class="symbolInfoObj.priceChange1d&&symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
               >{{ symbolInfoObj.priceChange1d }}%</span
@@ -37,7 +37,7 @@
           </div>
           <div class="line-3">
             <span>{{$t('market.marketvalue')}}</span>
-            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
+            <span>{{rateCode}}{{symbolInfoObj.marketCapUsd&& cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
           </div>
         </div>
         <div class="head-bottom-right">
@@ -49,11 +49,11 @@
             <span>{{$t('market.hand24h')}}</span>
           </div>
           <div class="column-right">
-            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
-            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
-            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
-            <span>{{rateCode}}{{ cnNumUnti(symbolInfoObj.volumeDay) }}</span>
-            <span>{{(symbolInfoObj.volumeRate*100).toFixed(2) }}%</span>
+            <span>{{rateCode}}{{symbolInfoObj.highPrice1d&& cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
+            <span>{{rateCode}}{{symbolInfoObj.lowPrice1d&& cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
+            <span>{{rateCode}}{{symbolInfoObj.volumeUsd&& cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
+            <span>{{rateCode}}{{symbolInfoObj.volumeDay&& cnNumUnti(symbolInfoObj.volumeDay) }}</span>
+            <span>{{symbolInfoObj&&(symbolInfoObj.volumeRate*100).toFixed(2) }}%</span>
           </div>
         </div>
       </div>
@@ -676,8 +676,8 @@ export default {
     // 去钱包详情
     toWalletDetail(id) {
       this.$router.push({
-        name: 'walletDetail',
-        params: {
+        path: '/walletDetail',
+        query: {
           id
         }
       })
