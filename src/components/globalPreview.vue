@@ -3,12 +3,12 @@
     <div class="preview-box">
       <div class="left">
         <div>
-          <div class="label">{{$t('global.totalvalue')}}</div>
-          <div class="value">{{rateCode}}{{marketVolume}}</div>
+          <div class="label">{{ $t('global.totalvalue') }}</div>
+          <div class="value">{{ rateCode }}{{ marketVolume }}</div>
         </div>
         <div>
-          <div class="label">{{$t('market.forehead24h')}}</div>
-          <div class="value">{{rateCode}}{{dayVolume}}</div>
+          <div class="label">{{ $t('market.forehead24h') }}</div>
+          <div class="value">{{ rateCode }}{{ dayVolume }}</div>
         </div>
       </div>
       <div class="right">
@@ -18,37 +18,37 @@
               <div class="pop-content">
                 <div class="content-item">
                   <div class="item-text">
-                    <span>{{$t('global.virtualcurrency')}}</span>
-                    <span>{{codeTotal}}</span>
+                    <span>{{ $t('global.virtualcurrency') }}</span>
+                    <span>{{ codeTotal }}</span>
                   </div>
                   <div class="item-text">
-                    <span>{{$t('global.totalvalue')}}{{rateCode}}</span>
-                    <span>{{marketVolume}}</span>
-                  </div>
-                </div>
-                <div class="content-item">
-                  <div class="item-text">
-                    <span>{{$t('global.token')}}</span>
-                    <span>{{tokenTotal}}</span>
-                  </div>
-                  <div class="item-text">
-                    <span>24H{{$t('plantform.volumetransaction')}}{{rateCode}}</span>
-                    <span>{{dayVolume}}</span>
+                    <span>{{ $t('global.totalvalue') }}{{ rateCode }}</span>
+                    <span>{{ marketVolume }}</span>
                   </div>
                 </div>
                 <div class="content-item">
                   <div class="item-text">
-                    <span>{{$t('plantform.tradingplatform')}}</span>
-                    <span>{{marketTotal}}</span>
+                    <span>{{ $t('global.token') }}</span>
+                    <span>{{ tokenTotal }}</span>
+                  </div>
+                  <div class="item-text">
+                    <span>24H{{ $t('plantform.volumetransaction') }}{{ rateCode }}</span>
+                    <span>{{ dayVolume }}</span>
+                  </div>
+                </div>
+                <div class="content-item">
+                  <div class="item-text">
+                    <span>{{ $t('plantform.tradingplatform') }}</span>
+                    <span>{{ marketTotal }}</span>
                   </div>
                   <div class="item-shape">
                     <div class="shape-left">
-                      <span>{{$t('market.goup')}}</span>
-                      <span>{{riseNum}}</span>
+                      <span>{{ $t('market.goup') }}</span>
+                      <span>{{ riseNum }}</span>
                     </div>
                     <div class="shape-right">
-                      <span>{{$t('market.godown')}}</span>
-                      <span>{{fallNum}}</span>
+                      <span>{{ $t('market.godown') }}</span>
+                      <span>{{ fallNum }}</span>
                     </div>
                   </div>
                 </div>
@@ -79,9 +79,7 @@ export default {
       rateCode: null
     }
   },
-  mixins: [
-    mixin
-  ],
+  mixins: [mixin],
   computed: {
     ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
   },
@@ -109,15 +107,7 @@ export default {
     },
     total() {
       total().then(res => {
-        const {
-          codeTotal,
-          dayVolume,
-          fallNum,
-          marketTotal,
-          marketVolume,
-          riseNum,
-          tokenTotal
-        } = res
+        const { codeTotal, dayVolume, fallNum, marketTotal, marketVolume, riseNum, tokenTotal } = res
         this.codeTotal = codeTotal
         this.dayVolume = this.enNumUnti(dayVolume * this.rateR)
         this.fallNum = fallNum
@@ -138,23 +128,30 @@ export default {
   background: #fff;
   z-index: 1000;
   width: calc(100% - 44px);
-  height: 37px;
+  height: 65px;
   padding: 14px 22px;
   line-height: 37px;
   position: fixed;
   bottom: 100px;
+  box-sizing: content-box;
 
   .preview-box {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     .left {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
       font-size: 26px;
+       white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
       & > div {
         display: flex;
         flex-direction: row;
@@ -163,9 +160,15 @@ export default {
         .label {
           color: #969799;
           margin-right: 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .value {
           color: #333;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
       & > div:first-child {
@@ -199,6 +202,7 @@ export default {
             display: flex;
             flex-direction: column;
             margin-bottom: 10px;
+            align-items: center;
             & > span:first-child {
               color: #939ea9;
             }

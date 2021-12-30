@@ -24,7 +24,7 @@ export default {
       } else if (Number(num) >= 100000000) {
         return (num / 100000000).toFixed(2) + this.$t('market.million')
       } else if (Number(num) >= 10000) {
-        return (num / 10000).toFixed(2) + '万'
+        return (num / 10000).toFixed(2) + this.$t('market.thousand')
       } else if (num >= 1) {
         return num.toFixed(2) + this.$t('global.yuan')
       } else if (num < 1) {

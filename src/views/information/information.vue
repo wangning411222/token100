@@ -20,7 +20,7 @@
       />
       <div class="flash-box" v-if="active === 0">
         <div class="date-box">
-          <h3>{{$t('market.today')}} &nbsp;{{ month }}{{$t('information.month')}}{{ day }}{{$t('information.day')}} &nbsp; {{ week }}</h3>
+          <h3>{{$t('market.today')}} &nbsp;{{ month }}{{$t('information.month')}}{{ day }}{{$t('information.day')}}</h3>
         </div>
         <div class="step-box">
           <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
@@ -35,15 +35,15 @@
                 {{item.newsContent}}
                 </p>
                 <div class="btn-box">
-                  <div class="btn" @click="bullishUp">
+                  <div class="btn" @click.stop="newsLike(item.newsId,1)">
                     <van-icon name="down" style="transform: rotate(180deg)"></van-icon>
                     <div>{{$t('information.bull')}}</div>
-                    <div>{{ bullishNum1 }}</div>
+                    <div>{{ item.newsFavorable }}</div>
                   </div>
-                  <div class="btn" @click="bullishDown">
+                  <div class="btn" @click.stop="newsLike(item.newsId,2)">
                     <van-icon name="down"></van-icon>
                     <div>{{$t('information.bear')}}</div>
-                    <div>{{ bullishNum2 }}</div>
+                    <div>{{ item.newsBear }}</div>
                   </div>
                 </div>
               </div>
@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { newsList } from '@/api/information'
+import { newsList, newsLike } from '@/api/information'
 import banner from '@/components/banner'
 import search from '@/components/search'
 import newItem from '@/components/newItem'
@@ -126,8 +126,6 @@ export default {
       month: null,
       day: null,
       week: null,
-      bullishNum1: 0,
-      bullishNum2: 0,
 
       stepList: [],
       loading: false
@@ -135,7 +133,7 @@ export default {
   },
   components: { banner, search, newItem },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['userName', 'isLogin'])
   },
   mounted() {
     this.month = this.$moment().format('M')
@@ -144,6 +142,19 @@ export default {
     this.getNewsList()
   },
   methods: {
+    newsLike(id, type) {
+      if (this.isLogin) {
+        const data = {
+          newsId: id,
+          newsLike: type
+        }
+        newsLike(data).then(res => {
+          this.getNewsList()
+        })
+      } else {
+        this.$toast(this.$t('plantform.placelogin'))
+      }
+    },
     newsTypeFilter(value) {
       switch (value) {
         case 1:
@@ -215,20 +226,6 @@ export default {
         path: '/detail',
         query: { id }
       })
-    },
-    // 点击利好
-    bullishUp() {
-      this.bullishNum1++
-      if (this.bullishNum2 !== 0) {
-        this.bullishNum2--
-      }
-    },
-    // 点击利空
-    bullishDown() {
-      this.bullishNum2++
-      if (this.bullishNum1 !== 0) {
-        this.bullishNum1--
-      }
     }
   }
 }

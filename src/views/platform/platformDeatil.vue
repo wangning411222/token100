@@ -108,8 +108,8 @@
     <div class="table-head" v-if="active === 0">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="4">{{$t('market.tradingon')}}</van-col>
-        <van-col span="6">
+        <van-col span="4" style="padding-right:5px;">{{$t('market.tradingon')}}</van-col>
+        <van-col span="6" style="padding-left:5px;">
           <div class="arrow-box"  @click="sorthangqingList('changeDaily')">
             <div>{{$t('plantform.platformprice')}}</div>
             <div class="img-box">

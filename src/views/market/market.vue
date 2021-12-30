@@ -7,7 +7,7 @@
       <div class="head">
         <div class="head-left">
           <van-tabs v-model="active" color="#E4BC31" title-active-color="#E4BC31" @click="clickTab">
-            <van-tab :title="$t('market.follow') "> </van-tab>
+            <van-tab :title="$t('market.follow')"> </van-tab>
             <van-tab :title="$t('market.marketvaluelist')"> </van-tab>
             <van-tab :title="$t('market.futurescontract')"> </van-tab>
             <van-tab :title="$t('market.hot')"> </van-tab>
@@ -43,17 +43,17 @@
       <div v-if="active === 0">
         <div class="login-box" v-if="!isLogin">
           <van-image width="140px" height="169px" :src="require('../../assets/image/空@2x.png')"></van-image>
-          <span>{{$t('market.logintoseemore')}}</span>
-          <van-button color="#E4BC31" @click="linkToLogin">{{$t('market.loginnow')}}</van-button>
+          <span>{{ $t('market.logintoseemore') }}</span>
+          <van-button color="#E4BC31" @click="linkToLogin">{{ $t('market.loginnow') }}</van-button>
         </div>
         <div v-else>
           <div class="table-head">
             <van-row type="flex" justify="space-between" align="center">
               <van-col span="2">#</van-col>
-              <van-col span="4">{{$t('market.currency')}}</van-col>
+              <van-col span="4">{{ $t('market.currency') }}</van-col>
               <van-col span="7">
                 <div class="arrow-box" @click="sortguanzhu('symbolMarketCapUsd')">
-                  <div>{{$t('market.globalindex')}}</div>
+                  <div>{{ $t('market.globalindex') }}</div>
                   <div class="img-box">
                     <img v-if="sortguanzhuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                     <img v-else-if="sortguanzhuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -63,7 +63,7 @@
               </van-col>
               <van-col span="7">
                 <div class="arrow-box" @click="sortguanzhu('priceChange1d')">
-                  <div>24H{{$t('market.amountofincrease')}}</div>
+                  <div>24H{{ $t('market.amountofincrease') }}</div>
                   <div class="img-box">
                     <img v-if="sortguanzhuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                     <img v-else-if="sortguanzhuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -122,10 +122,10 @@
       <div class="table-head" v-if="active === 1">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">{{$t('market.currency')}}</van-col>
+          <van-col span="6">{{ $t('market.currency') }}</van-col>
           <van-col span="4">
             <div class="arrow-box" @click="sortshizhi('symbolMarketCapUsd')">
-              <div>{{$t('market.marketvalue')}}({{ rateCode }})</div>
+              <div>{{ $t('market.marketvalue') }}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortshizhiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortshizhiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -135,7 +135,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortshizhi('priceUsd')">
-              <div>{{$t('market.latestprice')}} ({{ rateCode }})</div>
+              <div>{{ $t('market.latestprice') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortshizhiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortshizhiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -145,7 +145,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box">
-              <div>24H{{$t('market.amountofincrease')}}</div>
+              <div>24H{{ $t('market.amountofincrease') }}</div>
               <div class="img-box" @click="sortshizhi('priceChange1d')">
                 <img v-if="sortshizhiFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortshizhiFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -159,10 +159,10 @@
       <div class="table-head" v-if="active === 2">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="9" offset="1">{{$t('market.currency')}}</van-col>
+          <van-col span="9" offset="1">{{ $t('market.currency') }}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortqihuo('price')">
-              <div>{{$t('market.latestprice')}}({{ rateCode }})</div>
+              <div>{{ $t('market.latestprice') }}({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortqihuoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortqihuoFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -172,7 +172,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortqihuo('percentChange')">
-              <div>24H{{$t('market.amountofincrease')}}</div>
+              <div>24H{{ $t('market.amountofincrease') }}</div>
               <div class="img-box">
                 <img v-if="sortqihuoFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortqihuoFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -186,10 +186,10 @@
       <div class="table-head" v-if="active === 3">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="3">#</van-col>
-          <van-col span="8" offset="1">{{$t('market.currency')}}</van-col>
+          <van-col span="8" offset="1">{{ $t('market.currency') }}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortresou('currentPriceUsd')">
-              <div>{{$t('market.globalindex')}} ({{ rateCode }})</div>
+              <div>{{ $t('market.globalindex') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortresouFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortresouFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -199,7 +199,7 @@
           </van-col>
           <van-col span="6">
             <div style="text-align: right">
-              <div>24H{{$t('market.hotsearchindex')}}</div>
+              <div>24H{{ $t('market.hotsearchindex') }}</div>
             </div>
           </van-col>
         </van-row>
@@ -208,10 +208,10 @@
       <div class="table-head" v-if="active === 4">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="4">{{$t('market.currency')}}</van-col>
+          <van-col span="4">{{ $t('market.currency') }}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortlishi('priceUsd')">
-              <div>{{$t('market.globalindex')}} ({{ rateCode }})</div>
+              <div>{{ $t('market.globalindex') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortlishiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortlishiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -221,7 +221,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortlishi('highPriceAll')">
-              <div>{{$t('market.historichigh')}} ({{ rateCode }})</div>
+              <div>{{ $t('market.historichigh') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortlishiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortlishiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -231,7 +231,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortlishi('quoteChange')">
-              <div>ath{{$t('market.rangeofpricedrop')}}</div>
+              <div>ath{{ $t('market.rangeofpricedrop') }}</div>
               <div class="img-box">
                 <img v-if="sortlishiFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortlishiFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -245,10 +245,10 @@
       <div class="table-head" v-if="active === 5">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="4">{{$t('market.currency')}}</van-col>
+          <van-col span="4">{{ $t('market.currency') }}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('price')">
-              <div>{{$t('market.globalindex')}} ({{ rateCode }})</div>
+              <div>{{ $t('market.globalindex') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -258,7 +258,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('volume')">
-              <div>24H{{$t('market.limit')}} ({{ rateCode }})</div>
+              <div>24H{{ $t('market.limit') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortzhangfuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -267,7 +267,7 @@
             </div>
           </van-col>
           <van-col span="6">
-            <div style="text-align: right">24H{{$t('market.amountofincrease')}}</div>
+            <div style="text-align: right">24H{{ $t('market.amountofincrease') }}</div>
           </van-col>
         </van-row>
       </div>
@@ -275,10 +275,10 @@
       <div class="table-head" v-if="active === 6">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="4">{{$t('market.currency')}}</van-col>
+          <van-col span="4">{{ $t('market.currency') }}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('price')">
-              <div>{{$t('market.globalindex')}} ({{ rateCode }})</div>
+              <div>{{ $t('market.globalindex') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortzhangfuFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -288,7 +288,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortzhangfu('volume')">
-              <div>24H{{$t('market.limit')}} ({{ rateCode }})</div>
+              <div>24H{{ $t('market.limit') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortzhangfuFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortzhangfuFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -297,7 +297,7 @@
             </div>
           </van-col>
           <van-col span="6">
-            <div style="text-align: right">24H{{$t('market.amountofincrease')}}</div>
+            <div style="text-align: right">24H{{ $t('market.amountofincrease') }}</div>
           </van-col>
         </van-row>
       </div>
@@ -305,15 +305,15 @@
       <div class="table-head" v-if="active === 7">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="4">{{$t('market.currency')}}</van-col>
+          <van-col span="4">{{ $t('market.currency') }}</van-col>
           <van-col span="6">
-            <div style="text-align: right">{{$t('market.globalindex')}} ({{ rateCode }})</div>
+            <div style="text-align: right">{{ $t('market.globalindex') }} ({{ rateCode }})</div>
           </van-col>
           <van-col span="6">
-            <div style="text-align: right">24H{{$t('market.limit')}} ({{ rateCode }})</div>
+            <div style="text-align: right">24H{{ $t('market.limit') }} ({{ rateCode }})</div>
           </van-col>
           <van-col span="6">
-            <div style="text-align: right">24H{{$t('market.turnoverrate')}}</div>
+            <div style="text-align: right">24H{{ $t('market.turnoverrate') }}</div>
           </van-col>
         </van-row>
       </div>
@@ -321,13 +321,13 @@
       <div class="table-head" v-if="active === 8">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">{{$t('market.currency')}}</van-col>
+          <van-col span="6">{{ $t('market.currency') }}</van-col>
           <van-col span="10">
-            <div style="text-align: left">{{$t('market.turnover')}}/{{$t('market.circulation')}}</div>
+            <div style="text-align: left">{{ $t('market.turnover') }}/{{ $t('market.circulation') }}</div>
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortchengjiao('volume')">
-              <div>24H{{$t('market.limit')}} ({{ rateCode }})</div>
+              <div>24H{{ $t('market.limit') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortchengjiaoeFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortchengjiaoeFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -341,10 +341,10 @@
       <div class="table-head" v-if="active === 9">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="4">{{$t('market.currency')}}</van-col>
+          <van-col span="4">{{ $t('market.currency') }}</van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortxinbi('price')">
-              <div>{{$t('market.globalindex')}} ({{ rateCode }})</div>
+              <div>{{ $t('market.globalindex') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortxinbiFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortxinbiFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -354,7 +354,7 @@
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortxinbi('changePercent')">
-              <div>24H{{$t('market.amountofincrease')}} ({{ rateCode }})</div>
+              <div>24H{{ $t('market.amountofincrease') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortxinbiFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortxinbiFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -363,7 +363,7 @@
             </div>
           </van-col>
           <van-col span="6">
-            <div style="text-align: right">{{$t('market.timetomarket')}}</div>
+            <div style="text-align: right">{{ $t('market.timetomarket') }}</div>
           </van-col>
         </van-row>
       </div>
@@ -371,13 +371,13 @@
       <div class="table-head" v-if="active === 10">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="10">{{$t('market.nameofconcept')}}</van-col>
+          <van-col span="10">{{ $t('market.nameofconcept') }}</van-col>
           <van-col span="6">
-            <div style="text-align: left">{{$t('market.leading')}}/{{$t('market.ledby')}}</div>
+            <div style="text-align: left">{{ $t('market.leading') }}/{{ $t('market.ledby') }}</div>
           </van-col>
           <van-col span="6">
             <div class="arrow-box" @click="sortgainian('change_percent')">
-              <div>24H{{$t('market.amountofincrease')}} ({{ rateCode }})</div>
+              <div>24H{{ $t('market.amountofincrease') }} ({{ rateCode }})</div>
               <div class="img-box">
                 <img v-if="sortgainianFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
                 <img v-else-if="sortgainianFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -431,7 +431,7 @@
               <div>{{ item.priceChange1d.toFixed(2) }}%</div>
             </van-col>
           </van-row>
-          <div class="list-more" v-if="shizhiList.length" @click="listMore(active)">{{$t('market.clickmore')}}</div>
+          <div class="list-more" v-if="shizhiList.length" @click="listMore(active)">{{ $t('market.clickmore') }}</div>
         </van-list>
       </div>
 
@@ -744,10 +744,10 @@
               <div>{{ item.changePercent.toFixed(2) }}%</div>
             </van-col>
             <van-col span="6" style="text-align: right">
-              <div v-if="item.day === 0">{{$t('market.today')}}</div>
-              <div v-else-if="item.day === 1">{{$t('market.yesterday')}}</div>
-              <div v-else-if="item.day === 2">{{$t('market.beforeyesterday')}}</div>
-              <div v-else>{{ item.day }}{{$t('market.daysago')}}</div>
+              <div v-if="item.day === 0">{{ $t('market.today') }}</div>
+              <div v-else-if="item.day === 1">{{ $t('market.yesterday') }}</div>
+              <div v-else-if="item.day === 2">{{ $t('market.beforeyesterday') }}</div>
+              <div v-else>{{ item.day }}{{ $t('market.daysago') }}</div>
             </van-col>
           </van-row>
         </van-list>
@@ -1477,7 +1477,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
-      white-space: nowrap;
+      white-space: normal;
       .img-box {
         display: flex;
         flex-direction: column;

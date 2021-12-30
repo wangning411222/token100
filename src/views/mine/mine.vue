@@ -127,7 +127,9 @@ export default {
     logout() {
       this.$dialog.confirm({
         title: this.$t('mine.logout'),
-        message: this.$t('mine.logoutmsg')
+        message: this.$t('mine.logoutmsg'),
+        confirmButtonText: this.$t('mine.confirm'),
+        cancelButtonText: this.$t('mine.cancel')
       })
         .then(() => {
           this.$store.dispatch('setIsLogin', false)

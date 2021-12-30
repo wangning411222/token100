@@ -665,6 +665,10 @@ export default {
         }
       }
     }
+    .head-left{
+       padding-right: 30px;
+      width: calc(100vw - 152px);
+    }
   }
   .table-head {
     background: #fff;

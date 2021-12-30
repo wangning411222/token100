@@ -19,3 +19,12 @@ export function newsGet(data) {
   })
 }
 
+// 利好利空
+export function newsLike(data) {
+  return request({
+    url: '/appNews/newsLike',
+    method: 'post',
+    data: qs.stringify(data),
+    hideloading: true // 隐藏 loading 组件
+  })
+}

@@ -21,7 +21,17 @@ export default {
   name: 'AppLayout',
   data() {
     return {
-      tabbars: [
+
+    }
+  },
+  components: {
+    TabBar,
+    globalPreview
+  },
+  computed: {
+    ...mapGetters(['userName', 'isShow']),
+    tabbars() {
+      return [
         {
           title: this.$t('market.market'),
           to: {
@@ -64,13 +74,7 @@ export default {
         }
       ]
     }
-  },
-  components: {
-    TabBar,
-    globalPreview
-  },
-  computed: {
-    ...mapGetters(['userName', 'isShow'])
+
   },
   methods: {
 

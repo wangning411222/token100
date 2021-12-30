@@ -25,35 +25,39 @@
       <div class="head-bottom">
         <div class="head-bottom-left">
           <div class="line-1">
-            <span>{{rateCode}}</span>
-            <span>{{symbolInfoObj.priceUsd&& cnNumUnti(symbolInfoObj.priceUsd) }}</span>
+            <span>{{ rateCode }}</span>
+            <span>{{ symbolInfoObj.priceUsd && cnNumUnti(symbolInfoObj.priceUsd) }}</span>
           </div>
           <div class="line-2">
-            <span>≈$ {{symbolInfoObj.priceUsd&& enNumUnti(symbolInfoObj.priceUsd) }}</span>
+            <span>≈$ {{ symbolInfoObj.priceUsd && enNumUnti(symbolInfoObj.priceUsd) }}</span>
             <span
-:class="symbolInfoObj.priceChange1d&&symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+              :class="
+                symbolInfoObj.priceChange1d && symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0
+                  ? 'red'
+                  : 'green'
+              "
               >{{ symbolInfoObj.priceChange1d }}%</span
             >
           </div>
           <div class="line-3">
-            <span>{{$t('market.marketvalue')}}</span>
-            <span>{{rateCode}}{{symbolInfoObj.marketCapUsd&& cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
+            <span>{{ $t('market.marketvalue') }}</span>
+            <span>{{ rateCode }}{{ symbolInfoObj.marketCapUsd && cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
           </div>
         </div>
         <div class="head-bottom-right">
           <div class="column-left">
-            <span>{{$t('market.highest')}} </span>
-            <span>{{$t('market.lowest')}}</span>
-            <span>{{$t('market.amount24h')}} </span>
-            <span>{{$t('market.forehead24h')}}</span>
-            <span>{{$t('market.hand24h')}}</span>
+            <span>{{ $t('market.highest') }} </span>
+            <span>{{ $t('market.lowest') }}</span>
+            <span>{{ $t('market.amount24h') }} </span>
+            <span>{{ $t('market.forehead24h') }}</span>
+            <span>{{ $t('market.hand24h') }}</span>
           </div>
           <div class="column-right">
-            <span>{{rateCode}}{{symbolInfoObj.highPrice1d&& cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
-            <span>{{rateCode}}{{symbolInfoObj.lowPrice1d&& cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
-            <span>{{rateCode}}{{symbolInfoObj.volumeUsd&& cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
-            <span>{{rateCode}}{{symbolInfoObj.volumeDay&& cnNumUnti(symbolInfoObj.volumeDay) }}</span>
-            <span>{{symbolInfoObj&&(symbolInfoObj.volumeRate*100).toFixed(2) }}%</span>
+            <span>{{ rateCode }}{{ symbolInfoObj.highPrice1d && cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
+            <span>{{ rateCode }}{{ symbolInfoObj.lowPrice1d && cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
+            <span>{{ rateCode }}{{ symbolInfoObj.volumeUsd && cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
+            <span>{{ rateCode }}{{ symbolInfoObj.volumeDay && cnNumUnti(symbolInfoObj.volumeDay) }}</span>
+            <span>{{ symbolInfoObj && (symbolInfoObj.volumeRate * 100).toFixed(2) }}%</span>
           </div>
         </div>
       </div>
@@ -77,9 +81,9 @@
         <div class="tip" v-show="tipShow">
           <div>{{ chartTime }} 00:00</div>
           <div>
-            <span>{{$t('market.priceofUSdollar')}}:${{ priceUsd }}&nbsp;&nbsp;</span>
-            <span>{{$t('market.RMBprice')}}:{{rateCode}}{{ priceCN }}&nbsp;&nbsp;</span>
-            <span>BTC{{$t('market.price')}}:${{ priceBtc }}&nbsp;&nbsp;</span>
+            <span>{{ $t('market.priceofUSdollar') }}:${{ priceUsd }}&nbsp;&nbsp;</span>
+            <span>{{ $t('market.RMBprice') }}:{{ rateCode }}{{ priceCN }}&nbsp;&nbsp;</span>
+            <span>BTC{{ $t('market.price') }}:${{ priceBtc }}&nbsp;&nbsp;</span>
           </div>
         </div>
         <div id="mychart"></div>
@@ -119,10 +123,10 @@
     <div class="table-head" v-if="active === 0">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="4">{{$t('market.tradingon')}}</van-col>
-        <van-col span="6">
+        <van-col span="4" style="padding-right: 5px">{{ $t('market.tradingon') }}</van-col>
+        <van-col span="6" style="padding-left: 5px">
           <div class="arrow-box" @click="sorthangqing('changeDaily')">
-            <div>{{$t('market.latestprice')}} ({{rateCode}})</div>
+            <div>{{ $t('market.latestprice') }} ({{ rateCode }})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -132,7 +136,7 @@
         </van-col>
         <van-col span="6">
           <div class="arrow-box" @click="sorthangqing('baseVolume')">
-            <div>{{$t('market.forehead24h')}} ({{rateCode}})</div>
+            <div>{{ $t('market.forehead24h') }} ({{ rateCode }})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -142,7 +146,7 @@
         </van-col>
         <van-col span="6">
           <div class="arrow-box" @click="sorthangqing('marketScale')">
-            <div>{{$t('market.percentageturnover')}}</div>
+            <div>{{ $t('market.percentageturnover') }}</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -156,10 +160,10 @@
     <div class="table-head" v-if="active === 1">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="6">{{$t('market.tradingon')}}</van-col>
+        <van-col span="6">{{ $t('market.tradingon') }}</van-col>
         <van-col span="8">
           <div class="arrow-box" @click="sorthangqing('changeDaily')">
-            <div>{{$t('market.latestprice')}} ({{rateCode}})</div>
+            <div>{{ $t('market.latestprice') }} ({{ rateCode }})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -169,7 +173,7 @@
         </van-col>
         <van-col span="8">
           <div class="arrow-box" @click="sorthangqing('baseVolume')">
-            <div>{{$t('market.forehead24h')}} ({{rateCode}})</div>
+            <div>{{ $t('market.forehead24h') }} ({{ rateCode }})</div>
             <div class="img-box">
               <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
@@ -203,14 +207,14 @@
               <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
               <span class="base125">{{ item.marketName }}</span>
             </div>
-            <div class="bicon-name-bottom hangqing">{{ item.symbolName }}/{{item.rateName}}</div>
+            <div class="bicon-name-bottom hangqing">{{ item.symbolName }}/{{ item.rateName }}</div>
           </van-col>
-          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.lastPrice*rateR) }}</van-col>
+          <van-col span="6" style="text-align: right"> {{ enNumUnti(item.lastPrice * rateR) }}</van-col>
           <van-col span="6" style="text-align: right">
-            <div>{{ enNumUnti(item.quoteVolume*rateR) }}</div>
+            <div>{{ enNumUnti(item.quoteVolume * rateR) }}</div>
           </van-col>
           <van-col span="6" style="text-align: right">
-            <div>{{ (item.marketScale*100).toFixed(2) }}%</div>
+            <div>{{ (item.marketScale * 100).toFixed(2) }}%</div>
           </van-col>
         </van-row>
       </van-list>
@@ -236,140 +240,151 @@
               <van-image width="18px" height="18px" :src="item.marketLogo"></van-image>
               <span>{{ item.marketName }}</span>
             </div>
-            <div class="bicon-name-bottom base185">{{ item.symbolName }}/{{item.rateName}}</div>
+            <div class="bicon-name-bottom base185">{{ item.symbolName }}/{{ item.rateName }}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <div>{{ enNumUnti(item.lastPrice*rateR) }}</div>
+            <div>{{ enNumUnti(item.lastPrice * rateR) }}</div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <div>{{ enNumUnti(item.quoteVolume*rateR) }}</div>
+            <div>{{ enNumUnti(item.quoteVolume * rateR) }}</div>
           </van-col>
         </van-row>
       </van-list>
     </div>
-     <!-- 简况 -->
+    <!-- 简况 -->
     <div class="info-box" v-if="active === 2">
       <div v-if="symbolDetailObj">
         <div class="info-txt">
-          <h3>{{$t('market.cashsituation')}}</h3>
+          <h3>{{ $t('market.cashsituation') }}</h3>
           <div>
             <p>
-              {{symbolDetailObj.symbolDetails}}
+              {{ symbolDetailObj.symbolDetails }}
             </p>
-            <span><a :href="symbolDetailObj.symbolExplorerUrls">{{$t('market.lookmore')}}</a></span>
+            <span
+              ><a :href="symbolDetailObj.symbolExplorerUrls">{{ $t('market.lookmore') }}</a></span
+            >
           </div>
         </div>
         <div class="info-list">
           <div class="info-item">
-            <div class="item-left">{{$t('market.dateofissue')}}</div>
-            <div class="item-right">{{$moment(symbolDetailObj.symbolIssueDate).format('YYYY-MM-DD hh:mm')}}</div>
+            <div class="item-left">{{ $t('market.dateofissue') }}</div>
+            <div class="item-right">{{ $moment(symbolDetailObj.symbolIssueDate).format('YYYY-MM-DD hh:mm') }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.alltimehigh')}}</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMax-0)}}</div>
+            <div class="item-left">{{ $t('market.alltimehigh') }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolPriceMax - 0) }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.alltimelow')}}</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolPriceMin-0)}}</div>
+            <div class="item-left">{{ $t('market.alltimelow') }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolPriceMin - 0) }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.circulationmarketvalue')}}</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMarketCapUsd-0)}}</div>
+            <div class="item-left">{{ $t('market.circulationmarketvalue') }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolMarketCapUsd - 0) }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.ranking')}}</div>
-            <div class="item-right">{{symbolDetailObj.symbolRank}}</div>
+            <div class="item-left">{{ $t('market.ranking') }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolRank }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.shareglobalmarketcapitalization')}}</div>
-            <div class="item-right">{{symbolDetailObj.symbolMarketValue}}</div>
+            <div class="item-left">{{ $t('market.shareglobalmarketcapitalization') }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolMarketValue }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.maximumsupply')}}</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolMaxSupply-0)}}</div>
+            <div class="item-left">{{ $t('market.maximumsupply') }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolMaxSupply - 0) }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.totalsupply')}}</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolTotalSupply-0)}}</div>
+            <div class="item-left">{{ $t('market.totalsupply') }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolTotalSupply - 0) }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.totalcirculation')}}</div>
-            <div class="item-right">{{enNumUnti(symbolDetailObj.symbolAvailableSupply-0)}}</div>
+            <div class="item-left">{{ $t('market.totalcirculation') }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolAvailableSupply - 0) }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.flowrate')}}</div>
-            <div class="item-right">{{symbolDetailObj.symbolAvailableSupply-0/symbolDetailObj.symbolMaxSupply-0}}%</div>
+            <div class="item-left">{{ $t('market.flowrate') }}</div>
+            <div class="item-right">
+              {{ symbolDetailObj.symbolAvailableSupply - 0 / symbolDetailObj.symbolMaxSupply - 0 }}%
+            </div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.corealgorithm')}}</div>
-            <div class="item-right">{{symbolDetailObj.symbolAlgorithm}}</div>
+            <div class="item-left">{{ $t('market.corealgorithm') }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolAlgorithm }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.consensusmechanism')}}</div>
-            <div class="item-right">{{symbolDetailObj.symbolConsensusMechanism}}</div>
+            <div class="item-left">{{ $t('market.consensusmechanism') }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolConsensusMechanism }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.listingexchange')}}</div>
-            <div class="item-right">{{symbolDetailObj.symbolMarketNum}}</div>
+            <div class="item-left">{{ $t('market.listingexchange') }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolMarketNum }}</div>
           </div>
           <div class="info-item">
-            <div class="item-left">{{$t('market.numbercoinholdingaddresses')}}</div>
-            <div class="item-right">{{symbolDetailObj.symbolAddress}}</div>
+            <div class="item-left">{{ $t('market.numbercoinholdingaddresses') }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolAddress }}</div>
           </div>
         </div>
         <!-- 团队信息 -->
         <div class="team-info" v-if="symbolTeamObj">
-          <h3>{{$t('market.teaminformation')}}</h3>
-          <div class="team-list" v-for="(item,index) in (teamMoreShow?symbolTeamObj.team:symbolTeamObj.team.slice(0,5))" :key="index">
+          <h3>{{ $t('market.teaminformation') }}</h3>
+          <div
+            class="team-list"
+            v-for="(item, index) in teamMoreShow ? symbolTeamObj.team : symbolTeamObj.team.slice(0, 5)"
+            :key="index"
+          >
             <div class="team-left">
               <van-image width="39px" height="37px" :src="item.logo"></van-image>
-              <div>{{item.name}}</div>
+              <div>{{ item.name }}</div>
             </div>
             <div class="team-right">
-              <div>{{item.intro}}</div>
+              <div>{{ item.intro }}</div>
               <div class="team-icon">
                 <a :href="item.twitterlink">
                   <van-image
-                  width="22px"
-                  height="22px"
-                  :src="require('../../assets/image/推特_twitter43@2x.png')"
-                ></van-image>
+                    width="22px"
+                    height="22px"
+                    :src="require('../../assets/image/推特_twitter43@2x.png')"
+                  ></van-image>
                 </a>
                 <a :href="item.linkinlink">
                   <van-image width="22px" height="22px" :src="require('../../assets/image/in@2x.png')"></van-image>
                 </a>
-
               </div>
             </div>
           </div>
-          <div class="more" v-if="!teamMoreShow" @click="teamMore">{{$t('market.lookmore')}}</div>
+          <div class="more" v-if="!teamMoreShow" @click="teamMore">{{ $t('market.lookmore') }}</div>
         </div>
         <!-- 投资机构 -->
         <div class="organization-info" v-if="symbolTeamObj">
-          <h3>{{$t('market.institutionalinvestor')}}</h3>
+          <h3>{{ $t('market.institutionalinvestor') }}</h3>
           <div class="b-p"></div>
-          <div class="organization-list" v-for="(item,index) in (organizationShow?symbolTeamObj.agency:symbolTeamObj.agency.slice(0,5))" :key="index">
+          <div
+            class="organization-list"
+            v-for="(item, index) in organizationShow ? symbolTeamObj.agency : symbolTeamObj.agency.slice(0, 5)"
+            :key="index"
+          >
             <div class="icon-box">
               <van-image width="34px" height="34px" :src="item.logo"></van-image>
             </div>
             <p class="organization-right">
-             {{item.intro}}
+              {{ item.intro }}
             </p>
           </div>
-          <div class="more" v-if="!organizationShow" @click="organizationMore">{{$t('market.lookmore')}}</div>
+          <div class="more" v-if="!organizationShow" @click="organizationMore">{{ $t('market.lookmore') }}</div>
         </div>
         <!--路线 -->
         <div class="steps-box">
-          <h3>{{$t('market.developmentpathroute')}}</h3>
+          <h3>{{ $t('market.developmentpathroute') }}</h3>
           <div class="step-box">
             <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
-              <van-step v-for="(item,index) in symbolEventList" :key="index">
+              <van-step v-for="(item, index) in symbolEventList" :key="index">
                 <div class="step-item">
                   <div class="step-time">
-                    <span>{{item.eventDate}}</span>
+                    <span>{{ item.eventDate }}</span>
                   </div>
                   <p>
-                   {{item.title}}
+                    {{ item.title }}
                   </p>
                 </div>
               </van-step>
@@ -378,15 +393,15 @@
         </div>
         <!-- 相关链接 -->
         <div class="link-box">
-          <h3>{{$t('market.relatedlinks')}}</h3>
+          <h3>{{ $t('market.relatedlinks') }}</h3>
           <div class="link-item">
             <a class="link" href="https://bitcoin.org">
               <van-image width="21px" height="21px" :src="require('../../assets/image/首页@2x.png')"></van-image>
-              <span>{{$t('market.officialwebsite')}}</span>
+              <span>{{ $t('market.officialwebsite') }}</span>
             </a>
             <a class="link" href="http://www.bitcoin.org/bitcoin.pdf">
               <van-image width="18px" height="22px" :src="require('../../assets/image/指标白皮书@2x.png')"></van-image>
-              <span>{{$t('market.whitebook')}}</span>
+              <span>{{ $t('market.whitebook') }}</span>
             </a>
             <a class="link" href="https://www.facebook.com/buy.bitcoin.news">
               <van-image width="13px" height="22px" :src="require('../../assets/image/facebook@2x.png')"></van-image>
@@ -405,7 +420,7 @@ https://btc.com/en"
                 height="21px"
                 :src="require('../../assets/image/bg-ie-browser@2x.png')"
               ></van-image>
-              <span>{{$t('market.blockchain')}}</span>
+              <span>{{ $t('market.blockchain') }}</span>
             </a>
             <a class="link" href="https://www.reddit.com/r/Bitcoin">
               <van-image width="25px" height="21px" :src="require('../../assets/image/reddit@2x.png')"></van-image>
@@ -419,7 +434,7 @@ https://btc.com/en"
         </div>
         <!-- 声明 -->
         <div class="shengming">
-         {{$t('market.token100disclaimer')}}
+          {{ $t('market.token100disclaimer') }}
         </div>
       </div>
     </div>
@@ -427,93 +442,92 @@ https://btc.com/en"
     <div class="cash-box" v-if="active === 3">
       <div v-if="symbolHolderObj">
         <div class="cash-num">
-        <h3>{{$t('market.cashsituation')}}</h3>
-        <div class="line-1">
-          <div class="txt-left">
-            <span>{{$t('market.numbercoinholdingaddresses')}}</span>
-            <span>{{symbolHolderObj.totalHolders}}</span>
+          <h3>{{ $t('market.cashsituation') }}</h3>
+          <div class="line-1">
+            <div class="txt-left">
+              <span>{{ $t('market.numbercoinholdingaddresses') }}</span>
+              <span>{{ symbolHolderObj.totalHolders }}</span>
+            </div>
+            <div class="txt-right">{{ symbolHolderObj.updateTime }}</div>
           </div>
-          <div class="txt-right">{{symbolHolderObj.updateTime}}</div>
+          <div class="line-2">
+            <div class="txt-left">
+              <span>{{ $t('market.Top10coinholders') }}</span>
+              <span>{{ symbolHolderObj.percentageTop10 }}</span>
+            </div>
+            <div class="txt-right">
+              <span>{{ $t('market.Top20coinholders') }}</span>
+              <span>{{ symbolHolderObj.percentageTop20 }}</span>
+            </div>
+          </div>
+          <div class="line-2">
+            <div class="txt-left">
+              <span>{{ $t('market.Top50coinholders') }}</span>
+              <span>{{ symbolHolderObj.percentageTop50 }}</span>
+            </div>
+            <div class="txt-right">
+              <span>{{ $t('market.Top100coinholders') }}</span>
+              <span>{{ symbolHolderObj.percentageTop100 }}</span>
+            </div>
+          </div>
         </div>
-        <div class="line-2">
-          <div class="txt-left">
-            <span>{{$t('market.Top10coinholders')}}</span>
-            <span>{{symbolHolderObj.percentageTop10}}</span>
+        <div class="line-gray"></div>
+        <div class="cash-30">
+          <h3>{{ $t('MARKET.Top30BTCcurrencyholders') }}</h3>
+          <div class="table-head">
+            <van-row type="flex" justify="space-between" cente="center">
+              <van-col span="2">#</van-col>
+              <van-col span="6">{{ $t('market.positionof') }}</van-col>
+              <van-col span="6">
+                <div style="text-align: right">{{ $t('market.positionthenumber') }}</div>
+              </van-col>
+              <van-col span="10">
+                <div style="text-align: right; padding-left: 30px">{{ $t('market.walletaddress') }}</div>
+              </van-col>
+            </van-row>
           </div>
-          <div class="txt-right">
-            <span>{{$t('market.Top20coinholders')}}</span>
-            <span>{{symbolHolderObj.percentageTop20}}</span>
-          </div>
-        </div>
-        <div class="line-2">
-          <div class="txt-left">
-            <span>{{$t('market.Top50coinholders')}}</span>
-            <span>{{symbolHolderObj.percentageTop50}}</span>
-          </div>
-          <div class="txt-right">
-            <span>{{$t('market.Top100coinholders')}}</span>
-            <span>{{symbolHolderObj.percentageTop100}}</span>
-          </div>
+          <van-list>
+            <van-row
+              class="list-item"
+              v-for="(item, index) in symbolHolderObj.holdersList"
+              :key="index"
+              type="flex"
+              justify="space-between"
+              cente="center"
+            >
+              <van-col span="2">
+                <van-tag color="#E4BC31">{{ index }}</van-tag>
+              </van-col>
+              <van-col span="6" style="text-align: left"> {{ item.percentage }}% </van-col>
+              <van-col span="6" style="text-align: right"> {{ item.quantity }} </van-col>
+              <van-col span="10" style="text-align: right; padding: 0 30px; overflow: hidden">
+                <div>{{ item.address }}</div>
+              </van-col>
+            </van-row>
+          </van-list>
         </div>
       </div>
-      <div class="line-gray"></div>
-      <div class="cash-30">
-        <h3>{{$t('MARKET.Top30BTCcurrencyholders')}}</h3>
-        <div class="table-head">
-          <van-row type="flex" justify="space-between" cente="center">
-            <van-col span="2">#</van-col>
-            <van-col span="6">{{$t("market.positionof")}}</van-col>
-            <van-col span="6">
-              <div style="text-align: right">{{$t('market.positionthenumber')}}</div>
-            </van-col>
-            <van-col span="10">
-              <div style="text-align: right; padding-left: 30px">{{$t('market.walletaddress')}}</div>
-            </van-col>
-          </van-row>
-        </div>
-        <van-list>
-          <van-row
-            class="list-item"
-            v-for="(item, index) in symbolHolderObj.holdersList"
-            :key="index"
-            type="flex"
-            justify="space-between"
-            cente="center"
-          >
-            <van-col span="2">
-              <van-tag color="#E4BC31">{{ index }}</van-tag>
-            </van-col>
-            <van-col span="6" style="text-align: left"> {{ item.percentage }}% </van-col>
-            <van-col span="6" style="text-align: right"> {{ item.quantity }} </van-col>
-            <van-col span="10" style="text-align: right; padding:0 30px;overflow:hidden">
-              <div>{{item.address}}</div>
-            </van-col>
-          </van-row>
-        </van-list>
-      </div>
-      </div>
-
     </div>
     <!-- 钱包 -->
     <div class="wallet-box" v-if="active === 4">
       <div class="tab-head">
         <div class="head-left">
           <div class="t-1">#</div>
-          <div class="t-2">{{$t('market.currency')}}</div>
+          <div class="t-2">{{ $t('market.currency') }}</div>
         </div>
         <div class="head-right">
           <div class="t-3" @click="sortqianbao('walletSecurity')">
-            <div>{{$t('market.security')}}</div>
+            <div>{{ $t('market.security') }}</div>
             <div class="img-box">
-             <img v-if="sortqianbaoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-if="sortqianbaoFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sortqianbaoFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
               <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
           <div class="t-4" @click="sortqianbao('walletStar')">
-            <div>{{$t('market.starlevel')}}</div>
+            <div>{{ $t('market.starlevel') }}</div>
             <div class="img-box">
-           <img v-if="sortqianbaoFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-if="sortqianbaoFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
               <img v-else-if="sortqianbaoFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
               <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
@@ -523,25 +537,44 @@ https://btc.com/en"
       <van-list>
         <van-cell v-for="(item, index) in qianbaoList" :key="index" @click="toWalletDetail(item.walletId)">
           <div class="item-left">
-           <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
             <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index + 1 }}</van-tag>
             <div class="info-box">
               <van-image class="info-logo" :src="item.walletLogo" />
               <div class="info">
-                <div class="info-txt">{{item.walletName}}</div>
+                <div class="info-txt">{{ item.walletName }}</div>
                 <div class="info-img">
-                  <van-image class="p" v-if="item.walletTypes.indexOf('app')>=0" :src="require('../../assets/image/手机@2x.png')" />
-                  <van-image class="c" v-if="item.walletTypes.indexOf('hardware')>=0" :src="require('../../assets/image/芯片@2x.png')" />
-                   <van-image class="p"  v-if="item.walletTypes.indexOf('pc')>=0" :src="require('../../assets/image/pc.png')" />
+                  <van-image
+                    class="p"
+                    v-if="item.walletTypes.indexOf('app') >= 0"
+                    :src="require('../../assets/image/手机@2x.png')"
+                  />
+                  <van-image
+                    class="c"
+                    v-if="item.walletTypes.indexOf('hardware') >= 0"
+                    :src="require('../../assets/image/芯片@2x.png')"
+                  />
+                  <van-image
+                    class="p"
+                    v-if="item.walletTypes.indexOf('pc') >= 0"
+                    :src="require('../../assets/image/pc.png')"
+                  />
                 </div>
               </div>
             </div>
           </div>
           <div class="item-right">
-            <van-rate v-model="item.walletStar" :size="18" gutter="3px" color="#FAD97E" void-icon="star" void-color="#eee" />
-            <div class="right-txt">{{$t('market.security')}}:{{walletSecurity(item.walletSecurity )}}</div>
+            <van-rate
+              v-model="item.walletStar"
+              :size="18"
+              gutter="3px"
+              color="#FAD97E"
+              void-icon="star"
+              void-color="#eee"
+            />
+            <div class="right-txt">{{ $t('market.security') }}:{{ walletSecurity(item.walletSecurity) }}</div>
           </div>
         </van-cell>
       </van-list>
@@ -551,7 +584,16 @@ https://btc.com/en"
 <script>
 import mixin from '@/filters/mixin'
 import { rateList } from '@/api/common'
-import { symbolInfo, symbolKline, marketTicker, symbolDetail, symbolTeam, symbolEvent, symbolHolder, walletList } from '@/api/market'
+import {
+  symbolInfo,
+  symbolKline,
+  marketTicker,
+  symbolDetail,
+  symbolTeam,
+  symbolEvent,
+  symbolHolder,
+  walletList
+} from '@/api/market'
 import * as echarts from 'echarts'
 import { mapGetters } from 'vuex'
 export default {
@@ -1148,11 +1190,14 @@ export default {
     .head-bottom-right {
       margin-top: 8px;
       margin-left: 125px;
+      margin-right: 20px;
       flex-grow: 1;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items: center;
+       overflow: hidden;/*超出部分隐藏*/
+    text-overflow:ellipsis;/* 超出部分显示省略号 */
+    white-space: nowrap;/*规定段落中的文本不进行换行 */
       .column-left,
       .column-right {
         display: flex;
@@ -1165,11 +1210,18 @@ export default {
       .column-left {
         color: #9799a0;
         align-items: flex-start;
+        overflow: hidden;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .column-right {
-        align-items: flex-end;
-
+        align-items: flex-start;
         color: #333333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -1343,8 +1395,8 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .base185{
-        max-width:185px;
+      .base185 {
+        max-width: 185px;
       }
       .hangqing {
         max-width: 125px;
@@ -1359,10 +1411,10 @@ export default {
     p {
       margin: 0;
       overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
     }
     h3 {
       padding-left: 28px;
@@ -1691,10 +1743,10 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-         img {
-        width: 24px;
-        height: 28px;
-      }
+        img {
+          width: 24px;
+          height: 28px;
+        }
       }
     }
   }

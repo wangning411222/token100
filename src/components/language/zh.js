@@ -4,6 +4,7 @@ module.exports = {
     languageen: 'Engish'
   },
   mine: {
+    cancel: '取消',
     mine: '我的',
     welcome: '欢迎来到',
     welcomelogin: '欢迎登录',
