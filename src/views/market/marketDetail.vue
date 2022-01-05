@@ -582,6 +582,7 @@ https://btc.com/en"
   </div>
 </template>
 <script>
+import io from 'socket.io-client'
 import mixin from '@/filters/mixin'
 import { rateList } from '@/api/common'
 import {
@@ -674,6 +675,7 @@ export default {
     if (this.globalRateArr.length) {
       this.fn()
     }
+    this.initSocket()
   },
   watch: {
     globalRateArr: {
@@ -683,7 +685,27 @@ export default {
       deep: true
     }
   },
+  beforeDestroy() {
+    this.socket.close()
+  },
   methods: {
+    initSocket() {
+      const that = this
+      var opts = {}
+      const languageid = this.languageId === 'CNY' ? 'zh-CN' : 'en-US'
+      opts.transports = ['websocket']
+      this.socket = io.connect(`http://43.252.160.205:9093?symbolId=${that.symbolId}&languageId=${languageid}&current=1&size=100&type=${that.paramsType}`, opts)
+      this.socket.on('symbolTicker', function(data) {
+        const sockData = JSON.parse(data)
+        if (that.hangqingList.length) {
+          if (JSON.stringify(that.hangqingList) === JSON.stringify(sockData)) {
+            return
+          } else {
+            that.hangqingList = sockData.data
+          }
+        }
+      })
+    },
     walletSecurity(value) {
       switch (value) {
         case 1:
@@ -853,9 +875,13 @@ export default {
       if (value === 0) {
         this.paramsType = 0
         this.marketTicker()
+        this.socket.close()
+        this.initSocket()
       } else if (value === 1) {
         this.paramsType = 1
         this.marketTicker()
+        this.socket.close()
+        this.initSocket()
       } else if (value === 2) {
         this.symbolDetail()
         this.symbolTeam()

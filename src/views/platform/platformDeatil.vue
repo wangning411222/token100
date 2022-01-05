@@ -238,6 +238,7 @@ span="18"
 </template>
 <script>
 import mixin from '@/filters/mixin'
+import io from 'socket.io-client'
 import { marketInfo, marketKline, marketTickerPage, marketNews, userMarket } from '@/api/platform'
 import * as echarts from 'echarts'
 import { mapGetters } from 'vuex'
@@ -299,6 +300,7 @@ export default {
     if (this.globalRateArr.length) {
       this.fn()
     }
+    this.initSocket()
   },
   watch: {
     globalRateArr: {
@@ -308,7 +310,29 @@ export default {
       deep: true
     }
   },
+  beforeDestroy() {
+    this.socket.close()
+  },
   methods: {
+    initSocket() {
+      const that = this
+      var opts = {}
+      const languageid = this.languageId === 'CNY' ? 'zh-CN' : 'en-US'
+      opts.transports = ['websocket']
+      this.socket = io.connect(`http://43.252.160.205:9094?marketId=${that.marketId}&languageId=${languageid}&current=1&size=100`, opts)
+
+      this.socket.on('marketTicker', function(data) {
+        const sockData = JSON.parse(data)
+
+        if (that.hangqingList.length) {
+          if (JSON.stringify(that.hangqingList) === JSON.stringify(sockData)) {
+            return
+          } else {
+            that.hangqingList = sockData.data
+          }
+        }
+      })
+    },
     fn() {
       this.rateR = this.globalRate // 全局汇率,初始化赋值
       this.rate = this.languageId // CNY

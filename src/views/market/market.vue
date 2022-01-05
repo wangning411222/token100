@@ -872,7 +872,7 @@ export default {
     if (this.globalRateArr.length) {
       this.fn()
     }
-    // this.initSocket()
+    this.initSocket()
   },
   watch: {
     globalRateArr: {
@@ -882,27 +882,26 @@ export default {
       deep: true
     }
   },
+  beforeDestroy() {
+    this.socket.close()
+  },
   methods: {
     initSocket() {
       const that = this
       var opts = {}
+      const languageid = this.languageId === 'CNY' ? 'zh-CN' : 'en-US'
       opts.transports = ['websocket']
-      this.socket = io.connect('http://43.252.160.205:9092?languageId=zh-CN&current=1&size=100', opts)
-      this.socket.on('connect', function() {
-        console.log('connectconnectconnectconnectect')
-      })
+      this.socket = io.connect(`http://43.252.160.205:9092?languageId=${languageid}&current=1&size=100`, opts)
+
       this.socket.on('symbol', function(data) {
         const sockData = JSON.parse(data)
         if (that.shizhiList.length) {
           if (JSON.stringify(that.shizhiList) === JSON.stringify(sockData)) {
-            console.log('1111111111111111')
+            return
           } else {
-            console.log(sockData, 'sockDatasockData')
+            that.shizhiList = sockData.data
           }
         }
-      })
-      this.socket.on('disconnect', function() {
-        console.log('disconnectdisconnectdisconnectdisconnect')
       })
     },
 
