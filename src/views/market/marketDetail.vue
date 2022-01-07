@@ -872,15 +872,14 @@ export default {
     },
     // tabs点击事件
     clickTab(value) {
+      this.socket.close()
       if (value === 0) {
         this.paramsType = 0
         this.marketTicker()
-        this.socket.close()
         this.initSocket()
       } else if (value === 1) {
         this.paramsType = 1
         this.marketTicker()
-        this.socket.close()
         this.initSocket()
       } else if (value === 2) {
         this.symbolDetail()
