@@ -24,10 +24,15 @@
           <van-dropdown-menu>
             <van-dropdown-item :title="rate" v-model="rate" ref="item">
               <div class="rate-box">
-                <van-row>
+                <van-row  type="flex">
                   <van-col
                     class="rate-item"
-                    v-for="(item, index) in globalRateArr"
+
+                    v-for="
+(item,
+index)
+in
+globalRateArr"
                     :key="index"
                     span="8"
                     @click="selectRate(item)"

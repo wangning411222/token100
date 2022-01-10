@@ -104,7 +104,7 @@
         <van-dropdown-menu v-show="active === 0 || active === 1">
           <van-dropdown-item :title="rate" v-model="rate" ref="item">
             <div class="rate-box">
-              <van-row>
+              <van-row type="flex">
                 <van-col
                   class="rate-item"
                   v-for="(item, index) in globalRateArr"
@@ -257,11 +257,12 @@
         <div class="info-txt">
           <h3>{{ $t('market.cashsituation') }}</h3>
           <div>
-            <p>
-              {{ symbolDetailObj.symbolDetails }}
+            <p v-html=" symbolDetailObj.symbolDetails">
+              <!-- {{ symbolDetailObj.symbolDetails }} -->
             </p>
             <span
-              ><a :href="symbolDetailObj.symbolExplorerUrls">{{ $t('market.lookmore') }}</a></span
+@click="lookmore(symbolDetailObj.symbolDetails)"
+              >{{ $t('market.lookmore') }}</span
             >
           </div>
         </div>
@@ -689,6 +690,10 @@ export default {
     this.socket.close()
   },
   methods: {
+    // 查看更多
+    lookmore(value) {
+      const url = value.indexOf('href=')
+    },
     initSocket() {
       const that = this
       var opts = {}
@@ -1457,6 +1462,8 @@ export default {
         bottom: 0;
         color: #407ceb;
         line-height: 56px;
+        background:#fff;
+        padding-left:20px;
       }
       p {
         font-size: 26px;

@@ -133,13 +133,15 @@ export default {
   },
   components: { banner, search, newItem },
   computed: {
-    ...mapGetters(['userName', 'isLogin'])
+    ...mapGetters(['userName', 'isLogin', 'newsTabs'])
   },
   mounted() {
     this.month = this.$moment().format('M')
     this.day = this.$moment().format('D')
     this.week = this.$moment().format('dddd')
     this.getNewsList()
+    // 点击详情页后返回,tabs下标要保存
+    this.active = this.newsTabs
   },
   methods: {
     newsLike(id, type) {
@@ -205,6 +207,7 @@ export default {
     },
     // 获取新闻列表
     tabsClick(value) {
+      this.$store.dispatch('setNewTabs', value)
       this.getNewsList()
     },
     getNewsList() {

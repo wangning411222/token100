@@ -5,11 +5,15 @@ const state = {
   languageId: 'CNY',
   globalRate: 1,
   rateArr: [],
-  isShow: true
+  isShow: true,
+  newsTabs: 0
 }
 const mutations = {
   SET_USER_NAME(state, name) {
     state.userName = name
+  },
+  SET_USER_NEWSTABS(state, index) {
+    state.newsTabs = index
   },
   SET_USER_LOGIN(state, login) {
     state.isLogin = login
@@ -33,6 +37,9 @@ const mutations = {
 const actions = {
   setShow({ commit }, flag) {
     commit('SET_USER_show', flag)
+  },
+  setNewTabs({ commit }, index) {
+    commit('SET_USER_NEWSTABS', index)
   },
   // 设置name
   setUserName({ commit }, name) {
