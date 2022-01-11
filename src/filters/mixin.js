@@ -4,6 +4,7 @@ export default {
   methods: {
     cnNumUnti(num) {
       const nums = num * this.globalRate
+
       if (Number(nums) >= 1000000000000) {
         return (nums / 1000000000000).toFixed(2) + this.$t('global.trillion')
       } else if (Number(nums) >= 100000000) {
@@ -12,7 +13,7 @@ export default {
         return (nums / 10000).toFixed(2) + this.$t('market.thousand')
       } else if (nums >= 1) {
         return nums.toFixed(2) + this.$t('global.yuan')
-      } else if (num < 1) {
+      } else if (nums < 1 && nums > 0) {
         return num.toFixed(6) + this.$t('global.yuan')
       } else if (nums === 0) {
         return '--'
@@ -27,7 +28,7 @@ export default {
         return (num / 10000).toFixed(2) + this.$t('market.thousand')
       } else if (num >= 1) {
         return num.toFixed(2) + this.$t('global.yuan')
-      } else if (num < 1) {
+      } else if (num < 1 & num > 0) {
         return num.toFixed(6) + this.$t('global.yuan')
       } else if (num === 0) {
         return '--'

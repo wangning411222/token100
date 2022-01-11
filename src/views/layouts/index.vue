@@ -81,7 +81,7 @@ export default {
   },
   created() {
     const newTime = new Date().getTime()
-    const time2 = new Date('2022-01-15').getTime()
+    const time2 = new Date('2022-01-17').getTime()
     if (newTime > time2) {
       this.$store.dispatch('setShow', false)
     } else {

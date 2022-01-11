@@ -43,7 +43,7 @@
       <div class="line-gray"></div>
       <div class="concept-list">
         <div class="list-head">
-          <h3>{{$t('market.globalexchangequotation0')}}</h3>
+          <h3>{{$t('market.globalexchangequotation')}}</h3>
           <div class="head-right">
             <van-dropdown-menu>
               <van-dropdown-item :title="rate" v-model="rate" ref="item">
@@ -123,9 +123,11 @@
               <div class="bicon-name-bottom base125">{{item.code}}</div>
             </van-col>
             <van-col span="6" style="text-align: right"> {{ enNumUnti(item.marketValue*rateR) }} </van-col>
+             <!-- <van-col span="6" style="text-align: right"> {{ item.marketValue*rateR }} </van-col> -->
             <van-col span="6" style="text-align: right">
-              <div>{{enNumUnti((item.currentPrice*rateR).toFixed(4))}}</div>
+              <div>{{enNumUnti(item.currentPrice*rateR)}}</div>
             </van-col>
+
             <van-col span="6" style="text-align: right" :class="item.changePercent.toString().indexOf('-')>=0?'red':'green'">
               <div>{{item.changePercent.toFixed(2)}}%</div>
             </van-col>

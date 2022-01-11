@@ -112,7 +112,8 @@ export default {
       ],
       language: null,
       userName: null,
-      createTime: null
+      createTime: null,
+      actionClick: true
     }
   },
   computed: {
@@ -163,15 +164,24 @@ export default {
     },
     // 中英选中
     onSelect(item) {
-      this.languageShow = false
-      this.language = item.name
-      this.$store.dispatch('setLanguageId', item.value)
-      const obj = this.globalRateArr.filter(items => {
-        return items.rateC === item.value
-      })
-      this.$store.dispatch('setRate', obj[0].rateR)
-      this.$i18n.locale === 'zh' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'zh' // 设置中英文模式
-      localStorage.setItem('languageSet', this.$i18n.locale)
+      if (!this.actionClick) {
+        return
+      } else {
+        this.languageShow = false
+        this.actionClick = false
+        setTimeout(() => {
+          this.actionClick = true
+          this.language = item.name
+          this.$store.dispatch('setLanguageId', item.value)
+          const obj = this.globalRateArr.filter(items => {
+            return items.rateC === item.value
+          })
+          this.$store.dispatch('setRate', obj[0].rateR)
+          this.$i18n.locale === 'zh' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'zh' // 设置中英文模式
+          localStorage.setItem('languageSet', this.$i18n.locale)
+          this.actionClick = true
+        }, 500)
+      }
     },
     // 切换中英文
     handlerLanguage() {

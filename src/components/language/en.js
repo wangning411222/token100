@@ -71,6 +71,7 @@ module.exports = {
     beforeyesterday: 'The day before yesterday',
     daysago: 'days ago',
     unfollowed: 'Canceled',
+    followed: 'followed',
     details: 'Details',
     highest: 'Highest',
     lowest: 'Minimum',

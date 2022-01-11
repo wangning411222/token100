@@ -156,7 +156,7 @@
               </van-col>
               <van-col
                 span="6"
-                style="text-align: center"
+                style="text-align: right"
                 :class="item.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
               >
                 <div>{{ (item.priceChange1d * 100).toFixed(2) }}%</div>
@@ -164,14 +164,14 @@
               <van-col span="1">
                 <van-image
                 v-if="item.attention"
-                  @click.stop="starClickbizhong(item.symbolId)"
+                  @click.stop="starClickbizhong(item.symbolId,item.attention)"
                   width="16px"
                   height="15px"
                   :src="require('../../assets/image/星星2@2x.png')"
                 ></van-image>
                 <van-image
                 v-else
-                  @click.stop="starClickbizhong(item.symbolId)"
+                  @click.stop="starClickbizhong(item.symbolId,item.attention)"
                   width="16px"
                   height="15px"
                   :src="require('../../assets/image/星星2@2x(1).png')"
@@ -212,14 +212,14 @@
 
                 <van-image
                 v-if="item.attention"
-                  @click.stop="starClickpingtai(item.marketId)"
+                  @click.stop="starClickpingtai(item.marketId,item.attention)"
                   width="16px"
                   height="15px"
                   :src="require('../../assets/image/星星2@2x.png')"
                 ></van-image>
                  <van-image
                  v-else
-                  @click.stop="starClickpingtai(item.marketId)"
+                  @click.stop="starClickpingtai(item.marketId,item.attention)"
                   width="16px"
                   height="15px"
                   :src="require('../../assets/image/星星2@2x(1).png')"
@@ -383,21 +383,30 @@ export default {
       })
     },
     // 平台关注
-    starClickpingtai(id) {
+    starClickpingtai(id, flag) {
       if (this.isLogin) {
         userMarket(id).then(res => {
-          this.$toast(this.$t('market.unfollowed'))
-          this.userMarketPage()
+          if (flag) {
+            this.$toast(this.$t('market.unfollowed'))
+          } else {
+            this.$toast(this.$t('market.followed'))
+          }
+          this.searchPage()
         })
       } else {
         this.$toast(this.$t('plantform.placelogin'))
       }
     },
     // 币种关注
-    starClickbizhong(id) {
+    starClickbizhong(id, flag) {
       if (this.isLogin) {
         userSymbol(id).then(res => {
-          this.$toast(this.$t('market.unfollowed'))
+          if (flag) {
+            this.$toast(this.$t('market.unfollowed'))
+          } else {
+            this.$toast(this.$t('market.followed'))
+          }
+          this.searchPage()
         })
       } else {
         this.$toast(this.$t('plantform.placelogin'))

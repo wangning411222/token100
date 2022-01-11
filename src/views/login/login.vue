@@ -79,7 +79,7 @@ export default {
           return false
         }
       } else {
-        var reg = /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/
+        var reg = /^1[345678]\d{9}$/
         if (reg.test(this.username) && this.password) {
           return true
         } else {

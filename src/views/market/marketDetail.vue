@@ -261,8 +261,8 @@
               <!-- {{ symbolDetailObj.symbolDetails }} -->
             </p>
             <span
-@click="lookmore(symbolDetailObj.symbolDetails)"
-              >{{ $t('market.lookmore') }}</span
+              ><a :href="symbolDetailObj.symbolWebsiteUrl"> {{ $t('market.lookmore') }}</a>
+             </span
             >
           </div>
         </div>
@@ -273,15 +273,15 @@
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.alltimehigh') }}</div>
-            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolPriceMax - 0) }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolPriceMax - 0) }}&nbsp;({{symbolDetailObj.symbolPriceMaxTime}})</div>
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.alltimelow') }}</div>
-            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolPriceMin - 0) }}</div>
+            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolPriceMin - 0) }}&nbsp;({{symbolDetailObj.symbolPriceMinTime}})</div>
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.circulationmarketvalue') }}</div>
-            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolMarketCapUsd - 0) }}</div>
+            <div class="item-right">{{rate==='CNY'?'¥':'$'}}{{ enNumUnti((symbolDetailObj.symbolMarketCapUsd - 0)*rateR) }}</div>
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.ranking') }}</div>
@@ -289,24 +289,24 @@
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.shareglobalmarketcapitalization') }}</div>
-            <div class="item-right">{{ symbolDetailObj.symbolMarketValue }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolMarketValue }}%</div>
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.maximumsupply') }}</div>
-            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolMaxSupply - 0) }}</div>
+            <div class="item-right">{{symbolDetailObj.symbolMaxSupply  }}{{symbolDetailObj.symbolCode}}</div>
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.totalsupply') }}</div>
-            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolTotalSupply - 0) }}</div>
+            <div class="item-right">{{symbolDetailObj.symbolTotalSupply }}{{symbolDetailObj.symbolCode}}</div>
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.totalcirculation') }}</div>
-            <div class="item-right">{{ enNumUnti(symbolDetailObj.symbolAvailableSupply - 0) }}</div>
+            <div class="item-right">{{ symbolDetailObj.symbolAvailableSupply}}{{symbolDetailObj.symbolCode}}</div>
           </div>
           <div class="info-item">
             <div class="item-left">{{ $t('market.flowrate') }}</div>
             <div class="item-right">
-              {{ symbolDetailObj.symbolAvailableSupply - 0 / symbolDetailObj.symbolMaxSupply - 0 }}%
+              {{( ((symbolDetailObj.symbolAvailableSupply - 0) / (symbolDetailObj.symbolTotalSupply - 0) )*100).toFixed(1)}}%
             </div>
           </div>
           <div class="info-item">
@@ -474,7 +474,7 @@ https://btc.com/en"
         </div>
         <div class="line-gray"></div>
         <div class="cash-30">
-          <h3>{{ $t('MARKET.Top30BTCcurrencyholders') }}</h3>
+          <h3>{{ $t('market.Top30BTCcurrencyholders') }}</h3>
           <div class="table-head">
             <van-row type="flex" justify="space-between" cente="center">
               <van-col span="2">#</van-col>
@@ -501,7 +501,7 @@ https://btc.com/en"
               </van-col>
               <van-col span="6" style="text-align: left"> {{ item.percentage }}% </van-col>
               <van-col span="6" style="text-align: right"> {{ item.quantity }} </van-col>
-              <van-col span="10" style="text-align: right; padding: 0 30px; overflow: hidden">
+              <van-col span="10" style="text-align: right; padding: 0 10px; overflow: hidden;word-break:break-all;">
                 <div>{{ item.address }}</div>
               </van-col>
             </van-row>
@@ -690,10 +690,6 @@ export default {
     this.socket.close()
   },
   methods: {
-    // 查看更多
-    lookmore(value) {
-      const url = value.indexOf('href=')
-    },
     initSocket() {
       const that = this
       var opts = {}

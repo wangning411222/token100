@@ -66,7 +66,7 @@ globalRateArr"
                   </div>
                 </div>
               </van-col>
-              <van-col span="7">
+              <van-col span="9">
                 <div class="arrow-box" @click="sortguanzhu('priceChange1d')">
                   <div>24H{{ $t('market.amountofincrease') }}</div>
                   <div class="img-box">
@@ -76,7 +76,7 @@ globalRateArr"
                   </div>
                 </div>
               </van-col>
-              <van-col span="4"> </van-col>
+              <van-col span="1" :offset="1" > </van-col>
             </van-row>
           </div>
           <div v-if="!guanzhuList.length">
@@ -106,10 +106,10 @@ globalRateArr"
                   <div class="bicon-name-bottom base125">{{ item.symbolFullName }}</div>
                 </van-col>
                 <van-col span="7" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd * rateR) }} </van-col>
-                <van-col span="7" style="text-align: right">
+                <van-col span="9" style="text-align: right">
                   <div>{{ (item.priceChange1d * 100).toFixed(2) }}%</div>
                 </van-col>
-                <van-col span="4" style="text-align: right">
+                <van-col span="1" :offset="1"  style="text-align: right">
                   <van-image
                     @click="starClick(item.symbolId)"
                     width="15px"
@@ -395,8 +395,8 @@ globalRateArr"
     </van-sticky>
     <div class="list-box">
       <van-loading
+        class="loadings"
         v-show="loading"
-        style="width: 100%; height: 100%; position: absolute; top: 200px; text-align: center"
         color="rgb(228, 188, 49)"
       />
       <!-- 市值排名 -->
@@ -424,14 +424,14 @@ globalRateArr"
               </div>
               <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="4" style="text-align: right"> {{ enNumUnti(item.symbolMarketCapUsd * rateR) }} </van-col>
+            <van-col span="4" style="text-align: right"> {{item.symbolMarketCapUsd? enNumUnti(item.symbolMarketCapUsd * rateR):'--' }} </van-col>
             <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.priceUsd * rateR) }}</div>
+              <div>{{ enNumUnti(item.priceUsd * rateR)  }}</div>
             </van-col>
             <van-col
               span="6"
               style="text-align: right"
-              :class="item.priceChange1d.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+              :class="shizhiClass(item.priceChange1d.toFixed(2))"
             >
               <div>{{ item.priceChange1d.toFixed(2) }}%</div>
             </van-col>
@@ -891,12 +891,24 @@ export default {
     this.socket.close()
   },
   methods: {
+    // 市值类名
+    shizhiClass(value) {
+      const str = value.toString()
+      if (str === '0.00') {
+        return 'gray'
+      } else if (str.indexOf('-') >= 0) {
+        return 'red'
+      } else {
+        return 'green'
+      }
+    },
     initSocket() {
       const that = this
       var opts = {}
       const languageid = this.languageId === 'CNY' ? 'zh-CN' : 'en-US'
       opts.transports = ['websocket']
-      this.socket = io.connect(`http://43.252.160.205:9092?languageId=${languageid}&current=1&size=100`, opts)
+      const size = this.shizhicurrent * 100
+      this.socket = io.connect(`http://43.252.160.205:9092?languageId=${languageid}&current=1&size=${size}`, opts)
 
       this.socket.on('symbol', function(data) {
         const sockData = JSON.parse(data)
@@ -1358,7 +1370,9 @@ export default {
     // 点击加载更多
     listMore(index) {
       this.shizhicurrent++
+      this.socket.close()
       this.symbolRankPage()
+      this.initSocket()
     },
     // 获取市值排名列表
     symbolRankPage() {
@@ -1517,6 +1531,13 @@ export default {
   .list-box {
     position: relative;
     margin-bottom: 30px;
+    .loadings{
+     width: calc(100% - 56px);
+     height: 200px;
+      position: absolute;
+      top: 200px;
+      text-align: center;
+    }
     .list-more {
       font-size: 26px;
       text-align: center;

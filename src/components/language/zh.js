@@ -71,6 +71,7 @@ module.exports = {
     beforeyesterday: '前天',
     daysago: '天前',
     unfollowed: '已取消关注',
+    followed: '已关注',
     details: '详情',
     highest: '最高',
     lowest: '最低',
