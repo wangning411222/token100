@@ -157,6 +157,7 @@ export default {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        font-size:26px;
         .label {
           color: #969799;
           margin-right: 20px;

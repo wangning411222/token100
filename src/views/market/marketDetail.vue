@@ -1336,7 +1336,7 @@ export default {
       box-shadow: none;
     }
     /deep/ .van-ellipsis {
-      font-size: 16px;
+      font-size: 28px;
       margin-right: 20px;
     }
     /deep/ .van-dropdown-menu__title {
