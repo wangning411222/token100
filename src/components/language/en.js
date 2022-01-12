@@ -193,7 +193,8 @@ module.exports = {
     Forkswap: 'Bifurcation / switching',
     Tokendestructionrepurchase: 'Token destruction / repurchase',
     meetingAMA: 'Meeting/AMA',
-    rests: 'other'
+    rests: 'other',
+    token100news: 'Token100 data'
   },
   wallet: {
     verificationmode: 'Verification method',
@@ -207,7 +208,7 @@ module.exports = {
     supportcurrency: 'Support currency',
     basicinformation: 'Basic information',
     search: 'search',
-    searchall: 'Search currency / Wallet / platform',
+    searchall: 'Search currency / Wallet',
     name: 'Name',
     hotsearch: 'Hot search',
     nodata: 'No data',

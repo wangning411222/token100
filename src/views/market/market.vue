@@ -24,15 +24,10 @@
           <van-dropdown-menu>
             <van-dropdown-item :title="rate" v-model="rate" ref="item">
               <div class="rate-box">
-                <van-row  type="flex">
+                <van-row type="flex">
                   <van-col
                     class="rate-item"
-
-                    v-for="
-(item,
-index)
-in
-globalRateArr"
+                    v-for="(item, index) in globalRateArr"
                     :key="index"
                     span="8"
                     @click="selectRate(item)"
@@ -76,7 +71,7 @@ globalRateArr"
                   </div>
                 </div>
               </van-col>
-              <van-col span="1" :offset="1" > </van-col>
+              <van-col span="1" :offset="1"> </van-col>
             </van-row>
           </div>
           <div v-if="!guanzhuList.length">
@@ -109,7 +104,7 @@ globalRateArr"
                 <van-col span="9" style="text-align: right">
                   <div>{{ (item.priceChange1d * 100).toFixed(2) }}%</div>
                 </van-col>
-                <van-col span="1" :offset="1"  style="text-align: right">
+                <van-col span="1" :offset="1" style="text-align: right">
                   <van-image
                     @click="starClick(item.symbolId)"
                     width="15px"
@@ -394,11 +389,7 @@ globalRateArr"
       </div>
     </van-sticky>
     <div class="list-box">
-      <van-loading
-        class="loadings"
-        v-show="loading"
-        color="rgb(228, 188, 49)"
-      />
+      <van-loading class="loadings" v-show="loading" color="rgb(228, 188, 49)" />
       <!-- 市值排名 -->
       <div v-if="active === 1">
         <van-list>
@@ -424,15 +415,13 @@ globalRateArr"
               </div>
               <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="4" style="text-align: right"> {{item.symbolMarketCapUsd? enNumUnti(item.symbolMarketCapUsd * rateR):'--' }} </van-col>
-            <van-col span="6" style="text-align: right">
-              <div>{{ enNumUnti(item.priceUsd * rateR)  }}</div>
+            <van-col span="4" style="text-align: right">
+              {{ item.symbolMarketCapUsd ? enNumUnti(item.symbolMarketCapUsd * rateR) : '--' }}
             </van-col>
-            <van-col
-              span="6"
-              style="text-align: right"
-              :class="shizhiClass(item.priceChange1d.toFixed(2))"
-            >
+            <van-col span="6" style="text-align: right">
+              <div>{{ enNumUnti(item.priceUsd * rateR) }}</div>
+            </van-col>
+            <van-col span="6" style="text-align: right" :class="shizhiClass(item.priceChange1d.toFixed(2))">
               <div>{{ item.priceChange1d.toFixed(2) }}%</div>
             </van-col>
           </van-row>
@@ -868,16 +857,16 @@ export default {
   mixins: [mixin],
   components: { banner, search, fire, greenprogress, noData },
   computed: {
-    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr', 'hangqingTabs'])
   },
   mounted() {
-    // 获取市值排名列表
-    this.symbolRankPage()
     // 初始化页面汇率默认与语言版本有关.英文默认美元汇率,中文默认RMB汇率
     if (this.globalRateArr.length) {
       this.fn()
     }
     this.initSocket()
+    this.active = this.hangqingTabs
+    this.clickTab(this.active)
   },
   watch: {
     globalRateArr: {
@@ -1319,6 +1308,7 @@ export default {
     },
     // 切换tab
     clickTab(value) {
+      this.$store.dispatch('setHangqingTabs', value)
       if (value === 1) {
         this.symbolRankPage()
       } else if (value === 2) {
@@ -1531,9 +1521,9 @@ export default {
   .list-box {
     position: relative;
     margin-bottom: 30px;
-    .loadings{
-     width: calc(100% - 56px);
-     height: 200px;
+    .loadings {
+      width: calc(100% - 56px);
+      height: 200px;
       position: absolute;
       top: 200px;
       text-align: center;
@@ -1552,6 +1542,9 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
+      .van-col{
+        font-size:26px;
+      }
       .icon-name {
         display: flex;
         flex-direction: column;
@@ -1562,6 +1555,7 @@ export default {
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
+          font-size:28px;
           span {
             flex-grow: 1;
             margin-left: 11px;

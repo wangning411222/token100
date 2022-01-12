@@ -6,7 +6,10 @@ const state = {
   globalRate: 1,
   rateArr: [],
   isShow: true,
-  newsTabs: 0
+  newsTabs: 0,
+  hangqingTabs: 1,
+  pingtaiTas: 0,
+  qianbaoTabs: 0
 }
 const mutations = {
   SET_USER_NAME(state, name) {
@@ -14,6 +17,15 @@ const mutations = {
   },
   SET_USER_NEWSTABS(state, index) {
     state.newsTabs = index
+  },
+  SET_USER_HANGQINGTABS(state, index) {
+    state.hangqingTabs = index
+  },
+  SET_USER_QIANBAOTABS(state, index) {
+    state.qianbaoTabs = index
+  },
+  SET_USER_PINGTAITABS(state, index) {
+    state.pingtaiTas = index
   },
   SET_USER_LOGIN(state, login) {
     state.isLogin = login
@@ -40,6 +52,15 @@ const actions = {
   },
   setNewTabs({ commit }, index) {
     commit('SET_USER_NEWSTABS', index)
+  },
+  setqianbaoTabs({ commit }, index) {
+    commit('SET_USER_QIANBAOTABS', index)
+  },
+  setHangqingTabs({ commit }, index) {
+    commit('SET_USER_HANGQINGTABS', index)
+  },
+  setPingtaiTabs({ commit }, index) {
+    commit('SET_USER_PINGTAITABS', index)
   },
   // 设置name
   setUserName({ commit }, name) {

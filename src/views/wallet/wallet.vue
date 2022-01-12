@@ -103,11 +103,12 @@ export default {
 
   components: { banner, search },
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(['userName', 'qianbaoTabs'])
   },
   async mounted() {
+    this.active = this.qianbaoTabs
     this.classifyCode = await this.walletClassify()
-    this.walletList()
+    this.clickTab(this.active)
   },
   methods: {
     walletSecurity(value) {
@@ -181,6 +182,7 @@ export default {
     },
     // tabs点击
     clickTab(item) {
+      this.$store.dispatch('setqianbaoTabs', item)
       this.classifyCode = this.tabsList[item].classifyCode
       this.walletList()
     },

@@ -10,21 +10,17 @@
     <div class="detail-head">
       <div class="head-top" v-if="detailObj">
         <div class="top-left">
-          <van-image
-            width="51px"
-            height="50px"
-            :src="detailObj.marketLogo"
-          ></van-image>
+          <van-image width="51px" height="50px" :src="detailObj.marketLogo"></van-image>
         </div>
         <div class="top-right">
           <div class="right-line1">
             <div class="line1-left">
-              <div>{{detailObj.marketName}}</div>
-              <van-tag type="success">ER{{detailObj.marketRankEx}}</van-tag>
+              <div>{{ detailObj.marketName }}</div>
+              <van-tag color="rgba(83, 177, 101, 1)">ER{{ detailObj.marketRankEx }}</van-tag>
             </div>
             <van-image
               @click="collect"
-              v-if="isLogin&&detailObj.attention"
+              v-if="isLogin && detailObj.attention"
               width="16px"
               height="15px"
               :src="require('../../assets/image/星星2@2x.png')"
@@ -40,10 +36,10 @@
           <div class="right-line2">
             <div class="light">
               <van-image width="11px" height="10px" :src="require('../../assets/image/灯泡@2x.png')"></van-image>
-              <div>NO.{{detailObj.marketRank}}</div>
+              <div>NO.{{ detailObj.marketRank }}</div>
             </div>
-            <div>24H{{$t('plantform.Platformtransactionvolume')}}</div>
-            <div>¥{{cnNumUnti(detailObj.marketDayVolume)}}</div>
+            <div>24H{{ $t('plantform.Platformtransactionvolume') }}</div>
+            <div>¥{{ cnNumUnti(detailObj.marketDayVolume) }}</div>
           </div>
         </div>
       </div>
@@ -56,7 +52,7 @@
         <div class="center-right">-0.32%</div>
       </div> -->
       <div class="chart-select">
-        <div class="chart-title">{{$t('plantform.Turnovertrend')}}</div>
+        <div class="chart-title">{{ $t('plantform.Turnovertrend') }}</div>
         <div>
           <ul>
             <li
@@ -73,7 +69,7 @@
       <div class="chart-box">
         <div class="tip" v-show="tipShow">
           <div>{{ chartTime }} 00:00</div>
-          <div>{{$t('plantform.volumetransaction')}}:${{ chartNum }}</div>
+          <div>{{ $t('plantform.volumetransaction') }}:${{ chartNum }}</div>
         </div>
         <div id="mychart"></div>
       </div>
@@ -87,7 +83,7 @@
         </van-tabs>
       </div>
       <div class="head-right">
-        <van-dropdown-menu v-if="active===0">
+        <van-dropdown-menu v-if="active === 0">
           <van-dropdown-item :title="rate" v-model="rate" ref="item">
             <div class="rate-box">
               <van-row type="flex">
@@ -96,8 +92,8 @@
                   v-for="(item, index) in globalRateArr"
                   :key="index"
                   span="8"
-                 @click="selectRate( item)"
-                    >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
+                  @click="selectRate(item)"
+                  >{{ item.rateName }}&nbsp;{{ item.rateC }}</van-col
                 >
               </van-row>
             </div>
@@ -108,34 +104,34 @@
     <div class="table-head" v-if="active === 0">
       <van-row type="flex" justify="space-between" cente="center">
         <van-col span="2">#</van-col>
-        <van-col span="4" style="padding-right:5px;">{{$t('market.tradingon')}}</van-col>
-        <van-col span="6" style="padding-left:5px;">
-          <div class="arrow-box"  @click="sorthangqingList('changeDaily')">
-            <div>{{$t('plantform.platformprice')}}</div>
+        <van-col span="6" style="padding-right: 5px">{{ $t('market.tradingon') }}</van-col>
+        <van-col span="7" style="padding-left: 5px">
+          <div class="arrow-box" @click="sorthangqingList('changeDaily')">
+            <div>{{ $t('plantform.platformprice') }}</div>
             <div class="img-box">
-                <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
-                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
+              <img v-if="sorthangqingFlag1 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-else-if="sorthangqingFlag1 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
         <van-col span="6">
-          <div class="arrow-box"  @click="sorthangqingList('changeDaily1')">
-            <div>{{$t('market.latestprice')}}</div>
+          <div class="arrow-box" @click="sorthangqingList('changeDaily1')">
+            <div>{{ $t('market.latestprice') }}</div>
             <div class="img-box">
-                <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
-                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
+              <img v-if="sorthangqingFlag2 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-else-if="sorthangqingFlag2 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
-        <van-col span="6">
-          <div class="arrow-box"  @click="sorthangqingList('marketScale')">
-            <div>{{$t('plantform.proportion')}}</div>
+        <van-col span="3">
+          <div class="arrow-box" @click="sorthangqingList('marketScale')">
+            <div>{{ $t('plantform.proportion') }}</div>
             <div class="img-box">
-                <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
-                <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
-                <img v-else src="../../assets/icon/arrow_2.png" alt="" />
+              <img v-if="sorthangqingFlag3 === 0" src="../../assets/icon/arrow_0.png" alt="" />
+              <img v-else-if="sorthangqingFlag3 === 1" src="../../assets/icon/arrow_1.png" alt="" />
+              <img v-else src="../../assets/icon/arrow_2.png" alt="" />
             </div>
           </div>
         </van-col>
@@ -153,72 +149,73 @@
           @click="toDetail(item.symbolId)"
         >
           <van-col span="2">
-             <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
+            <van-tag color="#E4BC31" v-if="index === 0">1</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.7)" v-else-if="index === 1">2</van-tag>
             <van-tag color="rgba(228, 188, 49, 0.4)" v-else-if="index === 2">3</van-tag>
-            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index+1 }}</van-tag>
+            <van-tag color="rgba(221, 222, 226, 1)" v-else>{{ index + 1 }}</van-tag>
           </van-col>
-          <van-col span="4" class="icon-name">
-            <div class="icon-name-top">
+          <van-col span="7" class="icon-name">
+            <div class="icon-name-top base187">
               <van-image width="18px" height="18px" :src="item.symbolLogo"></van-image>
-              <span>{{ item.symbolName }}</span>
+              <span
+                >{{ item.marketName }}<span>/{{ item.rateName }}</span>
+              </span>
             </div>
-            <div class="bicon-name-bottom base125">{{item.marketName}}/{{item.rateName}}</div>
+            <div class="bicon-name-bottom base125">{{ item.symbolName }}</div>
           </van-col>
-          <van-col span="6" style="text-align: right">{{enNumUnti(item.lastPrice*rateR) }} </van-col>
+          <van-col span="6" style="text-align: right">{{ enNumUnti(item.lastPrice * rateR) }} </van-col>
           <van-col span="6" style="text-align: right">
-            <div> {{ enNumUnti(item.lastPrice) }}</div>
+            <div>{{ enNumUnti(item.lastPrice) }}</div>
           </van-col>
-          <van-col span="6" style="text-align: right">
-            <div>{{item.marketScale&&(item.marketScale*100).toFixed(2)}}%</div>
+          <van-col span="3" style="text-align: right">
+            <div>{{ item.symbolScale && (item.symbolScale * 100).toFixed(2) }}</div>
           </van-col>
         </van-row>
       </van-list>
       <van-list v-if="active === 1">
         <div class="profiles-box" v-if="detailObj">
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left">{{$t('plantform.country')}}/{{$t('plantform.region')}}</van-col>
-            <van-col span="18" class="profiles-right">{{detailObj.marketCountry}}</van-col>
+            <van-col span="6" class="profiles-left">{{ $t('plantform.country') }}/{{ $t('plantform.region') }}</van-col>
+            <van-col span="18" class="profiles-right">{{ detailObj.marketCountry }}</van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left">{{$t('plantform.Transactionsupport')}}</van-col>
-            <van-col span="18" class="profiles-right">{{detailObj.marketSupport}}</van-col>
-          </van-row>
-          <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left"> {{$t('market.tradingon')}}</van-col>
-            <van-col span="18" class="profiles-right">{{enNumUnti(detailObj.marketExpectedVolume)}}个 </van-col>
-          </van-row>
-          <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left"> {{$t('plantform.Tradesector')}}</van-col>
+            <van-col span="6" class="profiles-left">{{ $t('plantform.Transactionsupport') }}</van-col>
             <van-col span="18" class="profiles-right">
-             {{detailObj.marketDescName}}</van-col
-            >
-          </van-row>
-          <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left"> {{$t('plantform.synopsis')}}</van-col>
-            <van-col
-class="profiles-right unfold"
-span="18"
-              >
-
-              <p :class="!unfoldTxt ? 'p2-show' : ''">
-              {{detailObj.marketContent}}
-              </p>
-              <span @click="unfoldClick">{{ unfoldTxt ? $t('plantform.unfold') : $t('plantform.putaway') }}</span>
+              <span v-for="(item, index) in detailObj.marketSupport.split(',')" :key="index">{{ item }} </span>
             </van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
-            <van-col span="6" class="profiles-left">{{$t('market.relatedlinks')}}</van-col>
+            <van-col span="6" class="profiles-left"> {{ $t('market.tradingon') }}</van-col>
+            <van-col span="18" class="profiles-right">{{ detailObj.marketDescNum }}个 </van-col>
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left"> {{ $t('plantform.Tradesector') }}</van-col>
+            <van-col span="18" class="profiles-right jiaoyiqu"> {{ detailObj.marketDescName }}</van-col>
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left"> {{ $t('plantform.synopsis') }}</van-col>
+            <van-col class="profiles-right unfold jianjie" span="18">
+              <p :class="!unfoldTxt ? '' : 'p2-show'">
+                {{ detailObj.marketContent }}
+              </p>
+              <p class="more" @click="unfoldClick">{{ unfoldTxt ? $t('plantform.unfold') : $t('plantform.putaway') }}</p>
+            </van-col>
+          </van-row>
+          <van-row gutter="20" class="profiles">
+            <van-col span="6" class="profiles-left">{{ $t('market.relatedlinks') }}</van-col>
             <van-col span="18" class="profiles-right link-box">
-              <div>{{detailObj.marketWebsiteUrl}}</div>
+              <div>{{ detailObj.marketWebsiteUrl }}</div>
               <div>
-                <span v-for="(item,index) in detailObj.marketLinks.split(',')" :key="index"><a :href="item">{{$t('plantform.standbyaddress')}}{{index+1}}</a></span>
-
+                <span
+v-for="(item, index) in detailObj.marketLinks.split(',')"
+:key="index"
+                  ><a :href="item">{{ $t('plantform.standbyaddress') }}{{ index + 1 }}</a></span
+                >
               </div>
               <div>
-                <span> <a href="https://www.facebook.com/binanceexchange">Facebook</a>  </span>
+                <span> <a href="https://www.facebook.com/binanceexchange">Facebook</a> </span>
                 <span><a href="https://twitter.com/binance">Twitter</a> </span>
-                <span> {{$t('plantform.microblog')}} </span>
+                <span> {{ $t('plantform.microblog') }} </span>
               </div></van-col
             >
           </van-row>
@@ -227,9 +224,8 @@ span="18"
       <van-list v-if="active === 2">
         <div class="notic-box">
           <div class="notic-item" v-for="(item, index) in noticList" :key="index" @click="toRich(item.newsId)">
-
-            <div class="notic-top">{{item.newsTitle}}</div>
-            <div class="notic-bottom">{{$moment(item.newsDateTime).format('MM-DD hh:mm')}}</div>
+            <div class="notic-top">{{ item.newsTitle }}</div>
+            <div class="notic-bottom">{{ $moment(item.newsDateTime).format('MM-DD hh:mm') }}</div>
           </div>
         </div>
       </van-list>
@@ -319,7 +315,10 @@ export default {
       var opts = {}
       const languageid = this.languageId === 'CNY' ? 'zh-CN' : 'en-US'
       opts.transports = ['websocket']
-      this.socket = io.connect(`http://43.252.160.205:9094?marketId=${that.marketId}&languageId=${languageid}&current=1&size=100`, opts)
+      this.socket = io.connect(
+        `http://43.252.160.205:9094?marketId=${that.marketId}&languageId=${languageid}&current=1&size=100`,
+        opts
+      )
 
       this.socket.on('marketTicker', function(data) {
         const sockData = JSON.parse(data)
@@ -643,7 +642,6 @@ export default {
 .page {
   background: #fff;
   .van-nav-bar {
-
     .van-icon {
       color: #666666;
     }
@@ -679,6 +677,7 @@ export default {
           display: flex;
           flex-direction: row;
           justify-content: flex-start;
+          align-items: center;
           & > div:first-child {
             font-size: 38px;
             font-family: PingFangSC-Regular, PingFang SC;
@@ -689,6 +688,9 @@ export default {
           }
           .van-tag {
             padding: 2px 19px;
+            border-radius: 5px;
+            font-size: 26px;
+            height: 37px;
           }
         }
       }
@@ -697,7 +699,7 @@ export default {
         justify-content: flex-start;
         .light {
           border-radius: 23px;
-          border: 2px solid #4cb367;
+          border: 2px solid #4CB367;
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -722,7 +724,6 @@ export default {
       }
     }
     .head-center {
-
       border-bottom: 19px solid #f3f3f3;
       padding: 23px 28px;
       display: flex;
@@ -836,13 +837,20 @@ export default {
     }
     .head-right {
       height: 100%;
-      /deep/ .van-dropdown-menu__bar {
-        box-shadow: none;
-        margin-right: 20px;
-      }
-      /deep/ .van-dropdown-menu__title {
-        color: #909090;
-      }
+     /deep/ .van-dropdown-menu__bar {
+      box-shadow: none;
+    }
+    /deep/ .van-ellipsis {
+      font-size: 28px;
+      margin-right: 20px;
+    }
+    /deep/ .van-dropdown-menu__title {
+      color: #909090;
+      padding: 0;
+      margin-right: 40px;
+      z-index: 1000;
+      background: #fff;
+    }
       .rate-box {
         margin-top: 20px;
         padding: 30px 0;
@@ -873,7 +881,7 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-         img {
+        img {
           width: 24px;
           height: 28px;
         }
@@ -888,6 +896,9 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
+      .van-col{
+        font-size:26px;
+      }
       .icon-name {
         display: flex;
         flex-direction: column;
@@ -904,21 +915,28 @@ export default {
             word-break: keep-all; /* 不换行 */
             white-space: nowrap; /* 不换行 */
             text-overflow: ellipsis; /* ...代替隐藏的内容 */
+            font-size: 28px;
+            span {
+              color: #939ea9;
+              font-size: 12px;
+            }
           }
         }
         .bicon-name-bottom {
           margin-top: 6px;
-          color: #92959c;
+          color: #939ea9;
           font-size: 24px;
-           overflow: hidden;
+          overflow: hidden;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-
         }
-        .base125{
-            max-width: 125px;
-          }
+        .base187{
+         max-width:218px;
+        }
+        .base125 {
+          max-width: 125px;
+        }
       }
     }
     .profiles-box {
@@ -931,35 +949,35 @@ export default {
         .profiles-left {
           color: #666666;
         }
+        .jiaoyiqu {
+          word-break: break-all;
+          line-height: 60px;
+        }
         .profiles-right {
           color: #333;
-          padding-right:20px;
-          overflow:hidden;
-          text-overflow:ellipsis; //溢出用省略号显示
-          white-space:nowrap; //溢出不换行
+          padding-right: 20px;
         }
+
         .unfold {
           position: relative;
-             p {
-            margin: 0;
+          p{
+            margin:0;
           }
           .p2-show {
-            white-space: normal;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
+            margin:0;
             overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
             -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
           }
 
-          span {
+          .more {
+            margin:0;
             color: #1890ff;
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            flex: 1;
+            width:100%;
             text-align: right;
-            display: inline-block;
-            padding-left: 30px;
+            padding:0  30px 0 0;
             z-index: 1000;
             background: #fff;
           }
@@ -968,9 +986,9 @@ export default {
           color: #1890ff;
           display: flex;
           flex-direction: column;
-          span{
-            a{
-               color: #1890ff;
+          span {
+            a {
+              color: #1890ff;
             }
           }
           & > div:first-child {
@@ -996,20 +1014,20 @@ export default {
       border-top: 1px solid #eeeeee;
       .notic-item {
         border-bottom: 1px solid #eeeeee;
-        padding-bottom:10px;
+        padding-bottom: 10px;
         .notic-top {
           font-size: 32px;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: #333333;
-          line-height: 79px;
+          line-height: 50px;
         }
         .notic-bottom {
           font-size: 24px;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: #92959c;
-          line-height: 34px;
+          line-height: 24px;
         }
       }
     }

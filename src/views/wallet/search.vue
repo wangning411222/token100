@@ -624,13 +624,20 @@ export default {
     }
     .head-right {
       height: 100%;
-      /deep/ .van-dropdown-menu__bar {
-        box-shadow: none;
-        margin-right: 20px;
-      }
-      /deep/ .van-dropdown-menu__title {
-        color: #909090;
-      }
+     /deep/ .van-dropdown-menu__bar {
+      box-shadow: none;
+    }
+    /deep/ .van-ellipsis {
+      font-size: 28px;
+      margin-right: 20px;
+    }
+    /deep/ .van-dropdown-menu__title {
+      color: #909090;
+      padding: 0;
+      margin-right: 40px;
+      z-index: 1000;
+      background: #fff;
+    }
       .rate-box {
         margin-top: 20px;
         padding: 30px 0;

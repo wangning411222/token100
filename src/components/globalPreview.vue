@@ -129,8 +129,9 @@ export default {
   z-index: 1000;
   width: calc(100% - 44px);
   height: 65px;
+  line-height: 65px;
+  border-top:1px solid #D8D8D8;
   padding: 14px 22px;
-  line-height: 37px;
   position: fixed;
   bottom: 100px;
   box-sizing: content-box;

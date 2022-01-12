@@ -66,12 +66,12 @@
               <div class="bottom-txt">{{ walletOtherService(walletobj.walletOtherService) }}</div>
               <div class="bottom-img">
                 <van-image
-                  v-if="walletobj.walletOtherService === 2"
+                  v-if="walletobj.walletOtherService.indexOf('2')>0"
                   class="img-1"
                   :src="require('../../assets/icon/邮件详情-来往邮件@2x.png')"
                 ></van-image>
                 <van-image
-                  v-if="walletobj.walletOtherService === 3"
+                  v-if="walletobj.walletOtherService.indexOf('3')>0"
                   class="img-2"
                   :src="require('../../assets/icon/购物车满@2x.png')"
                 ></van-image>
@@ -118,7 +118,7 @@ class="line-3-right"
               <div class="txt">
                 <span>{{ $t('wallet.Multipleauthentication') }}</span>
                 <van-image
-                  v-if="walletobj.walletFactorAuth === 1"
+                  v-if="walletobj.walletMultiConfirm === 1"
                   width="13px"
                   height="9px"
                   :src="require('../../assets/icon/路径@2x.png')"
@@ -133,7 +133,7 @@ class="line-3-right"
               <div>
                 <span>{{ $t('wallet.Multiplesignature') }}</span>
                 <van-image
-                  v-if="walletobj.walletOpenSource === 1"
+                  v-if="walletobj.walletMultiSignature === 1"
                   width="13px"
                   height="9px"
                   :src="require('../../assets/icon/路径@2x.png')"
@@ -150,13 +150,13 @@ class="line-3-right"
               <div class="txt">
                 <span>{{ $t('wallet.Whetheropensource') }}</span>
                 <van-image
-                  v-if="walletobj.walletMultiSignature === 1"
+                  v-if="walletobj.walletOpenSource === 1"
                   width="13px"
                   height="9px"
                   :src="require('../../assets/icon/路径@2x.png')"
                 ></van-image>
                 <van-image
-                  v-else
+                  v-else-if="walletobj.walletOpenSource===0"
                   width="10px"
                   height="10px"
                   :src="require('../../assets/icon/关闭@2x.png')"
@@ -512,7 +512,7 @@ export default {
         .clim-2 {
           overflow: hidden;
           display: -webkit-box;
-          -webkit-line-clamp: 2;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
         }
         margin: 30px 24px;
@@ -522,6 +522,9 @@ export default {
         }
         .van-tag {
           margin-right: 22px;
+          margin-top:12px;
+          font-weight: 600;
+          padding:9px 29px;
         }
         .toogle {
           display: flex;

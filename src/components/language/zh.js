@@ -193,7 +193,8 @@ module.exports = {
     Forkswap: '分叉/交换',
     Tokendestructionrepurchase: '令牌销毁/回购',
     meetingAMA: '会议/AMA',
-    rests: '其他'
+    rests: '其他',
+    token100news: 'Token100数据'
   },
   wallet: {
     verificationmode: '验证方式',

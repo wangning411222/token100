@@ -20,18 +20,18 @@
       />
       <div class="flash-box" v-if="active === 0">
         <div class="date-box">
-          <h3>{{$t('market.today')}} &nbsp;{{ month }}{{$t('information.month')}}{{ day }}{{$t('information.day')}}</h3>
+          <h3>{{$t('market.today')}} &nbsp;{{ month }}{{$t('information.month')}}{{ day }}{{$t('information.day')}}&nbsp;&nbsp;{{weeks}}</h3>
         </div>
         <div class="step-box">
           <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
             <van-step v-for="(item,index) in stepList" :key="index">
               <div class="step-item"  @click="toRich(item.newsId)">
                 <div class="step-time">
-                  <span>{{$moment(item.newsDateTime).format('hh:mm')}}</span>
-                  <span>{{item.newsSourceName}}</span>
+                  <span>{{$moment(item.createTime).format('hh:mm')}}</span>
+                  <span>{{$t('information.token100news')}}</span>
                 </div>
                 <h3>{{item.newsTitle}}</h3>
-                <p>
+                <p class="line-5">
                 {{item.newsContent}}
                 </p>
                 <div class="btn-box">
@@ -133,7 +133,28 @@ export default {
   },
   components: { banner, search, newItem },
   computed: {
-    ...mapGetters(['userName', 'isLogin', 'newsTabs'])
+    ...mapGetters(['userName', 'isLogin', 'newsTabs', 'languageId']),
+    weeks() {
+      if (this.languageId === 'CNY') {
+        return this.$moment().format('dddd')
+      } else {
+        if (this.$moment().format('dddd') === '星期一') {
+          return 'Monday'
+        } else if (this.$moment().format('dddd') === '星期二') {
+          return 'Tuesday'
+        } else if (this.$moment().format('dddd') === '星期三') {
+          return 'Wednesday'
+        } else if (this.$moment().format('dddd') === '星期四') {
+          return 'Thursday'
+        } else if (this.$moment().format('dddd') === '星期五') {
+          return 'Friday'
+        } else if (this.$moment().format('dddd') === '星期六') {
+          return 'Saturday'
+        } else {
+          return 'Sunday'
+        }
+      }
+    }
   },
   mounted() {
     this.month = this.$moment().format('M')
@@ -261,6 +282,13 @@ export default {
           border-bottom: none;
         }
         .step-item {
+          .line-5{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+          }
           .btn-box {
             margin-top: 31px;
             display: flex;

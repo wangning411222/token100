@@ -37,7 +37,7 @@
       <div class="table-head" v-if="active === 0">
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
-          <van-col span="6">{{$t('plantform.bourse')}}</van-col>
+          <van-col span="6" >{{$t('plantform.bourse')}}</van-col>
           <van-col span="8">
             <div class="arrow-box" @click="sorterList">
               <div>{{$t('market.forehead24h')}}({{ rateCode }})</div>
@@ -387,11 +387,13 @@ export default {
   // eslint-disable-next-line vue/no-unused-components
   components: { banner, search, myprogress, noData },
   computed: {
-    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr'])
+    ...mapGetters(['userName', 'isLogin', 'globalRate', 'languageId', 'globalRateArr', 'pingtaiTas'])
   },
   mounted() {
     // 获取ER排行
-    this.marketChangePage()
+    this.active = this.pingtaiTas
+    this.tabsClick(this.active)
+    // this.marketChangePage()
     if (this.globalRateArr.length) {
       this.fn()
     }
@@ -538,6 +540,7 @@ export default {
     },
     // tab点击
     tabsClick(value) {
+      this.$store.dispatch('setPingtaiTabs', value)
       switch (value) {
         case 0:
           this.marketChangePage()
@@ -642,13 +645,20 @@ export default {
     align-items: center;
     .head-right {
       height: 100%;
-      /deep/ .van-dropdown-menu__bar {
-        box-shadow: none;
-        margin-right: 20px;
-      }
-      /deep/ .van-dropdown-menu__title {
-        color: #909090;
-      }
+     /deep/ .van-dropdown-menu__bar {
+      box-shadow: none;
+    }
+    /deep/ .van-ellipsis {
+      font-size: 28px;
+      margin-right: 20px;
+    }
+    /deep/ .van-dropdown-menu__title {
+      color: #909090;
+      padding: 0;
+      margin-right: 40px;
+      z-index: 1000;
+      background: #fff;
+    }
       .rate-box {
         margin-top: 20px;
         padding: 30px 0;
@@ -707,6 +717,13 @@ export default {
     .list-item {
       border-bottom: 1px solid #eeeeee;
       padding: 22px 0;
+
+      .van-col{
+        font-size:26px;
+        span{
+          font-size:28px;
+        }
+      }
 
       .icon-name {
         display: flex;

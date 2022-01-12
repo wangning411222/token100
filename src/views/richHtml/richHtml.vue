@@ -7,6 +7,7 @@
         </template>
       </van-nav-bar>
     </van-sticky>
+    <h3 v-html="newsTitle"></h3>
     <div v-html="contentHtml"></div>
   </div>
 </template>
@@ -16,7 +17,8 @@ export default {
   data() {
     return {
       newsId: null,
-      contentHtml: null
+      contentHtml: null,
+      newsTitle: null
     }
   },
   methods: {
@@ -28,6 +30,7 @@ export default {
       }
       newsGet(data).then(res => {
         this.contentHtml = res.newsContent
+        this.newsTitle = res.newsTitle
       })
     },
     // 返回

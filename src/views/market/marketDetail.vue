@@ -3,7 +3,27 @@
     <van-sticky>
       <van-nav-bar :title="$t('market.details')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
-          <van-icon name="search" size="18" />
+          <div>
+             <van-image
+             v-if="symbolInfoObj.attention"
+             style="margin-right:30px;"
+              width="20px"
+              height="20px"
+              :src="require('../../assets/image/星星2@2x.png')"
+            ></van-image>
+            <van-image
+            v-else
+            style="margin-right:30px;"
+              width="20px"
+              height="20px"
+              :src="require('../../assets/image/星星2@2x(1).png')"
+            ></van-image>
+            <van-icon name="search" size="18" />
+          </div>
+
+        </template>
+        <template>
+
         </template>
       </van-nav-bar>
     </van-sticky>
@@ -26,22 +46,23 @@
         <div class="head-bottom-left">
           <div class="line-1">
             <span>{{ rateCode }}</span>
-            <span>{{ symbolInfoObj.priceUsd && cnNumUnti(symbolInfoObj.priceUsd) }}</span>
+            <span>{{ symbolInfoObj.priceUsd?cnNumUnti(symbolInfoObj.priceUsd):'--' }}</span>
           </div>
           <div class="line-2">
-            <span>≈$ {{ symbolInfoObj.priceUsd && enNumUnti(symbolInfoObj.priceUsd) }}</span>
+            <span>≈$ &nbsp;&nbsp; {{ symbolInfoObj.priceUsd? enNumUnti(symbolInfoObj.priceUsd):'--' }}</span>
             <span
+            style="margin-left:8px;"
               :class="
                 symbolInfoObj.priceChange1d && symbolInfoObj.priceChange1d.toString().indexOf('-') >= 0
                   ? 'red'
                   : 'green'
               "
-              >{{ symbolInfoObj.priceChange1d }}%</span
+              >({{ symbolInfoObj.priceChange1d?symbolInfoObj.priceChange1d:'--' }}%)</span
             >
           </div>
           <div class="line-3">
             <span>{{ $t('market.marketvalue') }}</span>
-            <span>{{ rateCode }}{{ symbolInfoObj.marketCapUsd && cnNumUnti(symbolInfoObj.marketCapUsd) }}</span>
+            <span>{{ rateCode }}{{ symbolInfoObj.marketCapUsd ? cnNumUnti(symbolInfoObj.marketCapUsd):'--' }}</span>
           </div>
         </div>
         <div class="head-bottom-right">
@@ -53,11 +74,11 @@
             <span>{{ $t('market.hand24h') }}</span>
           </div>
           <div class="column-right">
-            <span>{{ rateCode }}{{ symbolInfoObj.highPrice1d && cnNumUnti(symbolInfoObj.highPrice1d) }} </span>
-            <span>{{ rateCode }}{{ symbolInfoObj.lowPrice1d && cnNumUnti(symbolInfoObj.lowPrice1d) }}</span>
-            <span>{{ rateCode }}{{ symbolInfoObj.volumeUsd && cnNumUnti(symbolInfoObj.volumeUsd) }} </span>
-            <span>{{ rateCode }}{{ symbolInfoObj.volumeDay && cnNumUnti(symbolInfoObj.volumeDay) }}</span>
-            <span>{{ symbolInfoObj && (symbolInfoObj.volumeRate * 100).toFixed(2) }}%</span>
+            <span>{{ rateCode }}{{ symbolInfoObj.highPrice1d ? cnNumUnti(symbolInfoObj.highPrice1d):'--' }} </span>
+            <span>{{ rateCode }}{{ symbolInfoObj.lowPrice1d ? cnNumUnti(symbolInfoObj.lowPrice1d):'--' }}</span>
+            <span>{{ rateCode }}{{ symbolInfoObj.volumeUsd ? cnNumUnti(symbolInfoObj.volumeUsd):'--' }} </span>
+            <span>{{ rateCode }}{{ symbolInfoObj.volumeDay? cnNumUnti(symbolInfoObj.volumeDay):"--" }}</span>
+            <span>{{ symbolInfoObj ? (symbolInfoObj.volumeRate * 100).toFixed(2):'--' }}%</span>
           </div>
         </div>
       </div>
@@ -335,8 +356,8 @@
             :key="index"
           >
             <div class="team-left">
-              <van-image width="39px" height="37px" :src="item.logo"></van-image>
-              <div>{{ item.name }}</div>
+              <van-image :src="item.logo"></van-image>
+              <div class="team-txt">{{ item.name }}</div>
             </div>
             <div class="team-right">
               <div>{{ item.intro }}</div>
@@ -594,7 +615,8 @@ import {
   symbolTeam,
   symbolEvent,
   symbolHolder,
-  walletList
+  walletList,
+  userSymbol
 } from '@/api/market'
 import * as echarts from 'echarts'
 import { mapGetters } from 'vuex'
@@ -966,10 +988,29 @@ export default {
       this.$router.back(-1)
     },
     // 搜索页面
-    onClickRight() {
-      this.$router.push({
-        name: 'search'
-      })
+    onClickRight(e) {
+      // 点击搜索
+      if (e.target._prevClass === 'van-icon van-icon-search') {
+        this.$router.push({
+          name: 'search'
+        })
+      } else {
+        // 点击收藏
+        if (this.isLogin) {
+          userSymbol(this.symbolInfoObj.symbolId).then(res => {
+            if (this.symbolInfoObj.attention) {
+              this.symbolInfoObj.attention = false
+              this.$toast(this.$t('market.unfollowed'))
+            } else {
+              this.symbolInfoObj.attention = true
+              this.$toast(this.$t('market.followed'))
+            }
+            this.searchPage()
+          })
+        } else {
+          this.$toast(this.$t('plantform.placelogin'))
+        }
+      }
     },
     initChart() {
       this.tipShow = false
@@ -1177,6 +1218,7 @@ export default {
 
     .head-bottom-left {
       display: flex;
+      width:60%;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
@@ -1214,9 +1256,8 @@ export default {
       }
     }
     .head-bottom-right {
+      width:40%;
       margin-top: 8px;
-      margin-left: 125px;
-      margin-right: 20px;
       flex-grow: 1;
       display: flex;
       flex-direction: row;
@@ -1391,6 +1432,9 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    .van-col{
+      font-size:26px;
+    }
     .icon-name {
       display: flex;
       flex-direction: column;
@@ -1408,6 +1452,7 @@ export default {
           word-break: keep-all;
           white-space: nowrap;
           text-overflow: ellipsis;
+          font-size:28px;
         }
         .base125 {
           max-width: 125px;
@@ -1510,12 +1555,18 @@ export default {
       .team-left {
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         padding-left: 11px;
-        max-width: 200px;
+        flex: 240px;
         .van-image {
           margin-right: 11px;
+          flex-basis: 78px;
+          width:78px;
+          height:73px;
+        }
+        .team-txt{
+          flex:1;
         }
       }
       .team-right {
@@ -1523,7 +1574,7 @@ export default {
         margin-left: 40px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: flex-start;
         .team-icon {
           margin-left: 15px;
