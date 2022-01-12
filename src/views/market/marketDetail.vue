@@ -5,7 +5,7 @@
         <template #right>
           <div>
              <van-image
-             v-if="symbolInfoObj.attention"
+             v-if="isLogin&&symbolInfoObj.attention"
              style="margin-right:30px;"
               width="20px"
               height="20px"
@@ -662,7 +662,9 @@ export default {
       qianbaoList: [],
       hangqingList: [],
       symbolId: null,
-      symbolInfoObj: null,
+      symbolInfoObj: {
+        attention: false
+      },
       classify: 0,
       result: [], // echart数据
       paramsType: 0,

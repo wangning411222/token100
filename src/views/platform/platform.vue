@@ -147,7 +147,8 @@
       <!-- ER全球交易排行榜 -->
       <van-loading
         v-show="loading"
-        style="width: 100%; height: 100%; position: absolute; top: 200px; text-align: center"
+         class="loadings"
+
         color="rgb(228, 188, 49)"
       />
       <van-list v-if="active === 0">
@@ -707,6 +708,13 @@ export default {
     padding: 0 28px;
     margin-bottom: 30px;
     position: relative;
+    .loadings {
+      width: calc(100% - 56px);
+      height: 200px;
+      position: absolute;
+      top: 200px;
+      text-align: center;
+    }
     .list-more {
       font-size: 26px;
       text-align: center;
