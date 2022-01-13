@@ -12,9 +12,13 @@ export default {
     const token = localStorage.getItem('token')
     if (token) {
       this.$store.dispatch('setIsLogin', true)
+    } else {
+      this.$store.dispatch('setIsLogin', false)
     }
     const arr = await this.$store.dispatch('getRateArr')
-    this.setGlobalRate(arr)
+    if (arr.length) {
+      this.setGlobalRate(arr)
+    }
   },
   computed: {
     ...mapGetters(['isLogin', 'languageId', 'globalRate', 'globalRateArr'])

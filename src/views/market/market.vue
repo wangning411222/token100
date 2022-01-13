@@ -123,7 +123,7 @@
         <van-row type="flex" justify="space-between" align="center">
           <van-col span="2">#</van-col>
           <van-col span="6">{{ $t('market.currency') }}</van-col>
-          <van-col span="4">
+          <van-col span="6">
             <div class="arrow-box" @click="sortshizhi('symbolMarketCapUsd')">
               <div>{{ $t('market.marketvalue') }}({{ rateCode }})</div>
               <div class="img-box">
@@ -143,7 +143,7 @@
               </div>
             </div>
           </van-col>
-          <van-col span="6">
+          <van-col span="4">
             <div class="arrow-box">
               <div>24H{{ $t('market.amountofincrease') }}</div>
               <div class="img-box" @click="sortshizhi('priceChange1d')">
@@ -415,14 +415,14 @@
               </div>
               <div class="bicon-name-bottom">{{ item.symbolFullName }}</div>
             </van-col>
-            <van-col span="4" style="text-align: right">
+            <van-col span="6" style="text-align: right">
               {{ item.symbolMarketCapUsd ? enNumUnti(item.symbolMarketCapUsd * rateR) : '--' }}
             </van-col>
             <van-col span="6" style="text-align: right">
               <div>{{ enNumUnti(item.priceUsd * rateR) }}</div>
             </van-col>
-            <van-col span="6" style="text-align: right" :class="shizhiClass(item.priceChange1d.toFixed(2))">
-              <div>{{ item.priceChange1d.toFixed(2) }}%</div>
+            <van-col span="4" style="text-align: right" :class="shizhiClass(item.priceChange1d)">
+              <div>{{code(item.priceChange1d)}}{{ nums(item.priceChange1d) }}%</div>
             </van-col>
           </van-row>
           <div class="list-more" v-if="shizhiList.length" @click="listMore(active)">{{ $t('market.clickmore') }}</div>
@@ -462,9 +462,9 @@
             <van-col
               span="6"
               style="text-align: right"
-              :class="item.percentChange.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+              :class="shizhiClass(item.percentChange)"
             >
-              <div>{{ item.percentChange.toFixed(2) }}%</div>
+              <div>{{code(item.percentChange)}}{{ nums(item.percentChange)}}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -771,7 +771,7 @@
             <van-col span="6" style="text-align: left">
               <div class="gainian">
                 <span>{{ item.best }}</span>
-                <span class="green">{{ item.best_percent.toFixed(2) }}%</span>
+                <span class="green">+{{ item.best_percent.toFixed(2) }}%</span>
               </div>
               <div class="gainian">
                 <span>{{ item.worst }}</span>
@@ -781,9 +781,9 @@
             <van-col
               span="6"
               style="text-align: right"
-              :class="item.change_percent && item.change_percent.toString().indexOf('-') >= 0 ? 'red' : 'green'"
+               :class="shizhiClass(item.change_percent)"
             >
-              <div>{{ item.change_percent.toFixed(2) }}%</div>
+              <div>{{code(item.change_percent)}}{{ nums(item.change_percent)}}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -880,10 +880,29 @@ export default {
     this.socket.close()
   },
   methods: {
+    nums(value) {
+      const str = value.toFixed(2).toString()
+      if (str === '-0.00' || str === '0.00') {
+        return 0
+      } else {
+        return str
+      }
+    },
+    // 涨幅显示+-
+    code(value) {
+      const str = value.toFixed(2).toString()
+      if (str === '-0.00' || str === '0.00') {
+        return ''
+      } else if (str.indexOf('-') < 0) {
+        return '+'
+      } else {
+        return ''
+      }
+    },
     // 市值类名
     shizhiClass(value) {
-      const str = value.toString()
-      if (str === '0.00') {
+      const str = value.toFixed(2).toString()
+      if (str === '-0.00' || str === '0.00') {
         return 'gray'
       } else if (str.indexOf('-') >= 0) {
         return 'red'

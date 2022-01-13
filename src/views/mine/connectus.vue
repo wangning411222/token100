@@ -23,7 +23,7 @@ export default {
     // 获取关于我们
     getSetting() {
       const data = {
-        settingTitle: '联系我们'
+        settingTitle: this.$t('mine.connectus')
       }
       getSetting(data).then(res => {
         this.content = res.settingContent

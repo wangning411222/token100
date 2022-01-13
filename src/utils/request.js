@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import { Toast } from 'vant'
+
 // 根据环境不同引入不同api地址
 const baseURL = process.env.VUE_APP_BASE_API
 // create an axios instance
@@ -49,6 +50,10 @@ service.interceptors.response.use(
       if (res.ok) {
         return Promise.resolve(res.data)
       } else {
+        if (!res.ok && res.message === 'token有误') {
+          store.dispatch('setIsLogin', false)
+          localStorage.setItem('token', '')
+        }
         return Promise.resolve(res.ok)
       }
     }

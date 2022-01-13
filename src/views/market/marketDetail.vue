@@ -3,7 +3,7 @@
     <van-sticky>
       <van-nav-bar :title="$t('market.details')" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
         <template #right>
-          <div>
+          <div style="display:flex;flex-direction:row;align-items:center">
              <van-image
              v-if="isLogin&&symbolInfoObj.attention"
              style="margin-right:30px;"
@@ -16,7 +16,7 @@
             style="margin-right:30px;"
               width="20px"
               height="20px"
-              :src="require('../../assets/image/星星2@2x(1).png')"
+              :src="require('../../assets/image/nav_ic_unfollow_black.svg')"
             ></van-image>
             <van-icon name="search" size="18" />
           </div>

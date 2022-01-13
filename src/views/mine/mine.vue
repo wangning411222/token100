@@ -164,6 +164,7 @@ export default {
     },
     // 中英选中
     onSelect(item) {
+      console.log(item, 'item``````````````')
       if (!this.actionClick) {
         return
       } else {
@@ -177,7 +178,7 @@ export default {
             return items.rateC === item.value
           })
           this.$store.dispatch('setRate', obj[0].rateR)
-          this.$i18n.locale === 'zh' ? this.$i18n.locale = 'en' : this.$i18n.locale = 'zh' // 设置中英文模式
+          item.value === 'CNY' ? this.$i18n.locale = 'zh' : this.$i18n.locale = 'en' // 设置中英文模式
           localStorage.setItem('languageSet', this.$i18n.locale)
           this.actionClick = true
         }, 500)

@@ -23,7 +23,7 @@ export default {
     // 获取关于我们
     getSetting() {
       const data = {
-        settingTitle: '注册协议'
+        settingTitle: this.$t('mine.useragreement')
       }
       getSetting(data).then(res => {
         this.content = res.settingContent

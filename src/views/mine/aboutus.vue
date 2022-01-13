@@ -23,7 +23,7 @@ export default {
     // 获取关于我们
     getSetting() {
       const data = {
-        settingTitle: '关于我们'
+        settingTitle: this.$t('mine.aboutus')
       }
       getSetting(data).then(res => {
         this.content = res.settingContent
