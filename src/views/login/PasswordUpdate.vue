@@ -79,9 +79,13 @@ export default {
           userPassword: this.password1
         }
         userPasswordUpdate(data).then(res => {
-          this.$router.push({
-            name: 'Login'
-          })
+          if (res.ok) {
+            this.$router.push({
+              name: 'Login'
+            })
+          } else {
+            this.$notify(res.message)
+          }
         })
       } else {
         this.$notify(this.$t('mine.passwordsdiffer'))

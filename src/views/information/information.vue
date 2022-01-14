@@ -13,36 +13,39 @@
       </van-tabs>
     </van-sticky>
     <div class="tab-box">
-       <van-loading
+      <van-loading
         v-show="loading"
         style="width: 100%; height: 100%; position: absolute; top: 200px; text-align: center"
         color="rgb(228, 188, 49)"
       />
       <div class="flash-box" v-if="active === 0">
         <div class="date-box">
-          <h3>{{$t('market.today')}} &nbsp;{{ month }}{{$t('information.month')}}{{ day }}{{$t('information.day')}}&nbsp;&nbsp;{{weeks}}</h3>
+          <h3>
+            {{ $t('market.today') }} &nbsp;{{ month }}{{ $t('information.month') }}{{ day
+            }}{{ $t('information.day') }}&nbsp;&nbsp;{{ weeks }}
+          </h3>
         </div>
         <div class="step-box">
           <van-steps direction="vertical" :active="0" active-icon="stop-circle" inactive-icon="stop-circle">
-            <van-step v-for="(item,index) in stepList" :key="index">
-              <div class="step-item"  @click="toRich(item.newsId)">
+            <van-step v-for="(item, index) in stepList" :key="index">
+              <div class="step-item" @click="toRich(item.newsId)">
                 <div class="step-time">
-                  <span>{{$moment(item.createTime).format('hh:mm')}}</span>
-                  <span>{{$t('information.token100news')}}</span>
+                  <span>{{ $moment(item.createTime).format('hh:mm') }}</span>
+                  <span>{{ $t('information.token100news') }}</span>
                 </div>
-                <h3>{{item.newsTitle}}</h3>
+                <h3>{{ item.newsTitle }}</h3>
                 <p class="line-5">
-                {{item.newsContent}}
+                  {{ item.newsContent }}
                 </p>
                 <div class="btn-box">
-                  <div class="btn" @click.stop="newsLike(item.newsId,1)">
+                  <div class="btn" @click.stop="newsLike(item.newsId, 1)">
                     <van-icon name="down" style="transform: rotate(180deg)"></van-icon>
-                    <div>{{$t('information.bull')}}</div>
+                    <div>{{ $t('information.bull') }}</div>
                     <div>{{ item.newsFavorable }}</div>
                   </div>
-                  <div class="btn" @click.stop="newsLike(item.newsId,2)">
+                  <div class="btn" @click.stop="newsLike(item.newsId, 2)">
                     <van-icon name="down"></van-icon>
-                    <div>{{$t('information.bear')}}</div>
+                    <div>{{ $t('information.bear') }}</div>
                     <div>{{ item.newsBear }}</div>
                   </div>
                 </div>
@@ -68,43 +71,72 @@
       <div class="news-box" v-if="active === 2">
         <van-list>
           <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
-            <newItem :author="item.newsSourceName" :url="item.newsSourceImages" :time="$moment().startOf('hour').fromNow()" :info="item.newsTitle"></newItem>
+            <newItem
+              :author="item.newsSourceName"
+              :url="item.newsSourceImages"
+              :time="$moment().startOf('hour').fromNow()"
+              :info="item.newsTitle"
+            ></newItem>
           </div>
         </van-list>
       </div>
       <div class="news-box" v-if="active === 3">
         <van-list>
           <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
-            <newItem :author="item.newsSourceName" :url="item.newsSourceLogo" :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')" :info="item.newsTitle"></newItem>
+            <newItem
+              :author="item.newsSourceName"
+              :url="item.newsSourceLogo"
+              :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')"
+              :info="item.newsTitle"
+            ></newItem>
           </div>
         </van-list>
       </div>
       <div class="news-box" v-if="active === 4">
         <van-list>
           <div class="box" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
-            <newItem :author="item.newsSourceName" :url="item.newsSourceLogo" :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')" :info="item.newsTitle"></newItem>
+            <newItem
+              :author="item.newsSourceName"
+              :url="item.newsSourceLogo"
+              :time="$moment(item.createTime).format('YYYY-MM-DD hh:mm')"
+              :info="item.newsTitle"
+            ></newItem>
           </div>
         </van-list>
       </div>
       <div class="calendar-box" v-if="active === 5">
         <van-list>
           <div class="calendar-item" v-for="(item, index) in stepList" :key="index" @click="toRich(item.newsId)">
-            <div class="time">{{$moment(item.newsDateTime).format('MM-DD')}} &nbsp;&nbsp; {{$moment(item.newsDateTime).format('dddd')}}</div>
-            <div class="title">
-              <van-image width="18px" height="18px" :src="item.newsSourceLogo"></van-image>
-              <div class="name1">{{item.newsTitle }}</div>
-              <div class="name2">{{item.newsSourceName}}</div>
+            <div class="time">
+              {{ $moment(item.newsDateTime).format('MM-DD') }} &nbsp;&nbsp;
+              {{ $moment(item.newsDateTime).format('dddd') }}
             </div>
-            <div class="star-box">
-              <van-rate :count="3" v-model="item.newsStar" allow-half void-icon="star" color="#FAD97E" void-color="#E8E8E8" />
-            </div>
-            <div class="info-box">
-              <span :style="{background:newsTypeFiltercolor(item.newsType)}">
-                {{ newsTypeFilter(item.newsType) }}
-              </span>
-              <span>
-              {{item.newsContent}}
-              </span>
+            <div class="calendar-content">
+              <img :src="item.newsSourceLogo"/>
+              <div class="content-txt">
+                <div class="title">
+                  <div class="name1">{{ item.newsTitle }}</div>
+                  <div class="name2">{{ item.newsSourceName }}</div>
+                </div>
+                <div class="star-box">
+                  <van-rate
+                    :count="3"
+                    v-model="item.newsStar"
+                    allow-half
+                    void-icon="star"
+                    color="#FAD97E"
+                    void-color="#E8E8E8"
+                  />
+                </div>
+                <div class="info-box">
+                  <span :style="{ background: newsTypeFiltercolor(item.newsType) }">
+                    {{ newsTypeFilter(item.newsType) }}
+                  </span>
+                  <span>
+                    {{ item.newsContent }}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </van-list>
@@ -282,7 +314,7 @@ export default {
           border-bottom: none;
         }
         .step-item {
-          .line-5{
+          .line-5 {
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -389,56 +421,68 @@ export default {
           color: #333333;
           line-height: 45px;
         }
-        .title {
+        .calendar-content {
           display: flex;
           flex-direction: row;
           justify-content: flex-start;
-          align-items: center;
-          .name1 {
-            margin-left: 10px;
-            font-size: 28px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #333333;
-            line-height: 40px;
+          align-items: flex-start;
+          img {
+            width: 36px;
+            height: 36px;
           }
-          .name2 {
-            margin-left: 9px;
-            font-size: 22px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #9b9b9b;
-            line-height: 31px;
-          }
-        }
-        .star-box {
-          margin-top: 8px;
-          margin-bottom: 28px;
-        }
-        .info-box {
-          padding-bottom: 21px;
-          span {
-            line-height: 48px;
-            font-size: 26px;
-            color: #333;
-          }
-          & > span:first-child {
-            display: inline-block;
-            width: 119px;
-            height: 38px;
-            line-height: 38px;
-            background-size: cover;
-            background-position: center;
-            font-size: 18px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            color: #ffffff;
-            text-align: center;
-            border-top-left-radius:100px;
-             border-bottom-right-radius:100px;
-          }
-          p {
-            display: inline-block;
+          .content-txt {
+            .title {
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-start;
+              align-items: center;
+              .name1 {
+                margin-left: 10px;
+                font-size: 28px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #333333;
+                line-height: 40px;
+              }
+              .name2 {
+                margin-left: 9px;
+                font-size: 22px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #9b9b9b;
+                line-height: 31px;
+              }
+            }
+            .star-box {
+              margin-top: 8px;
+              margin-bottom: 28px;
+            }
+            .info-box {
+              padding-bottom: 21px;
+              span {
+                line-height: 48px;
+                font-size: 26px;
+                color: #333;
+              }
+              & > span:first-child {
+                display: inline-block;
+                width: 119px;
+                height: 38px;
+                line-height: 38px;
+                background-size: cover;
+                background-position: center;
+                font-size: 18px;
+                font-family: PingFangSC-Medium, PingFang SC;
+                font-weight: 500;
+                color: #ffffff;
+                text-align: center;
+                border-top-left-radius: 100px;
+                border-bottom-right-radius: 100px;
+              }
+              p {
+                display: inline-block;
+              }
+            }
           }
         }
       }

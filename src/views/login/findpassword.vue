@@ -136,16 +136,16 @@ export default {
     // 下一步
     next() {
       if (this.btnDisable) {
-        if (this.password.trim() === this.rescode) {
-          this.$router.push({
-            path: '/PasswordUpdate',
-            query: {
-              smsCode: this.rescode
-            }
-          })
-        } else {
-          this.$notify(this.$t('mine.wrongcode'))
-        }
+        // if (this.password.trim() === this.rescode) {
+        this.$router.push({
+          path: '/PasswordUpdate',
+          query: {
+            smsCode: this.rescode
+          }
+        })
+        // } else {
+        //   this.$notify(this.$t('mine.wrongcode'))
+        // }
       }
     },
     // 选择区号

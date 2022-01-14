@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import { Toast } from 'vant'
+// import { rest } from 'lodash'
 
 // 根据环境不同引入不同api地址
 const baseURL = process.env.VUE_APP_BASE_API
@@ -54,7 +55,7 @@ service.interceptors.response.use(
           store.dispatch('setIsLogin', false)
           localStorage.setItem('token', '')
         }
-        return Promise.resolve(res.ok)
+        return Promise.resolve(res)
       }
     }
   },

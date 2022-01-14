@@ -310,7 +310,6 @@ export default {
       }
       walletDetail(data).then(res => {
         this.walletobj = res
-        console.log(res, 'res```````````````````')
       })
     },
     //   展开折叠

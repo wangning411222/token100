@@ -226,6 +226,7 @@ module.exports = {
     virtualcurrency: '虚拟币',
     token: '代币',
     trillion: '万亿',
-    yuan: '元'
+    yuan: '元',
+    individual: '个'
   }
 }

@@ -425,8 +425,9 @@
               <div>{{code(item.priceChange1d)}}{{ nums(item.priceChange1d) }}%</div>
             </van-col>
           </van-row>
-          <div class="list-more" v-if="shizhiList.length" @click="listMore(active)">{{ $t('market.clickmore') }}</div>
+           <div class="list-more" v-if="shizhiList.length" @click="listMore(active)">{{ $t('market.clickmore') }}</div>
         </van-list>
+
       </div>
 
       <!-- 期货合约 -->
@@ -1539,7 +1540,7 @@ export default {
   }
   .list-box {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 65px;
     .loadings {
       width: calc(100% - 56px);
       height: 200px;

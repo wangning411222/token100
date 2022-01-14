@@ -7,8 +7,10 @@
         </template>
       </van-nav-bar>
     </van-sticky>
-    <h3 v-html="newsTitle"></h3>
-    <div v-html="contentHtml"></div>
+    <div class="content-box">
+      <h3 v-html="newsTitle"></h3>
+      <div v-html="contentHtml"></div>
+    </div>
   </div>
 </template>
 <script>
@@ -22,7 +24,6 @@ export default {
     }
   },
   methods: {
-
     //   获取新闻详情
     newsGet() {
       const data = {
@@ -51,15 +52,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    .van-nav-bar {
-
-    .van-icon {
+.van-nav-bar {
+  .van-icon {
+    color: #666666;
+  }
+  /deep/ .van-nav-bar__left {
+    .van-icon-arrow-left {
       color: #666666;
     }
-    /deep/ .van-nav-bar__left {
-      .van-icon-arrow-left {
-        color: #666666;
-      }
-    }
   }
+}
+.content-box{
+  margin:0 20px;
+}
 </style>

@@ -226,6 +226,7 @@ module.exports = {
     virtualcurrency: 'Virtual currency',
     token: 'Token',
     trillion: 'trillion',
-    yuan: ''
+    yuan: '',
+    individual: 'individual'
   }
 }

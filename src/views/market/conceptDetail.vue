@@ -118,9 +118,9 @@
             <van-col span="4" class="icon-name">
               <div class="icon-name-top">
                 <van-image width="18px" height="18px" :src="item.logo"></van-image>
-                <span class="base125">{{ item.name }}</span>
+                <span class="base125">{{ item.symbol }}</span>
               </div>
-              <div class="bicon-name-bottom base125">{{item.code}}</div>
+              <div class="bicon-name-bottom base125">{{item.name}}</div>
             </van-col>
             <van-col span="6" style="text-align: right"> {{ enNumUnti(item.marketValue*rateR) }} </van-col>
              <!-- <van-col span="6" style="text-align: right"> {{ item.marketValue*rateR }} </van-col> -->
@@ -128,8 +128,8 @@
               <div>{{enNumUnti(item.currentPrice*rateR)}}</div>
             </van-col>
 
-            <van-col span="6" style="text-align: right" :class="item.changePercent.toString().indexOf('-')>=0?'red':'green'">
-              <div>{{item.changePercent.toFixed(2)}}%</div>
+            <van-col span="6" style="text-align: right" :class="shizhiClass(item.changePercent)">
+              <div>{{code(item.changePercent)}}{{nums(item.changePercent)}}%</div>
             </van-col>
           </van-row>
         </van-list>
@@ -176,6 +176,36 @@ export default {
     }
   },
   methods: {
+    nums(value) {
+      const str = value.toFixed(2).toString()
+      if (str === '-0.00' || str === '0.00') {
+        return 0
+      } else {
+        return str
+      }
+    },
+    // 涨幅显示+-
+    code(value) {
+      const str = value.toFixed(2).toString()
+      if (str === '-0.00' || str === '0.00') {
+        return ''
+      } else if (str.indexOf('-') < 0) {
+        return '+'
+      } else {
+        return ''
+      }
+    },
+    // 市值类名
+    shizhiClass(value) {
+      const str = value.toFixed(2).toString()
+      if (str === '-0.00' || str === '0.00') {
+        return 'gray'
+      } else if (str.indexOf('-') >= 0) {
+        return 'red'
+      } else {
+        return 'green'
+      }
+    },
     fn() {
       this.rateR = this.globalRate // 全局汇率,初始化赋值
       this.rate = this.languageId // CNY
@@ -446,6 +476,12 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
+      .van-col{
+        font-size:26px;
+        span{
+          font-size:28px;
+        }
+      }
       .icon-name {
         display: flex;
         flex-direction: column;

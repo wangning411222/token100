@@ -136,18 +136,18 @@ export default {
     // 下一步
     next() {
       if (this.btnDisable) {
-        if (this.password.trim() === this.rescode) {
-          this.$router.push({
-            path: '/setPassword',
-            query: {
-              code: this.selectCOde,
-              phone: this.username,
-              smsCode: this.rescode
-            }
-          })
-        } else {
-          this.$notify(this.$t('mine.wrongcode'))
-        }
+        // if (this.password.trim() === this.rescode) {
+        this.$router.push({
+          path: '/setPassword',
+          query: {
+            code: this.selectCOde,
+            phone: this.username,
+            smsCode: this.rescode
+          }
+        })
+        // } else {
+        //   this.$notify(this.$t('mine.wrongcode'))
+        // }
       }
     },
     // 选择区号

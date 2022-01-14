@@ -49,7 +49,7 @@
             </div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
+            <van-image width="55px" height="20px" :src="rank"> </van-image>
           </van-col>
         </van-row>
       </div>
@@ -69,7 +69,7 @@
             </div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
+            <van-image width="55px" height="20px" :src="rank"> </van-image>
           </van-col>
         </van-row>
       </div>
@@ -79,7 +79,7 @@
           <van-col span="8">{{$t('plantform.ERranking')}}/{{$t('plantform.tradingplatform')}}</van-col>
           <van-col span="8" style="text-align: right"> {{$t('plantform.Contracttransactionquantity')}} </van-col>
           <van-col span="8" style="text-align: right">
-            <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
+            <van-image width="55px" height="20px" :src="rank"> </van-image>
           </van-col>
         </van-row>
       </div>
@@ -98,7 +98,7 @@
             </div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
+            <van-image width="55px" height="20px" :src="rank"> </van-image>
           </van-col>
         </van-row>
       </div>
@@ -118,7 +118,7 @@
             </div>
           </van-col>
           <van-col span="8" style="text-align: right">
-            <van-image width="55px" height="20px" :src="require('../../assets/image/位图@2x.png')"> </van-image>
+            <van-image width="55px" height="20px" :src="rank"> </van-image>
           </van-col>
         </van-row>
       </div>
@@ -348,6 +348,7 @@
 
 <script>
 import mixin from '@/filters/mixin'
+import rank from '@/assets/image/位图@2x.png'
 import {
   marketChangePage,
   marketHoldPage,
@@ -381,7 +382,9 @@ export default {
       rate: null,
       rateCode: null,
       guanzhuList: [],
-      sortguanzhuFlag1: 0
+      sortguanzhuFlag1: 0,
+      rank: rank
+
     }
   },
   mixins: [mixin],

@@ -186,7 +186,7 @@
           </van-row>
           <van-row gutter="20" class="profiles">
             <van-col span="6" class="profiles-left"> {{ $t('market.tradingon') }}</van-col>
-            <van-col span="18" class="profiles-right">{{ detailObj.marketDescNum }}个 </van-col>
+            <van-col span="18" class="profiles-right">{{ detailObj.marketDescNum }}{{$t('global.individual')}}</van-col>
           </van-row>
           <van-row gutter="20" class="profiles">
             <van-col span="6" class="profiles-left"> {{ $t('plantform.Tradesector') }}</van-col>
@@ -1014,20 +1014,21 @@ export default {
       border-top: 1px solid #eeeeee;
       .notic-item {
         border-bottom: 1px solid #eeeeee;
-        padding-bottom: 10px;
+
         .notic-top {
           font-size: 32px;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: #333333;
           line-height: 50px;
+           padding: 10px 0;
         }
         .notic-bottom {
           font-size: 24px;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
           color: #92959c;
-          line-height: 24px;
+          margin-bottom:10px;
         }
       }
     }
